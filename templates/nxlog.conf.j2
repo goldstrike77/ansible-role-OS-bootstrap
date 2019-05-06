@@ -1,0 +1,76 @@
+#define ROOT C:\Program Files\nxlog
+define ROOT C:\Program Files (x86)\nxlog
+
+Moduledir %ROOT%\modules
+CacheDir %ROOT%\data
+Pidfile %ROOT%\data\nxlog.pid
+SpoolDir %ROOT%\data
+LogFile %ROOT%\data\nxlog.log
+ 
+<Extension gelf>
+  Module xm_gelf
+</Extension>
+ 
+<Input in_eventlog>
+  Module       im_msvistalog
+  ReadFromLast FALSE
+  SavePos      FALSE
+  Query <QueryList> \
+    <Query Id="0"> \
+      <Select Path="System">*</Select> \
+      <Select Path="Setup">*</Select> \
+      <Select Path="Security">*[System[(EventID=4768)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4769)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4771)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4624)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4625)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4634)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4647)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4648)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4656)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4719)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4720)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4722)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4723)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4724)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4725)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4726)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4727)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4728)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4729)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4730)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4731)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4732)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4733)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4734)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4735)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4737)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4738)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4739)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4740)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4741)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4742)]]</Select> \
+      <Select Path="Security">*[System[(EventID=4743)]]</Select> \
+      <Select Path="System">*[System[(EventID=7036)]]</Select> \
+      <Select Path="Application">*[System[(EventID=18454)]]</Select> \
+      <Select Path="Application">*[System[(EventID=18456)]]</Select> \
+    </Query> \
+  </QueryList>
+</Input>
+
+<Output out_eventlog>
+  Module     om_udp
+  Host       {{ syslog_server }}
+  Port       {{ syslog_port }}
+  OutputType GELF
+</Output>
+
+<Processor buffer>
+  Module  pm_buffer
+  MaxSize 8192
+  Type    Mem
+</Processor>
+
+<Route eventlog>
+  Path in_eventlog => buffer => out_eventlog
+</Route>

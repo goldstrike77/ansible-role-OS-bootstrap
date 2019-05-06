@@ -1,0 +1,9 @@
+---
+- name: Allow ping in firewall
+  win_firewall_rule:
+    name: 'File and Printer Sharing (Echo Request - ICMPv4-In)'
+    enable: yes
+    state: present
+    protocol: ICMPv4
+    action: allow
+    direction: in

@@ -1,0 +1,4 @@
+---
+- name: Disable Receive-Side Scaling
+  win_command: 'netsh int tcp set global rss=disabled'
+  when: disable_win_rss

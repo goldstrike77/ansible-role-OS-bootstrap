@@ -1,0 +1,67 @@
+---
+- name: Ensure nodev | nosuid | noexec option set on /dev/shm partition
+  mount:
+    name: '/dev/shm'
+    state: 'mounted'
+    fstype: 'tmpfs'
+    src: 'tmpfs'
+    opts: '{{ dis_fs_exec_flags }}'
+  when:
+    - dis_fs_shm_exec
+
+- name: 'Check if separate partition exists for /var/tmp'
+  shell: mount | grep "on /var/tmp "
+  register: var_tmp_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - dis_fs_vartmp_exec
+
+- name: Ensure nodev | nosuid | noexec option set on /var/tmp partition
+  mount:
+    name: '/var/tmp'
+    src: "{{ ansible_mounts | json_query('[?mount == `/var/tmp`] | [0].device') }}"
+    fstype: "{{ ansible_mounts | json_query('[?mount == `/var/tmp`] | [0].fstype') }}"
+    state: 'mounted'
+    opts: '{{ dis_fs_exec_flags }}'
+  when:
+    - dis_fs_vartmp_exec
+    - var_tmp_mounted.rc == 0
+
+- name: 'Check if separate partition exists for tmp'
+  shell: mount | grep "on /tmp "
+  register: tmp_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - dis_fs_tmp_exec
+
+- name: Ensure nodev | nosuid | noexec option set on /tmp partition
+  mount:
+    name: '/tmp'
+    src: "{{ ansible_mounts | json_query('[?mount == `/tmp`] | [0].device') }}"
+    fstype: "{{ ansible_mounts | json_query('[?mount == `/tmp`] | [0].fstype') }}"
+    state: 'mounted'
+    opts: '{{ dis_fs_exec_flags }}'
+  when:
+    - dis_fs_tmp_exec
+    - tmp_mounted.rc == 0
+
+- name: 'Check if separate partition exists for home'
+  shell: mount | grep "on /home "
+  register: home_mounted
+  changed_when: no
+  failed_when: no
+  when:
+    - dis_fs_home_exec
+
+- name: Ensure nodev option set on /home partition
+  mount:
+    name: '/home'
+    src: "{{ ansible_mounts | json_query('[?mount == `/home`] | [0].device') }}"
+    fstype: "{{ ansible_mounts | json_query('[?mount == `/home`] | [0].fstype') }}"
+    state: 'mounted'
+    opts: 'rw,nodev,relatime'
+  when:
+    - dis_fs_home_exec
+    - home_mounted.rc == 0

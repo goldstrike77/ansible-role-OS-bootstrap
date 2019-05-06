@@ -1,2 +1,40 @@
 ---
-# vars file for ansible-role-OS-bootstrap
+# Linux variables
+
+# Windows variables
+nxlog_software: 'nxlog'
+# System Event Log setting
+win_event_log:
+  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Application'
+  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Security'
+  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Setup'
+  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\System'
+# Audit policy settings
+gpo_audit_policy:
+  - 'Account Logon'
+  - 'Logon/Logoff'
+  - 'Account Management'
+  - 'DS Access'
+  - 'Object Access'
+  - 'Policy change'
+  - 'Privilege use'
+# Local user password policy
+local_user_pass_role:
+  - { name: 'minPassLength', value: '/minpwlen:12' }
+  - { name: 'maxPassAge', value: '/maxpwage:60' }
+# A other of miscellaneous items
+other_misc_role:
+  - { path: 'HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccount', name: 'value', data: '0', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer', name: 'NoDriveTypeAutoRun', data: '255', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'AutoDownload', data: '4', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'DisableOSUpgrade', data: '1', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search', name: 'AllowIndexingEncryptedStoresOrItems', data: '0', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword' }
+  - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword' }
+# Folders audit rule
+fs_audit_user: 'Everyone'
+fs_audit_rule: 'CreateFiles,WriteData,CreateDirectories,AppendData,DeleteSubdirectoriesAndFiles,Delete'
+# Tune off Scheduled Task
+win_disable_task:
+  - 'ScheduledDefrag'
+  - 'ServerManager'

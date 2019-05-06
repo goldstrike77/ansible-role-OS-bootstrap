@@ -1,0 +1,91 @@
+---
+- name: Copies the key from the user who is running ansible to the remote machine
+  authorized_key:
+    user: '{{ ansible_user }}'
+    key: '{{ id_rsa }}'
+
+- name: Ensure BASH log
+  lineinfile:
+    dest: /etc/profile
+    state: present
+    line: PROMPT_COMMAND='history -a >(tee -a ~/.bash_history | logger -t "$USER ${SSH_CLIENT%% *} $PWD")'
+
+- name: Disable Vim tracking
+  lineinfile:
+    dest: /etc/vimrc
+    state: present
+    regexp: '^set viminfo='
+    line: 'set viminfo=""'
+
+- name: Ensure sysstat file exists
+  stat: 
+    path: '/etc/cron.d/sysstat'
+  register: sysstat_file
+
+- name: Disable sysstat collect
+  file:
+    path: /etc/cron.d/sysstat
+    state: absent
+  when: sysstat_file.stat.exists
+
+- name: Disable MTA IPv6 protocol
+  lineinfile:
+    state: present
+    dest: /etc/postfix/main.cf
+    regexp: '^inet_protocols ='
+    line: 'inet_protocols = ipv4'
+  when: disable_linux_ipv6
+
+- name: Ensure NTP system events and so on is suppressed
+  lineinfile:
+    dest: /etc/ntp.conf
+    state: present
+    line: 'logconfig=allsync +allclock'
+  register: result
+
+- name: Change HW Clock configuration
+  lineinfile:
+    state: present
+    dest: '/etc/sysconfig/ntpdate'
+    regexp: '^SYNC_HWCLOCK'
+    line: 'SYNC_HWCLOCK=yes'
+
+- name: Reload NTP service
+  systemd:
+    name: ntpd.service
+    enabled: yes
+    state: restarted
+  async: 1
+  poll: 0
+  when:
+    - result.changed
+    - ansible_distribution_major_version|int > 6
+
+- name: Reload NTP service
+  service :
+    name: ntpd
+    enabled: yes
+    state: restarted
+  async: 1
+  poll: 0
+  when:
+    - result.changed
+    - ansible_distribution_major_version|int == 6
+
+- name: Configure MTA
+  lineinfile:
+    state: present
+    dest: '/etc/postfix/main.cf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^relayhost =', line: 'relayhost = {{ MTA_relayhost }}' }
+
+- name: Configure terminal scheme
+  lineinfile:
+    dest: /etc/bashrc
+    state: present
+    line: '{{ item }}'
+  with_items:
+    - "IP=$(/sbin/ifconfig eth0|awk '/inet / {print $2}'|cut -d ':' -f 2)"
+    - 'export PS1="[\[\033[01;31m\]\u\[\033[00m\]@\[\033[01;32m\]\h\[\033[00m\] \[\033[01;36m\]\$IP \[\033[01;33m\]\W\[\033[00m\]]\[\033[00;34m\]$\[\033[00m\]"'

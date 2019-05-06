@@ -1,2 +1,47 @@
 ---
-# defaults file for ansible-role-OS-bootstrap
+# General parameters #
+proxy_server: 'http://1.1.1.1:3142' # Defines the proxy server.
+syslog_remote: false # Whether to use remote syslog server.
+syslog_server: '1.1.1.1' # Defines the address of a syslog server.
+syslog_port: '12209' # Defines the input port of a syslog server.
+
+# Linux OS parameter #
+linux_tz: 'Asia/Shanghai'
+disable_linux_ipv6: 'true'
+MTA_relayhost: '1.1.1.1'
+grub_add_args:
+  - 'ipv6.disable=1'
+  - 'transparent_hugepage=never'
+  - 'numa=off'
+disable_RootLogin: 'true'
+disable_selinux: 'true'
+id_rsa: ''
+syslog_local_keep: '2' # week
+dis_fs_tmp_exec: false
+dis_fs_vartmp_exec: false
+dis_fs_shm_exec: true
+dis_fs_home_exec: true
+dis_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
+user_pw:
+  minlen: '12'
+  dcredit: '-1'
+  ucredit: '-1'
+  lcredit: '-1'
+
+# Windows OS parameter
+win_roles:
+  - 'Telnet-Client'
+win_software:
+  - 'googlechrome'
+  - 'notepadplusplus.install'
+  - 'peazip.install'
+win_update_category: ['CriticalUpdates', 'SecurityUpdates']
+disable_win_ipv6: true
+disable_win_rss: true
+win_pagefile_size: 4096
+# Region
+win_tz: 'China Standard Time'
+win_location: '45' # https://docs.microsoft.com/en-us/windows/desktop/Intl/table-of-geographical-locations
+win_format: 'en-US'
+win_unicode: 'zh-CN'
+win_network_location: 'Private'

@@ -1,0 +1,26 @@
+---
+- name: Ensure password hashing algorithm is SHA-512
+  shell: authconfig --passalgo=sha512 --update
+
+- name: Ensure password strongeg
+  lineinfile:
+    state: present
+    dest: '/etc/security/pwquality.conf'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^minlen', line: "minlen =  {{ user_pw['minlen'] }}" }
+    - { regexp: '^dcredit', line: "dcredit = {{ user_pw['dcredit'] }}" }
+    - { regexp: '^ucredit', line: "ucredit = {{ user_pw['ucredit'] }}" }
+    - { regexp: '^lcredit', line: "lcredit = {{ user_pw['lcredit'] }}" }
+  when:
+    - ansible_distribution_major_version|int > 6
+
+- name: Ensure password strongeg
+  lineinfile:
+    state: present
+    dest: '/etc/pam.d/system-auth'
+    regexp: '^password    requisite     pam_cracklib.so'
+    line: "password    requisite     pam_cracklib.so try_first_pass retry=3 type= minlen={{ user_pw['minlen'] }} dcredit={{ user_pw['dcredit'] }} ucredit={{ user_pw['ucredit'] }} lcredit={{ user_pw['lcredit'] }}"
+  when:
+    - ansible_distribution_major_version|int == 6

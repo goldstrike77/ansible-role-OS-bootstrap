@@ -1,0 +1,45 @@
+---
+- name: Remote rsyslog Configuration
+  lineinfile:
+    dest: /etc/rsyslog.conf
+    state: present
+    line: '{{ item }}'
+  with_items:
+    - '$PreserveFQDN on'
+    - 'template(name="gelf" type="list") {'
+    - '  constant(value="{\"version\":\"1.1\",")'
+    - '  constant(value="\"host\":\"") property(name="hostname" caseConversion="upper")'
+    - '  constant(value="\",\"short_message\":\"") property(name="msg" format="json")'
+#    - '  constant(value="\",\"timestamp\":\"") property(name="timegenerated" dateformat="unixtimestamp")'
+    - '  constant(value="\",\"level\":\"") property(name="syslogseverity")'
+    - '  constant(value="\",\"facility\":\"") property(name="syslogfacility")'
+    - '  constant(value="\",\"appname\":\"") property(name="APP-NAME")'
+    - '  constant(value="\",\"procid\":\"") property(name="PROCID")'
+    - '  constant(value="\"}")'
+    - '}'
+    - 'action(type="omfwd" target="{{ syslog_server | default("1.1.1.1") }}" port="{{ syslog_port | default("12201") }}" protocol="udp" template="gelf")'
+  register: conf_update
+
+- name: Ignore flooded logs with systemd messages
+  copy:
+    src: 'ignore-systemd-session-slice.conf'
+    dest: '/etc/rsyslog.d/ignore-systemd-session-slice.conf'
+
+- name: Reload rsyslog service
+  systemd:
+    name: rsyslog.service
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  async: 1
+  poll: 0
+  when:
+    - conf_update.changed
+
+- name: Local syslog logrotate parameters
+  template:
+    src: logrotate.conf.j2
+    dest: /etc/logrotate.conf
+    owner: root
+    group: root
+    mode: 0644

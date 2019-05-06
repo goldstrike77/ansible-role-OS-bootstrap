@@ -1,0 +1,27 @@
+---
+- name: 'Installs roles or features'
+  win_feature:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - '{{ win_roles }}'
+  ignore_errors: yes
+
+- name: 'Third party software installation'
+  win_chocolatey:
+    name: '{{ item }}'
+    state: 'latest'
+    proxy_url: '{{ proxy_server|default(omit,true) }}'
+  with_items:
+    - '{{ win_software }}'
+  ignore_errors: yes
+
+- name: Install security updates
+  win_updates:
+    category_names: '{{ win_update_category }}'
+  ignore_errors: yes
+
+- name: Ensure update status file
+  win_copy:
+    src: 'Init_Update.Succeed'
+    dest: 'c:\windows\Init_Update.Succeed'

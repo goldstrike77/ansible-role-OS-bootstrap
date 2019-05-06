@@ -1,0 +1,30 @@
+---
+- name: 'Miscellaneous specifications'
+  win_regedit:
+    path: '{{ item.path }}'
+    name: '{{ item.name }}'
+    data: '{{ item.data }}'
+    type: '{{ item.type }}'
+  with_items:
+    - '{{ other_misc_role }}'
+
+- name: Disable scheduled task
+  win_command: powershell.exe -
+  args:
+    stdin: 'Get-ScheduledTask -TaskName "{{ item }}" | Disable-ScheduledTask'
+  with_items:
+    - '{{ win_disable_task }}'
+
+- name: Disable AutomaticManaged pagefile and set C pagefile
+  win_pagefile:
+    drive: 'C'
+    initial_size: '{{ win_pagefile_size }}'
+    maximum_size: '{{ win_pagefile_size }}'
+    remove_all: 'yes'
+    automatic: 'no'
+    state: 'present'
+
+#- name: Change Network Location to {{ win_network_location }}
+#  win_command: powershell.exe -
+#  args:
+#    stdin: 'Set-NetConnectionProfile -Name "Network" -NetworkCategory {{ win_network_location }}'

@@ -1,0 +1,29 @@
+---
+- name: Get disk facts
+  raw: GET-WMIOBJECT win32_logicaldisk -fi "drivetype=3" | Select-Object -ExpandProperty DeviceID
+  register: fs_audit_path
+
+- name: Configure event log maxsize limitation
+  win_regedit:
+    path: '{{ item }}'
+    name: "MaxSize"
+    data: "1"
+    type: dword
+  with_items:
+    - '{{ win_event_log }}'
+
+- name: Configure local security policy
+  win_audit_policy_system:
+    category: '{{ item }}'
+    audit_type: success, failure
+  with_items:
+    - '{{ gpo_audit_policy }}'
+
+- name: Configure filesystem audit rule 
+  win_audit_rule:
+    path: '{{ item }}'
+    user: '{{ fs_audit_user }}'
+    rights: '{{ fs_audit_rule }}'
+    audit_flags: 'success,failure'
+    inheritance_flags: 'ContainerInherit,ObjectInherit'
+  with_items: '{{ fs_audit_path.stdout_lines }}'

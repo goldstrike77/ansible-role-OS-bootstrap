@@ -1,0 +1,19 @@
+---
+- name: NXLog Community Edition installation
+  win_chocolatey:
+    name: '{{ nxlog_software }}'
+    state: 'latest'
+  ignore_errors: yes
+
+- name: NXLog Community Edition configure transfer
+  win_template:
+    src: 'nxlog.conf.j2'
+    dest: 'C:\Program Files (x86)\nxlog\conf\nxlog.conf'
+  ignore_errors: yes
+
+- name: Ensure NXLog service is enabled and started
+  win_service:
+    name: 'nxlog'
+    state: 'started'
+    start_mode: 'auto'
+  ignore_errors: yes

@@ -1,2 +1,48 @@
 ---
-# tasks file for ansible-role-OS-bootstrap
+- name: Check if initialization update already processed
+  stat:
+    path: '/etc/Init_Update.Succeed'
+  register: linux_update_result
+  when: ansible_system == 'Linux'
+
+- name: Check if Initialization update already processed
+  win_stat:
+    path: 'c:\windows\Init_Update.Succeed'
+  register: windows_update_result
+  when: ansible_system == 'Win32NT'
+
+- name: Include tasks for linux OS
+  include: 'Software/Linux.yml'
+  when:
+    - ansible_system == 'Linux'
+    - not linux_update_result.stat.exists
+
+- name: Include tasks for windows OS
+  include: 'Software/Win32NT.yml'
+  when:
+    - ansible_system == 'Win32NT'
+    - not windows_update_result.stat.exists
+
+- name: Check if harden already processed
+  stat:
+    path: '/etc/Harden.Succeed'
+  register: linux_harden_result
+  when: ansible_system == 'Linux'
+
+- name: Check if harden already processed
+  win_stat:
+    path: 'c:\windows\Harden.Succeed'
+  register: windows_harden_result
+  when: ansible_system == 'Win32NT'
+
+- name: Include tasks for linux OS
+  include: 'linux/linux.yml'
+  when:
+    - ansible_system == 'Linux'
+    - not linux_harden_result.stat.exists
+
+- name: Include tasks for windows OS
+  include: 'windows/windows.yml'
+  when:
+    - ansible_system == 'Win32NT'
+    - not windows_harden_result.stat.exists

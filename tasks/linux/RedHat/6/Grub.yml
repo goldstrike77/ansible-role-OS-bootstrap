@@ -1,0 +1,7 @@
+---
+- name: Update Grub default config
+  replace:
+    dest: '/etc/grub.conf'
+    regexp: 'quiet'
+    replace: "{{ grub_add_args | join(' ') }}"
+  register: grub

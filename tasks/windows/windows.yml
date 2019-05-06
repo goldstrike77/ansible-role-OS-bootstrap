@@ -1,0 +1,56 @@
+---
+- include: audit.yml
+  tags: audit
+
+- include: nxlog.yml
+  when: syslog_remote
+  tags: nxlog
+
+- include: ipv6.yml
+  tags: ipv6
+
+- include: rss.yml
+  tags: rss
+
+- include: password.yml
+  tags: password
+
+- include: misc.yml
+  tags: misc
+
+- include: firewall.yml
+  tags: firewall
+
+- include: timezone.yml
+  tags: timezone
+
+- include: region.yml
+  tags: region
+
+- name: Ensure harden status file
+  win_copy:
+    src: 'Harden.Succeed'
+    dest: 'c:\windows\Harden.Succeed'
+
+- win_reboot:
+    shutdown_timeout: '3600'
+    reboot_timeout: '3600'
+  when: result.restart_required
+
+- name: 'Update history cleanup'
+  block:
+    - name: 'Stop update feature'
+      win_service:
+        name: 'wuauserv'
+        state: 'stopped'
+      register: result
+    - name: 'Delete update history directory'
+      win_file:
+        path: 'c:\windows\SoftwareDistribution'
+        state: 'absent'
+      when: result is succeeded
+    - name: 'Start update feature'
+      win_service:
+        name: 'wuauserv'
+        state: 'started'
+      when: result is succeeded

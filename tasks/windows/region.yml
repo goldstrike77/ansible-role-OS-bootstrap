@@ -1,0 +1,8 @@
+---
+- name: Set machine location/format/unicode
+  win_region:
+    copy_settings: true
+    location: '{{ win_location }}'
+    format: '{{ win_format }}'
+    unicode_language: '{{ win_unicode }}'
+  register: result

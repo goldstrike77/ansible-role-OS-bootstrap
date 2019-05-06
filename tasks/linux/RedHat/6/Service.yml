@@ -1,0 +1,22 @@
+---
+- name: Ensure unused service is disabled
+  service:
+    name: '{{ item }}'
+    enabled: no
+    state: stopped
+  async: 1
+  poll: 0
+  with_items:
+    - "{{ vars['disable_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
+  ignore_errors: yes
+
+- name: Ensure used service is enabled
+  service:
+    name: '{{ item }}'
+    enabled: yes
+    state: started
+  async: 1
+  poll: 0
+  with_items:
+    - "{{ vars['enabled_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
+  ignore_errors: yes

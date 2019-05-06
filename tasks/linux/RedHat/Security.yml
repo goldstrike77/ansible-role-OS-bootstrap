@@ -1,0 +1,70 @@
+---
+- name: Ensure login warning banner is configured properly
+  copy:
+    src: 'issue'
+    dest: '{{ item }}'
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - '/etc/issue'
+    - '/etc/issue.net'
+
+- name: SSH Server Configuration
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { regexp: '^Protocol', line: 'Protocol 2' }
+    - { regexp: '^LogLevel', line: 'LogLevel INFO' }
+    - { regexp: '^X11Forwarding', line: 'X11Forwarding no' }
+    - { regexp: '^(#)?MaxAuthTries \d', line: 'MaxAuthTries 4' }
+    - { regexp: '^IgnoreRhosts', line: 'IgnoreRhosts yes' }
+    - { regexp: '^HostbasedAuthentication', line: 'HostbasedAuthentication no' }
+    - { regexp: '^PermitEmptyPasswords', line: 'PermitEmptyPasswords no' }
+    - { regexp: '^PermitUserEnvironment', line: 'PermitUserEnvironment no' }
+    - { regexp: '^Ciphers', line: 'Ciphers aes256-ctr,aes192-ctr,aes128-ctr' }
+    - { regexp: '^MACs', line: 'MACs hmac-sha2-512,hmac-sha2-256' }
+    - { regexp: '^ClientAliveInterval', line: 'ClientAliveInterval 300' }
+    - { regexp: '^ClientAliveCountMax', line: 'ClientAliveCountMax 3' }
+    - { regexp: '^LoginGraceTime', line: 'LoginGraceTime 60' }
+    - { regexp: '^Banner', line: 'Banner /etc/issue.net' }
+    - { regexp: '^UseDNS', line: 'UseDNS no' }
+    - { regexp: '^GSSAPIAuthentication', line: 'GSSAPIAuthentication no' }
+    - { regexp: '^PrintMotd', line: 'PrintMotd no' }
+    - { regexp: '^PrintLastLog', line: 'PrintLastLog no' }
+    - { regexp: '^Subsystem', line: 'Subsystem sftp internal-sftp -f AUTHPRIV -l VERBOSE' }
+  register: result
+
+- name: Disable root login
+  lineinfile:
+    state: present
+    dest: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+  when: disable_RootLogin
+
+- name: Reload sshd service
+  systemd:
+    name: sshd.service
+    enabled: yes
+    state: reloaded
+    daemon_reload: yes
+  async: 1
+  poll: 0
+  when:
+    - result.changed
+    - ansible_distribution_major_version|int > 6
+
+- name: Reload sshd service
+  service:
+    name: sshd
+    enabled: yes
+    state: reloaded
+  async: 1
+  poll: 0
+  when:
+    - result.changed
+    - ansible_distribution_major_version|int == 6

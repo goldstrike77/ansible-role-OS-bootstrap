@@ -1,0 +1,11 @@
+---
+- name: Update Grub default config
+  replace:
+    dest: '/etc/default/grub'
+    regexp: 'quiet'
+    replace: "{{ grub_add_args | join(' ') }}"
+  notify: Generate RHEL7 new grub config
+  register: grub
+
+- name: Force the handler to run immediately
+  meta: flush_handlers

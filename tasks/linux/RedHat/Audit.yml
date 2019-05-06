@@ -1,0 +1,47 @@
+---
+- name: Enable audit syslog
+  lineinfile:
+    state: '{{ item.state }}'
+    dest: '{{ item.file }}'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  with_items:
+    - { state: '{% if ansible_distribution_major_version|int > 6 %}absent{% else %}present{% endif %}', file: '/etc/audit/auditd.conf', regexp: '^log_format =', line: 'log_format = NOLOG' }
+    - { state: '{% if ansible_distribution_major_version|int < 7 %}absent{% else %}present{% endif %}', file: '/etc/audit/auditd.conf', regexp: '^write_logs =', line: 'write_logs = no' }
+    - { state: 'present', file: '/etc/audit/auditd.conf', regexp: '^disp_qos =', line: 'disp_qos = lossless' }
+    - { state: 'present', file: '/etc/audisp/plugins.d/syslog.conf', regexp: '^active =', line: 'active = yes' }
+    - { state: 'present', file: '/etc/audisp/audispd.conf', regexp: '^name_format =', line: 'name_format = none' }
+    - { state: 'present', file: '/etc/audisp/audispd.conf', regexp: '^q_depth =', line: 'q_depth = 2048' }
+  register: conf_update
+
+- name: Ensure audit events are collected
+  template:
+    src: audit.rules.j2
+    dest: /etc/audit/rules.d/audit.rules
+    owner: root
+    group: root
+    mode: 0600
+  register: role_update
+
+- name: Reload audit service
+  systemd:
+    name: auditd.service
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  async: 1
+  poll: 0
+  when:
+    - conf_update.changed or role_update.changed
+    - ansible_distribution_major_version|int > 6
+
+- name: Reload audit service
+  service:
+    name: auditd
+    enabled: yes
+    state: restarted
+  async: 1
+  poll: 0
+  when:
+    - conf_update.changed or role_update.changed
+    - ansible_distribution_major_version|int == 6
