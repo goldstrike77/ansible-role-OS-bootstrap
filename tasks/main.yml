@@ -32,6 +32,7 @@
 
 - name: Include data disc tasks for specific OS
   include: 'Datadisc/{{ ansible_system }}.yml'
+  tags: datadisc
 
 - name: Check if Harden already processed
   stat:
