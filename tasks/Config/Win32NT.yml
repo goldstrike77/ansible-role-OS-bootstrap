@@ -18,6 +18,5 @@
     dest: 'c:\windows\bootstrap_Config.Succeed'
 
 - win_reboot:
-    shutdown_timeout: '3600'
     reboot_timeout: '3600'
   when: result.restart_required
