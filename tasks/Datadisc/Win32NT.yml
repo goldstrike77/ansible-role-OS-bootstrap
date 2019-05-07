@@ -1,0 +1,13 @@
+---
+- name: Automate disk-related script transfer
+  win_copy:
+    src: '{{ os_win_disc_extend_script }}'
+    dest: '{{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
+
+- name: DiskPart with script
+  win_command: 'diskpart /s {{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
+
+- name: Automate disk-related script removed
+  win_file:
+    path: '{{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
+    state: absent

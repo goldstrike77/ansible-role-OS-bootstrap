@@ -30,6 +30,9 @@
     - not windows_update_result.stat.exists
   tags: software
 
+- name: Include data disc tasks for specific OS
+  include: 'Datadisc/{{ ansible_system }}.yml'
+
 - name: Check if Harden already processed
   stat:
     path: '/etc/bootstrap_Harden.Succeed'

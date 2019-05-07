@@ -47,3 +47,6 @@ os_win_misc_role:
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search', name: 'AllowIndexingEncryptedStoresOrItems', data: '0', type: 'dword' }
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword' }
   - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword' }
+
+os_win_temp_path: 'c:'
+os_win_disc_extend_script: 'data_disc_extend.txt'

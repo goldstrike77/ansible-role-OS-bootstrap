@@ -1,0 +1,37 @@
+---
+- name: Check if device has a partition already
+  shell: '/sbin/partprobe -ds {{ os_linux_disc_device }} | /bin/grep -c partitions'
+  register: check_partitions
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Logical Volume operation
+  block:
+    - name: Create a new primary partition for LVM
+      parted:
+        device: '{{ os_linux_disc_device }}'
+        number: 1
+        flags: [ lvm ]
+        state: present
+    - name: Create a volume group on additional disc
+      lvg:
+        vg: '{{ os_linux_vg }}'
+        pvs: '{{ os_linux_disc_device }}1'
+    - name: Create a logical volume the size of all remaining space in the volume group
+      lvol:
+        vg: '{{ os_linux_vg }}'
+        lv: '{{ os_linux_lv }}'
+        size: '{{ os_linux_lv_size }}'
+    - name: Create a xfs filesystem on logical volume
+      filesystem:
+        fstype: '{{ os_linux_fstype }}'
+        dev: '/dev/{{ os_linux_vg }}/{{ os_linux_lv }}'
+    - name: Mount up device
+      mount:
+        name: '{{ os_linux_mount_point }}'
+        src: '/dev/{{ os_linux_vg }}/{{ os_linux_lv }}'
+        fstype: '{{ os_linux_fstype }}'
+        opts: '{{ os_linux_fsopts }}'
+        state: 'mounted'
+  when: check_partitions.stdout == '0'

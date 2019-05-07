@@ -11,6 +11,13 @@ os_pass_length: '12' # Minimum OS account password length.
 os_pass_maxAge: '60' # OS account Password Validity Period.
 
 # Linux OS parameter #
+os_linux_disc_device: '/dev/sdb'
+os_linux_mount_point: '/data'
+os_linux_vg: 'VolGroup01'
+os_linux_lv: 'lv_data'
+os_linux_lv_size: '100%FREE'
+os_linux_fstype: 'xfs'
+os_linux_fsopts: 'defaults,noatime,nobarrier'
 os_linux_ulimit_nofile: '20480'
 os_linux_ulimit_nproc: '20480'
 os_linux_tz: 'Asia/Shanghai'
