@@ -5,12 +5,12 @@
 
 - name: Configure event log maxsize limitation
   win_regedit:
-    path: '{{ item }}'
+    path: 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\{{ item }}'
     name: 'MaxSize'
     data: '{{ os_win_event_log_MaxSize }}'
     type: dword
   with_items:
-    - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\{{ os_win_event_log }}'
+    - '{{ os_win_event_log }}'
 
 - name: Configure local security policy
   win_audit_policy_system:

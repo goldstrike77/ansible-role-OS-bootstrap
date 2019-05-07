@@ -4,22 +4,22 @@
 
 - name: OS software operation
   block:
-    - name: Check if initialization software update already processed
+    - name: Check if Linux software update already processed
       stat:
         path: '/etc/bootstrap_Software.Succeed'
       register: linux_update_result
       when: ansible_system == 'Linux'
-    - name: Check if Initialization software update already processed
+    - name: Check if Windows software update already processed
       win_stat:
         path: 'c:\windows\bootstrap_Software.Succeed'
       register: windows_update_result
       when: ansible_system == 'Win32NT'
-    - name: Include Software tasks for linux OS
+    - name: Include Linux software tasks for linux OS
       include: 'Software/Linux.yml'
       when:
         - ansible_system == 'Linux'
         - not linux_update_result.stat.exists
-    - name: Include Software tasks for windows OS
+    - name: Include Windows software tasks for windows OS
       include: 'Software/Win32NT.yml'
       when:
         - ansible_system == 'Win32NT'
@@ -34,22 +34,22 @@
 
 - name: OS Harden operation
   block:
-    - name: Check if Harden already processed
+    - name: Check if Linux Harden already processed
       stat:
         path: '/etc/bootstrap_Harden.Succeed'
       register: linux_harden_result
       when: ansible_system == 'Linux'
-    - name: Check if Harden already processed
+    - name: Check if Windows Harden already processed
       win_stat:
         path: 'c:\windows\bootstrap_Harden.Succeed'
       register: windows_harden_result
       when: ansible_system == 'Win32NT'
-    - name: Include Harden tasks for linux OS
+    - name: Include Linux Harden tasks for linux OS
       include: 'Harden/linux/linux.yml'
       when:
         - ansible_system == 'Linux'
         - not linux_harden_result.stat.exists
-    - name: Include Harden tasks for windows OS
+    - name: Include Windows Harden tasks for windows OS
       include: 'Harden/windows/windows.yml'
       when:
         - ansible_system == 'Win32NT'
@@ -59,22 +59,22 @@
 
 - name: OS Harden operation
   block:
-    - name: Check if configuration already processed
+    - name: Check if Linux initialization configuration already processed
       stat:
         path: '/etc/bootstrap_Config.Succeed'
       register: linux_config_result
       when: ansible_system == 'Linux'
-    - name: Check if configuration already processed
+    - name: Check if Windows initialization configuration already processed
       win_stat:
         path: 'c:\windows\bootstrap_Config.Succeed'
       register: windows_config_result
       when: ansible_system == 'Win32NT'
-    - name: Include configuration tasks for linux OS
+    - name: Include Linux initialization configuration tasks for linux OS
       include: 'Config/linux/linux.yml'
       when:
         - ansible_system == 'Linux'
         - not linux_config_result.stat.exists
-    - name: Include configuration tasks for windows OS
+    - name: Include Windows initialization configuration tasks for windows OS
       include: 'Config/windows/windows.yml'
       when:
         - ansible_system == 'Win32NT'
