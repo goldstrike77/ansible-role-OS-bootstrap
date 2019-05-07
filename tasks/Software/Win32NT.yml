@@ -7,6 +7,13 @@
     - '{{ os_win_roles }}'
   ignore_errors: yes
 
+- name: install_chocolatey
+  win_chocolatey:
+    name: 'chocolatey'
+    state: 'downgrade'
+    version: '0.10.11'
+    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
+
 - name: 'Third party software installation'
   win_chocolatey:
     name: '{{ item }}'
