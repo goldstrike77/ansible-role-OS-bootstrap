@@ -1,0 +1,25 @@
+---
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/Security.yml'
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/Modules.yml'
+  when: os_linux_disable_unused_module
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/Audit.yml'
+  when: os_audit
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/User.yml'
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/Filesystem.yml'
+
+- include: '{{ ansible_system }}/Selinux.yml'
+  when: os_linux_disable_selinux
+
+- include: '{{ ansible_system }}/Password.yml'
+
+- name: Ensure harden status file
+  copy:
+    src: 'bootstrap_Harden.Succeed'
+    dest: '/etc/bootstrap_Harden.Succeed'
+    owner: root
+    group: root
+    mode: 0644

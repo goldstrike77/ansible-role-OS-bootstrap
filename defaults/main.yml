@@ -9,6 +9,7 @@ os_syslog_port: '12209' # Defines the input port of a syslog server.
 os_disable_ipv6: true
 os_pass_length: '12' # Minimum OS account password length.
 os_pass_maxAge: '60' # OS account Password Validity Period.
+os_audit: true
 os_software: true
 os_harden: true
 os_config: true
@@ -30,6 +31,10 @@ os_linux_grub_add_args:
   - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
   - 'transparent_hugepage=never'
   - 'numa=off'
+os_linux_disable_unused_module: true
+os_linux_disable_unused_service: true
+os_linux_enables_needed_service: true
+os_linux_disable_sysstat_collect: true
 os_linux_disable_RootLogin: true
 os_linux_disable_selinux: true
 os_linux_id_rsa: ''

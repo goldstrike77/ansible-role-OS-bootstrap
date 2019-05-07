@@ -1,0 +1,12 @@
+---
+- include: '{{ ansible_system }}/audit.yml'
+  when: os_audit
+
+- include: '{{ ansible_system }}/password.yml'
+
+- include: '{{ ansible_system }}/firewall.yml'
+
+- name: Ensure harden status file
+  win_copy:
+    src: 'bootstrap_Harden.Succeed'
+    dest: 'c:\windows\bootstrap_Harden.Succeed'

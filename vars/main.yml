@@ -1,7 +1,7 @@
 ---
 # Linux variables
 os_linux_user_pw:
-  minlen: '{{ os_pass_length }}'
+  minlen: '{{ os_pass_length | default(12) }}'
   dcredit: '-1'
   ucredit: '-1'
   lcredit: '-1'

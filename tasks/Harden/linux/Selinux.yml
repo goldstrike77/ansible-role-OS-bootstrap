@@ -3,4 +3,3 @@
   selinux:
     conf: '/etc/selinux/config'
     state: disabled
-  when: os_linux_disable_selinux

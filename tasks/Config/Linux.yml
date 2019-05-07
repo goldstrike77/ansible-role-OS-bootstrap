@@ -1,0 +1,28 @@
+---
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/Resource.yml'
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Service.yml'
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Rsyslog.yml'
+  when: os_syslog
+
+- include: '{{ ansible_system }}/Environment.yml'
+
+- include: '{{ ansible_system }}/Timezone.yml'
+
+- include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Grub.yml'
+
+- name: Ensure configuraion status file
+  copy:
+    src: 'bootstrap_Config.Succeed'
+    dest: '/etc/bootstrap_Config.Succeed'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart the host
+  shell: sleep 2 && /sbin/shutdown -r now "Ansible system required"
+  async: 1
+  poll: 0
+  ignore_errors: true
+  when: grub.changed

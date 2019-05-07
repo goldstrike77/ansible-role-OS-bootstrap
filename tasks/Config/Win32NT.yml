@@ -1,16 +1,16 @@
 ---
-- include: nxlog.yml
+- include: '{{ ansible_system }}/nxlog.yml'
   when: os_syslog
 
-- include: ipv6.yml
+- include: '{{ ansible_system }}/ipv6.yml'
 
-- include: rss.yml
+- include: '{{ ansible_system }}/rss.yml'
 
-- include: misc.yml
+- include: '{{ ansible_system }}/misc.yml'
 
-- include: timezone.yml
+- include: '{{ ansible_system }}/timezone.yml'
 
-- include: region.yml
+- include: '{{ ansible_system }}/region.yml'
 
 - name: Ensure configuraion status file
   win_copy:

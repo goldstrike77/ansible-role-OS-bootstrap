@@ -26,7 +26,6 @@ enabled_service_RedHat_6:
   - 'nscd'
   - 'ntpd'
   - 'rsyslog'
-
 disable_service_RedHat_7:
   - 'abrt-ccpp.service'
   - 'abrtd.service'

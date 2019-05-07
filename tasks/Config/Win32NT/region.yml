@@ -1,0 +1,8 @@
+---
+- name: Set machine location/format/unicode
+  win_region:
+    copy_settings: true
+    location: '{{ os_win_location | default("45") }}'
+    format: '{{ os_win_format | default("en-US") }}'
+    unicode_language: '{{ os_win_unicode | default("zh-CN") }}'
+  register: result

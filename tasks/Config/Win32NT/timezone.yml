@@ -1,0 +1,4 @@
+---
+- name: Set machine timezone
+  win_timezone:
+    timezone: '{{ os_win_tz | default("China Standard Time") }}'

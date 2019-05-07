@@ -26,7 +26,9 @@
   file:
     path: /etc/cron.d/sysstat
     state: absent
-  when: sysstat_file.stat.exists
+  when:
+    - os_linux_disable_sysstat_collect
+    - sysstat_file.stat.exists
 
 - name: Disable MTA IPv6 protocol
   lineinfile:
@@ -80,6 +82,7 @@
     line: '{{ item.line }}'
   with_items:
     - { regexp: '^relayhost =', line: 'relayhost = {{ os_linux_MTA_relayhost }}' }
+  when: os_linux_MTA_relayhost is defined
 
 - name: Configure terminal scheme
   lineinfile:

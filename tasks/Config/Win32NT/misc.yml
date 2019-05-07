@@ -14,15 +14,17 @@
     stdin: 'Get-ScheduledTask -TaskName "{{ item }}" | Disable-ScheduledTask'
   with_items:
     - '{{ os_win_disable_task }}'
+  when: os_win_disable_task is defined
 
 - name: Disable AutomaticManaged pagefile and set C pagefile
   win_pagefile:
     drive: 'C'
-    initial_size: '{{ os_win_pagefile_size }}'
-    maximum_size: '{{ os_win_pagefile_size }}'
+    initial_size: '{{ os_win_pagefile_size | int }}'
+    maximum_size: '{{ os_win_pagefile_size | int }}'
     remove_all: 'yes'
     automatic: 'no'
     state: 'present'
+  when: os_win_pagefile_size is defined
 
 #- name: Change Network Location to {{ win_network_location }}
 #  win_command: powershell.exe -
