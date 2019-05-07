@@ -5,7 +5,7 @@
     state: 'mounted'
     fstype: 'tmpfs'
     src: 'tmpfs'
-    opts: '{{ dis_fs_exec_flags }}'
+    opts: '{{ os_linux_dis_fs_exec_flags }}'
   when:
     - os_linux_dis_fs_shm_exec
 
