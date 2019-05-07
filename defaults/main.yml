@@ -6,16 +6,16 @@ os_proxy_server: 'http://1.1.1.1:3142' # Defines the proxy server.
 os_syslog: false # Whether to use remote syslog server.
 os_syslog_server: '1.1.1.1' # Defines the address of a syslog server.
 os_syslog_port: '12209' # Defines the input port of a syslog server.
-os_disable_ipv6: true
+os_disable_ipv6: true # Whether to turn off IPV6.
 os_pass_length: '12' # Minimum OS account password length.
 os_pass_maxAge: '60' # OS account Password Validity Period.
-os_audit: true
-os_software: true
-os_harden: true
-os_config: true
-os_datadisc: true
+os_audit: true # Whether to enable OS auditing.
+os_software: true # Whether to install basic software and update.
+os_harden: true # Whether harden system.
+os_config: true # Whether to enable initialization configuration.
+os_datadisc: true # Whether to mount the data disk after the guest VM is deployed.
 
-# Linux OS parameter #
+# Linux OS data disc parameter #
 os_linux_disc_device: '/dev/sdb'
 os_linux_mount_point: '/data'
 os_linux_vg: 'VolGroup01'
@@ -23,6 +23,8 @@ os_linux_lv: 'lv_data'
 os_linux_lv_size: '100%FREE'
 os_linux_fstype: 'xfs'
 os_linux_fsopts: 'defaults,noatime,nobarrier'
+
+# Linux OS parameter #
 os_linux_ulimit_nofile: '20480'
 os_linux_ulimit_nproc: '20480'
 os_linux_tz: 'Asia/Shanghai'
@@ -39,11 +41,11 @@ os_linux_disable_RootLogin: true
 os_linux_disable_selinux: true
 os_linux_id_rsa: ''
 os_linux_syslog_local_keep: '2' # week
-os_linux_dis_fs_tmp_exec: false
-os_linux_dis_fs_vartmp_exec: false
-os_linux_dis_fs_shm_exec: true
-os_linux_dis_fs_home_exec: false
-os_linux_dis_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
+os_linux_disable_fs_tmp_exec: false
+os_linux_disable_fs_vartmp_exec: false
+os_linux_disable_fs_shm_exec: true
+os_linux_disable_fs_home_exec: false
+os_linux_disable_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
 
 # Windows OS parameter
 os_win_roles:
