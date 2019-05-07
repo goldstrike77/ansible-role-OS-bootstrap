@@ -8,10 +8,11 @@ os_syslog_server: '1.1.1.1' # Defines the address of a syslog server.
 os_syslog_port: '12209' # Defines the input port of a syslog server.
 os_disable_ipv6: true
 os_pass_length: '12' # Minimum OS account password length.
+os_pass_maxAge: '60' # OS account Password Validity Period.
 
 # Linux OS parameter #
-os_linux_ulimit_nofile: '16384'
-os_linux_ulimit_nproc: '16384'
+os_linux_ulimit_nofile: '20480'
+os_linux_ulimit_nproc: '20480'
 os_linux_tz: 'Asia/Shanghai'
 os_linux_MTA_relayhost: '1.1.1.1'
 os_linux_grub_add_args:

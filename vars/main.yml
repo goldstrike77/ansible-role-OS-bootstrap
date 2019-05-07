@@ -37,7 +37,7 @@ os_linux_kernel_parameters:
 # Windows variables
 os_win_local_user_pass_role:
   - { name: 'minPassLength', value: '/minpwlen:{{ os_pass_length }}' }
-  - { name: 'maxPassAge', value: '/maxpwage:60' }
+  - { name: 'maxPassAge', value: '/maxpwage:{{ os_pass_maxAge }}' }
 
 os_win_misc_role:
   - { path: 'HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccount', name: 'value', data: '0', type: 'dword' }
