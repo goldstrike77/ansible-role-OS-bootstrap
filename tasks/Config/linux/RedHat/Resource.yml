@@ -1,17 +1,13 @@
 ---
 - name: Configure runtime kernel parameters
-  template:
-    src: '10-sysctl.conf.j2'
-    dest: '/etc/sysctl.d/10-sysctl.conf'
-    owner: root
-    group: root
-    mode: 0644
-  register: result
-
-- name: Loading sysctl settings
-  shell: sysctl -p
-  when: 
-    - result.changed
+  sysctl:
+    name: '{{ item.variable }}'
+    value: '{{ item.value }}'
+    state: present
+    reload: yes
+    sysctl_set: yes
+    sysctl_file: '/etc/sysctl.d/10-sysctl.conf'
+  loop: '{{ os_linux_kernel_parameters }}'
 
 - name: Set nofile limits
   lineinfile:
@@ -19,8 +15,8 @@
     state: present
     line: '{{ item }}'
   with_items:
-    - '* soft nofile 16384'
-    - '* hard nofile 16384'
+    - '* soft nofile {{ os_linux_ulimit_nofile }}'
+    - '* hard nofile {{ os_linux_ulimit_nofile }}'
 
 - name: Set nproc limits
   lineinfile: 
@@ -31,5 +27,5 @@
     mode: 0644
     line: '{{ item }}'
   with_items:
-    - '* soft nproc 16384'
-    - '* hard nproc 16384'
+    - '* soft nproc {{ os_linux_ulimit_nproc }}'
+    - '* hard nproc {{ os_linux_ulimit_nproc }}'

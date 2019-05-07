@@ -44,7 +44,7 @@
     dest: /etc/ssh/sshd_config
     regexp: '^PermitRootLogin'
     line: 'PermitRootLogin no'
-  when: disable_RootLogin
+  when: os_linux_disable_RootLogin
 
 - name: Reload sshd service
   systemd:

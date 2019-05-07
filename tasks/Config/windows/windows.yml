@@ -12,6 +12,11 @@
 
 - include: region.yml
 
+- name: Ensure configuraion status file
+  win_copy:
+    src: 'bootstrap_Config.Succeed'
+    dest: 'c:\windows\bootstrap_Config.Succeed'
+
 - win_reboot:
     shutdown_timeout: '3600'
     reboot_timeout: '3600'

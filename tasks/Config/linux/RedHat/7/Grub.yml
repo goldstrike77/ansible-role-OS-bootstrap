@@ -3,7 +3,7 @@
   replace:
     dest: '/etc/default/grub'
     regexp: 'quiet'
-    replace: "{{ grub_add_args | join(' ') }}"
+    replace: "{{ os_linux_grub_add_args | join(' ') }}"
   notify: Generate RHEL7 new grub config
   register: grub
 

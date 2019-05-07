@@ -2,16 +2,16 @@
 - name: Include OS-specific variables
   include_vars: '{{ ansible_os_family }}.yml'
 
-- name: Check if initialization update already processed
+- name: Check if initialization software update already processed
   stat:
-    path: '/etc/Init_Update.Succeed'
+    path: '/etc/bootstrap_Software.Succeed'
   register: linux_update_result
   when: ansible_system == 'Linux'
   tags: software
 
-- name: Check if Initialization update already processed
+- name: Check if Initialization software update already processed
   win_stat:
-    path: 'c:\windows\Init_Update.Succeed'
+    path: 'c:\windows\bootstrap_Software.Succeed'
   register: windows_update_result
   when: ansible_system == 'Win32NT'
   tags: software
@@ -32,14 +32,14 @@
 
 - name: Check if Harden already processed
   stat:
-    path: '/etc/Harden.Succeed'
+    path: '/etc/bootstrap_Harden.Succeed'
   register: linux_harden_result
   when: ansible_system == 'Linux'
   tags: harden
 
 - name: Check if Harden already processed
   win_stat:
-    path: 'c:\windows\Harden.Succeed'
+    path: 'c:\windows\bootstrap_Harden.Succeed'
   register: windows_harden_result
   when: ansible_system == 'Win32NT'
   tags: harden
@@ -58,16 +58,30 @@
     - not windows_harden_result.stat.exists
   tags: harden
 
+- name: Check if configuration already processed
+  stat:
+    path: '/etc/bootstrap_Config.Succeed'
+  register: linux_config_result
+  when: ansible_system == 'Linux'
+  tags: config
+
+- name: Check if configuration already processed
+  win_stat:
+    path: 'c:\windows\bootstrap_Config.Succeed'
+  register: windows_config_result
+  when: ansible_system == 'Win32NT'
+  tags: config
+
 - name: Include configuration tasks for linux OS
   include: 'Config/linux/linux.yml'
   when:
     - ansible_system == 'Linux'
-    - not linux_harden_result.stat.exists
+    - not linux_config_result.stat.exists
   tags: config
 
 - name: Include configuration tasks for windows OS
   include: 'Config/windows/windows.yml'
   when:
     - ansible_system == 'Win32NT'
-    - not windows_harden_result.stat.exists
+    - not windows_config_result.stat.exists
   tags: config

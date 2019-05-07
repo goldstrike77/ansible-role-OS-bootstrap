@@ -1,4 +1,4 @@
 ---
 - name: Set machine timezone
   win_timezone:
-    timezone: '{{ win_tz }}'
+    timezone: '{{ os_win_tz }}'

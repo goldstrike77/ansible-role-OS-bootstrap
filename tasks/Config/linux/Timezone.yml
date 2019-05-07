@@ -1,4 +1,4 @@
 ---
 - name: Set machine timezone
   timezone:
-    name: '{{ linux_tz }}'
+    name: '{{ os_linux_tz }}'

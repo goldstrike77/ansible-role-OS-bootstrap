@@ -6,24 +6,24 @@
 - name: Configure event log maxsize limitation
   win_regedit:
     path: '{{ item }}'
-    name: "MaxSize"
-    data: "1"
+    name: 'MaxSize'
+    data: '{{ os_win_event_log_MaxSize }}'
     type: dword
   with_items:
-    - '{{ win_event_log }}'
+    - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\{{ os_win_event_log }}'
 
 - name: Configure local security policy
   win_audit_policy_system:
     category: '{{ item }}'
     audit_type: success, failure
   with_items:
-    - '{{ gpo_audit_policy }}'
+    - '{{ os_win_gpo_audit_policy }}'
 
 - name: Configure filesystem audit rule 
   win_audit_rule:
     path: '{{ item }}'
-    user: '{{ fs_audit_user }}'
-    rights: '{{ fs_audit_rule }}'
+    user: '{{ os_win_fs_audit_user }}'
+    rights: '{{ os_win_fs_audit_rule | list | join(",") }}'
     audit_flags: 'success,failure'
     inheritance_flags: 'ContainerInherit,ObjectInherit'
   with_items: '{{ fs_audit_path.stdout_lines }}'

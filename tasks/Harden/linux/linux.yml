@@ -15,8 +15,8 @@
 
 - name: Ensure harden status file
   copy:
-    src: 'Harden.Succeed'
-    dest: '/etc/Harden.Succeed'
+    src: 'bootstrap_Harden.Succeed'
+    dest: '/etc/bootstrap_Harden.Succeed'
     owner: root
     group: root
     mode: 0644

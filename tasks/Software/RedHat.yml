@@ -11,8 +11,8 @@
 - name: 'Configure YUM proxy'
   lineinfile:
     dest: '/etc/yum.conf'
-    line: 'proxy={{ proxy_server }}'
-  when: proxy_server is defined
+    line: 'proxy={{ os_proxy_server }}'
+  when: os_proxy_server is defined
 
 - name: 'Install the base packages'
   yum:

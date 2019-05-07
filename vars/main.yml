@@ -1,29 +1,45 @@
 ---
 # Linux variables
+os_linux_user_pw:
+  minlen: '{{ os_pass_length }}'
+  dcredit: '-1'
+  ucredit: '-1'
+  lcredit: '-1'
+
+os_linux_kernel_parameters:
+  - { variable: 'net.core.somaxconn', value: '20480' }
+  - { variable: 'net.ipv4.conf.all.accept_redirects', value: '0' }
+  - { variable: 'net.ipv4.conf.all.accept_source_route', value: '0' }
+  - { variable: 'net.ipv4.conf.all.log_martians', value: '1' }
+  - { variable: 'net.ipv4.conf.all.rp_filter', value: '1' }
+  - { variable: 'net.ipv4.conf.all.secure_redirects', value: '0' }
+  - { variable: 'net.ipv4.conf.all.send_redirects', value: '0' }
+  - { variable: 'net.ipv4.conf.default.accept_redirects', value: '0' }
+  - { variable: 'net.ipv4.conf.default.accept_source_route', value: '0' }
+  - { variable: 'net.ipv4.conf.default.log_martians', value: '1' }
+  - { variable: 'net.ipv4.conf.default.rp_filter', value: '1' }
+  - { variable: 'net.ipv4.conf.default.secure_redirects', value: '0' }
+  - { variable: 'net.ipv4.conf.default.send_redirects', value: '0' }
+  - { variable: 'net.ipv4.icmp_echo_ignore_broadcasts', value: '1' }
+  - { variable: 'net.ipv4.icmp_ignore_bogus_error_responses', value: '1' }
+  - { variable: 'net.ipv4.tcp_fin_timeout', value: '10' }
+  - { variable: 'net.ipv4.tcp_keepalive_intvl', value: '30' }
+  - { variable: 'net.ipv4.tcp_keepalive_probes', value: '3' }
+  - { variable: 'net.ipv4.tcp_keepalive_time', value: '600' }
+  - { variable: 'net.ipv4.tcp_max_syn_backlog', value: '20480' }
+  - { variable: 'net.ipv4.tcp_sack', value: '0' }
+  - { variable: 'net.ipv4.tcp_syncookies', value: '1' }
+  - { variable: 'net.ipv4.tcp_tw_recycle', value: '0' }
+  - { variable: 'net.ipv4.tcp_tw_reuse', value: '1' }
+  - { variable: 'net.ipv4.tcp_window_scaling', value: '0' }
+  - { variable: "net.ipv6.conf.all.disable_ipv6', value: '{% if os_disable_ipv6 %}1{% else %}0{% endif %}'" }
 
 # Windows variables
-nxlog_software: 'nxlog'
-# System Event Log setting
-win_event_log:
-  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Application'
-  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Security'
-  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\Setup'
-  - 'HKLM:\Software\Policies\Microsoft\Windows\EventLog\System'
-# Audit policy settings
-gpo_audit_policy:
-  - 'Account Logon'
-  - 'Logon/Logoff'
-  - 'Account Management'
-  - 'DS Access'
-  - 'Object Access'
-  - 'Policy change'
-  - 'Privilege use'
-# Local user password policy
-local_user_pass_role:
-  - { name: 'minPassLength', value: '/minpwlen:12' }
+os_win_local_user_pass_role:
+  - { name: 'minPassLength', value: '/minpwlen:{{ os_pass_length }}' }
   - { name: 'maxPassAge', value: '/maxpwage:60' }
-# A other of miscellaneous items
-other_misc_role:
+
+os_win_misc_role:
   - { path: 'HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccount', name: 'value', data: '0', type: 'dword' }
   - { path: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer', name: 'NoDriveTypeAutoRun', data: '255', type: 'dword' }
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'AutoDownload', data: '4', type: 'dword' }
@@ -31,10 +47,3 @@ other_misc_role:
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search', name: 'AllowIndexingEncryptedStoresOrItems', data: '0', type: 'dword' }
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword' }
   - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword' }
-# Folders audit rule
-fs_audit_user: 'Everyone'
-fs_audit_rule: 'CreateFiles,WriteData,CreateDirectories,AppendData,DeleteSubdirectoriesAndFiles,Delete'
-# Tune off Scheduled Task
-win_disable_task:
-  - 'ScheduledDefrag'
-  - 'ServerManager'

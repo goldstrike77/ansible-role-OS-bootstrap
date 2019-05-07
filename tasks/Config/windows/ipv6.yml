@@ -5,4 +5,4 @@
     name: DisabledComponents
     data: 14
     type: dword
-  when: disable_win_ipv6
+  when: os_disable_ipv6

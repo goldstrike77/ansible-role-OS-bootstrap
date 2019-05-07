@@ -7,5 +7,5 @@
 
 - name: Ensure harden status file
   win_copy:
-    src: 'Harden.Succeed'
-    dest: 'c:\windows\Harden.Succeed'
+    src: 'bootstrap_Harden.Succeed'
+    dest: 'c:\windows\bootstrap_Harden.Succeed'

@@ -1,14 +1,11 @@
 ---
-- name: Include OS-specific variables
-  include_vars: '{{ ansible_os_family }}.yml'
-
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
 
 - name: Ensure update status file
   copy:
-    src: 'Init_Update.Succeed'
-    dest: '/etc/Init_Update.Succeed'
+    src: 'bootstrap_Software.Succeed'
+    dest: '/etc/bootstrap_Software.Succeed'
     owner: root
     group: root
     mode: 0644

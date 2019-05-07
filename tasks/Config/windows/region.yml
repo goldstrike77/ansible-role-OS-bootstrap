@@ -2,7 +2,7 @@
 - name: Set machine location/format/unicode
   win_region:
     copy_settings: true
-    location: '{{ win_location }}'
-    format: '{{ win_format }}'
-    unicode_language: '{{ win_unicode }}'
+    location: '{{ os_win_location }}'
+    format: '{{ os_win_format }}'
+    unicode_language: '{{ os_win_unicode }}'
   register: result

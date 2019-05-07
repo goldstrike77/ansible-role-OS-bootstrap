@@ -1,10 +1,4 @@
 ---
-- name: NXLog Community Edition installation
-  win_chocolatey:
-    name: '{{ nxlog_software }}'
-    state: 'latest'
-  ignore_errors: yes
-
 - name: NXLog Community Edition configure transfer
   win_template:
     src: 'nxlog.conf.j2'

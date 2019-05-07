@@ -1,47 +1,71 @@
 ---
 # General parameters #
-proxy_server: 'http://1.1.1.1:3142' # Defines the proxy server.
+ansible_user: 'oper'
+os_update_password: 'Password1234'
+os_proxy_server: 'http://1.1.1.1:3142' # Defines the proxy server.
 os_syslog: false # Whether to use remote syslog server.
 os_syslog_server: '1.1.1.1' # Defines the address of a syslog server.
 os_syslog_port: '12209' # Defines the input port of a syslog server.
+os_disable_ipv6: true
+os_pass_length: '12' # Minimum OS account password length.
 
 # Linux OS parameter #
-linux_tz: 'Asia/Shanghai'
-disable_linux_ipv6: 'true'
-MTA_relayhost: '1.1.1.1'
-grub_add_args:
-  - 'ipv6.disable=1'
+os_linux_ulimit_nofile: '16384'
+os_linux_ulimit_nproc: '16384'
+os_linux_tz: 'Asia/Shanghai'
+os_linux_MTA_relayhost: '1.1.1.1'
+os_linux_grub_add_args:
+  - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
   - 'transparent_hugepage=never'
   - 'numa=off'
-disable_RootLogin: 'true'
-disable_selinux: 'true'
-id_rsa: ''
-syslog_local_keep: '2' # week
-dis_fs_tmp_exec: false
-dis_fs_vartmp_exec: false
-dis_fs_shm_exec: true
-dis_fs_home_exec: true
-dis_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
-user_pw:
-  minlen: '12'
-  dcredit: '-1'
-  ucredit: '-1'
-  lcredit: '-1'
+os_linux_disable_RootLogin: true
+os_linux_disable_selinux: true
+os_linux_id_rsa: ''
+os_linux_syslog_local_keep: '2' # week
+os_linux_dis_fs_tmp_exec: false
+os_linux_dis_fs_vartmp_exec: false
+os_linux_dis_fs_shm_exec: true
+os_linux_dis_fs_home_exec: false
+os_linux_dis_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
 
 # Windows OS parameter
-win_roles:
+os_win_roles:
   - 'Telnet-Client'
-win_software:
+os_win_software:
   - 'googlechrome'
   - 'notepadplusplus.install'
+  - 'nxlog'
   - 'peazip.install'
-win_update_category: ['CriticalUpdates', 'SecurityUpdates']
-disable_win_ipv6: true
-disable_win_rss: true
-win_pagefile_size: 4096
-# Region
-win_tz: 'China Standard Time'
-win_location: '45' # https://docs.microsoft.com/en-us/windows/desktop/Intl/table-of-geographical-locations
-win_format: 'en-US'
-win_unicode: 'zh-CN'
-win_network_location: 'Private'
+os_win_update_category: ['CriticalUpdates', 'SecurityUpdates']
+os_win_disable_rss: true
+os_win_pagefile_size: 4096
+os_win_tz: 'China Standard Time'
+os_win_location: '45' # https://docs.microsoft.com/en-us/windows/desktop/Intl/table-of-geographical-locations
+os_win_format: 'en-US'
+os_win_unicode: 'zh-CN'
+os_win_network_location: 'Private'
+os_win_event_log_MaxSize: '4096' # The maximum size in kilobytes that the event log can grow to.
+os_win_event_log:
+  - 'Application'
+  - 'Security'
+  - 'Setup'
+  - 'System'
+os_win_gpo_audit_policy:
+  - 'Account Logon'
+  - 'Logon/Logoff'
+  - 'Account Management'
+  - 'DS Access'
+  - 'Object Access'
+  - 'Policy change'
+  - 'Privilege use'
+os_win_fs_audit_user: 'Everyone'
+os_win_fs_audit_rule:
+  - 'AppendData'
+  - 'CreateDirectories'
+  - 'CreateFiles'
+  - 'Delete'
+  - 'DeleteSubdirectoriesAndFiles'
+  - 'WriteData'
+os_win_disable_task:
+  - 'ScheduledDefrag'
+  - 'ServerManager'

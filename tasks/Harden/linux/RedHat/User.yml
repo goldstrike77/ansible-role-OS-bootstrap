@@ -9,10 +9,10 @@
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
   with_items:
-    - { regexp: '^minlen', line: "minlen =  {{ user_pw['minlen'] }}" }
-    - { regexp: '^dcredit', line: "dcredit = {{ user_pw['dcredit'] }}" }
-    - { regexp: '^ucredit', line: "ucredit = {{ user_pw['ucredit'] }}" }
-    - { regexp: '^lcredit', line: "lcredit = {{ user_pw['lcredit'] }}" }
+    - { regexp: '^minlen', line: "minlen =  {{ os_linux_user_pw['minlen'] }}" }
+    - { regexp: '^dcredit', line: "dcredit = {{ os_linux_user_pw['dcredit'] }}" }
+    - { regexp: '^ucredit', line: "ucredit = {{ os_linux_user_pw['ucredit'] }}" }
+    - { regexp: '^lcredit', line: "lcredit = {{ os_linux_user_pw['lcredit'] }}" }
   when:
     - ansible_distribution_major_version|int > 6
 
@@ -21,6 +21,6 @@
     state: present
     dest: '/etc/pam.d/system-auth'
     regexp: '^password    requisite     pam_cracklib.so'
-    line: "password    requisite     pam_cracklib.so try_first_pass retry=3 type= minlen={{ user_pw['minlen'] }} dcredit={{ user_pw['dcredit'] }} ucredit={{ user_pw['ucredit'] }} lcredit={{ user_pw['lcredit'] }}"
+    line: "password    requisite     pam_cracklib.so try_first_pass retry=3 type= minlen={{ os_linux_user_pw['minlen'] }} dcredit={{ os_linux_user_pw['dcredit'] }} ucredit={{ os_linux_user_pw['ucredit'] }} lcredit={{ os_linux_user_pw['lcredit'] }}"
   when:
     - ansible_distribution_major_version|int == 6
