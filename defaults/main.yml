@@ -9,6 +9,10 @@ os_syslog_port: '12209' # Defines the input port of a syslog server.
 os_disable_ipv6: true
 os_pass_length: '12' # Minimum OS account password length.
 os_pass_maxAge: '60' # OS account Password Validity Period.
+os_software: true
+os_harden: true
+os_config: true
+os_datadisc: true
 
 # Linux OS parameter #
 os_linux_disc_device: '/dev/sdb'
