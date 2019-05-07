@@ -1,0 +1,22 @@
+---
+- include: '{{ ansible_os_family }}/Security.yml'
+
+- include: '{{ ansible_os_family }}/Modules.yml'
+
+- include: '{{ ansible_os_family }}/Audit.yml'
+
+- include: '{{ ansible_os_family }}/User.yml'
+
+- include: '{{ ansible_os_family }}/Filesystem.yml'
+
+- include: 'Selinux.yml'
+
+- include: 'Password.yml'
+
+- name: Ensure harden status file
+  copy:
+    src: 'Harden.Succeed'
+    dest: '/etc/Harden.Succeed'
+    owner: root
+    group: root
+    mode: 0644

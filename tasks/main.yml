@@ -1,48 +1,73 @@
 ---
+- name: Include OS-specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+
 - name: Check if initialization update already processed
   stat:
     path: '/etc/Init_Update.Succeed'
   register: linux_update_result
   when: ansible_system == 'Linux'
+  tags: software
 
 - name: Check if Initialization update already processed
   win_stat:
     path: 'c:\windows\Init_Update.Succeed'
   register: windows_update_result
   when: ansible_system == 'Win32NT'
+  tags: software
 
-- name: Include tasks for linux OS
+- name: Include Software tasks for linux OS
   include: 'Software/Linux.yml'
   when:
     - ansible_system == 'Linux'
     - not linux_update_result.stat.exists
+  tags: software
 
-- name: Include tasks for windows OS
+- name: Include Software tasks for windows OS
   include: 'Software/Win32NT.yml'
   when:
     - ansible_system == 'Win32NT'
     - not windows_update_result.stat.exists
+  tags: software
 
-- name: Check if harden already processed
+- name: Check if Harden already processed
   stat:
     path: '/etc/Harden.Succeed'
   register: linux_harden_result
   when: ansible_system == 'Linux'
+  tags: harden
 
-- name: Check if harden already processed
+- name: Check if Harden already processed
   win_stat:
     path: 'c:\windows\Harden.Succeed'
   register: windows_harden_result
   when: ansible_system == 'Win32NT'
+  tags: harden
 
-- name: Include tasks for linux OS
-  include: 'linux/linux.yml'
+- name: Include Harden tasks for linux OS
+  include: 'Harden/linux/linux.yml'
   when:
     - ansible_system == 'Linux'
     - not linux_harden_result.stat.exists
+  tags: harden
 
-- name: Include tasks for windows OS
-  include: 'windows/windows.yml'
+- name: Include Harden tasks for windows OS
+  include: 'Harden/windows/windows.yml'
   when:
     - ansible_system == 'Win32NT'
     - not windows_harden_result.stat.exists
+  tags: harden
+
+- name: Include configuration tasks for linux OS
+  include: 'Config/linux/linux.yml'
+  when:
+    - ansible_system == 'Linux'
+    - not linux_harden_result.stat.exists
+  tags: config
+
+- name: Include configuration tasks for windows OS
+  include: 'Config/windows/windows.yml'
+  when:
+    - ansible_system == 'Win32NT'
+    - not windows_harden_result.stat.exists
+  tags: config

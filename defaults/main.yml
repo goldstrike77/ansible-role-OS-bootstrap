@@ -1,9 +1,9 @@
 ---
 # General parameters #
 proxy_server: 'http://1.1.1.1:3142' # Defines the proxy server.
-syslog_remote: false # Whether to use remote syslog server.
-syslog_server: '1.1.1.1' # Defines the address of a syslog server.
-syslog_port: '12209' # Defines the input port of a syslog server.
+os_syslog: false # Whether to use remote syslog server.
+os_syslog_server: '1.1.1.1' # Defines the address of a syslog server.
+os_syslog_port: '12209' # Defines the input port of a syslog server.
 
 # Linux OS parameter #
 linux_tz: 'Asia/Shanghai'

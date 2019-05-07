@@ -1,0 +1,11 @@
+---
+- include: audit.yml
+
+- include: password.yml
+
+- include: firewall.yml
+
+- name: Ensure harden status file
+  win_copy:
+    src: 'Harden.Succeed'
+    dest: 'c:\windows\Harden.Succeed'

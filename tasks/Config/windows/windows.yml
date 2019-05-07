@@ -1,0 +1,18 @@
+---
+- include: nxlog.yml
+  when: os_syslog
+
+- include: ipv6.yml
+
+- include: rss.yml
+
+- include: misc.yml
+
+- include: timezone.yml
+
+- include: region.yml
+
+- win_reboot:
+    shutdown_timeout: '3600'
+    reboot_timeout: '3600'
+  when: result.restart_required

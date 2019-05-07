@@ -1,4 +1,21 @@
 ---
+- name: Add rsyslog YUM repositories
+  yum_repository:
+    name: '{{ rsyslog_repo_name }}'
+    description: '{{ rsyslog_repo_name }} RPM repository for Enterprise Linux'
+    file: '{{ rsyslog_repo_name }}'
+    baseurl: '{{ rsyslog_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Upgrade the rsyslog
+  yum:
+    name: '{{ item }}'
+    state: latest
+  with_items:
+    - '{{ rsyslog_packages }}'
+  register: soft_update
+
 - name: Remote rsyslog Configuration
   lineinfile:
     dest: /etc/rsyslog.conf
@@ -17,23 +34,18 @@
     - '  constant(value="\",\"procid\":\"") property(name="PROCID")'
     - '  constant(value="\"}")'
     - '}'
-    - 'action(type="omfwd" target="{{ syslog_server | default("1.1.1.1") }}" port="{{ syslog_port | default("12201") }}" protocol="udp" template="gelf")'
+    - 'action(type="omfwd" target="{{ os_syslog_server | default("1.1.1.1") }}" port="{{ os_syslog_port | default("12201") }}" protocol="udp" template="gelf")'
   register: conf_update
 
-- name: Ignore flooded logs with systemd messages
-  copy:
-    src: 'ignore-systemd-session-slice.conf'
-    dest: '/etc/rsyslog.d/ignore-systemd-session-slice.conf'
-
 - name: Reload rsyslog service
-  systemd:
-    name: rsyslog.service
+  service:
+    name: rsyslog
     enabled: yes
     state: restarted
-    daemon_reload: yes
   async: 1
   poll: 0
   when:
+    - soft_update.changed
     - conf_update.changed
 
 - name: Local syslog logrotate parameters
