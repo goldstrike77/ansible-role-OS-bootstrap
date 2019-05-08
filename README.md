@@ -1,6 +1,7 @@
 ![](https://img.shields.io/badge/Ansible-OperatingSystem-green.svg?logo=angular&style=for-the-badge)
 
->__请注意，此角色的最初设计目标更关注初始安装和引导环境配置，目前不涉及执行连续维护，在您的系统上运行此角色存在潜在危险的情况，包括服务中断、数据损坏，因此仅适用于测试和开发目的，不应在生产环境中使用。作者不对角色内容之准确性、完整性、可靠性、可用性做保证，作者不对因使用本角色而造成的或与之有关的任何损失承担责任。在任何情况下，作者都不对因使用本角色而造成的或与之有关的任何间接、附带或结果性损失负责或承担责任。。__
+>__请注意，此角色的最初设计目标更关注初始安装和引导环境配置，目前不涉及执行连续维护，在您的系统上运行此角色存在潜在危险的情况，包括服务中断、数据损坏，因此仅适用于测试和开发目的，不应在生产环境中使用。
+>作者不对角色内容之准确性、完整性、可靠性、可用性做保证，作者不对因使用本角色而造成的或与之有关的任何损失承担责任，在任何情况下，作者都不对因使用本角色而造成的或与之有关的任何间接、附带或结果性损失负责或承担责任。__
 ___
 
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/logo/logo_linux_win.png" align="right" /></p>
@@ -108,7 +109,7 @@ __Table of Contents__
 ## 示例
 
 ### 主机清单文件
-See tests/inventory for an example.
+参见测试/库存示例
 
     node01 ansible_host='192.168.1.10' os_update_password: 'bguM7WftNdrP'
 
