@@ -2,4 +2,4 @@
 - name: Set machine timezone
   timezone:
     name: '{{ os_linux_tz }}'
-  when: os_linux_tz
+  when: os_linux_tz is defined
