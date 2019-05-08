@@ -43,7 +43,7 @@ __Table of Contents__
 * `os_config`: 是否执行主机初始配置。
 * `os_datadisc`: 是否挂载数据盘。
 * `os_disable_ipv6`: 是否关闭IPv6。
-* `os_harden`: true 是否执行主机加固配置。
+* `os_harden`: 是否执行主机加固配置。
 * `os_pass_length`: 账户最低密码长度。
 * `os_pass_maxAge`: Windows主机账户密码有效期。
 * `os_proxy_server`: 主机代理服务器。
