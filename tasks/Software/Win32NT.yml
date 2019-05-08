@@ -18,6 +18,7 @@
   win_chocolatey:
     name: '{{ item }}'
     state: 'latest'
+    timeout: '60'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
   with_items:
     - '{{ os_win_software }}'
