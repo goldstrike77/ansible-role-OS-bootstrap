@@ -6,7 +6,7 @@ rsyslog_repo_name: "rsyslog"
 rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
 rsyslog_packages: 'rsyslog'
 
-disable_service_RedHat_6:
+disable_service_RedHat_6: # 版本6不需要的服务。
   - 'abrt-ccpp'
   - 'abrtd'
   - 'abrt-oops'
@@ -20,13 +20,13 @@ disable_service_RedHat_6:
   - 'netfs'
   - 'postfix'
   - 'sysstat'
-enabled_service_RedHat_6:
+enabled_service_RedHat_6: # 版本6需要的服务。
   - 'auditd'
   - 'iptables'
   - 'nscd'
   - 'ntpd'
   - 'rsyslog'
-disable_service_RedHat_7:
+disable_service_RedHat_7: # 版本7不需要的服务。
   - 'abrt-ccpp.service'
   - 'abrtd.service'
   - 'abrt-oops.service'
@@ -47,14 +47,14 @@ disable_service_RedHat_7:
   - 'systemd-readahead-replay.service'
   - 'tuned.service'
   - 'vdo.service'
-enabled_service_RedHat_7:
+enabled_service_RedHat_7: # 版本7需要的服务。
   - 'firewalld.service'
   - 'ntpd.service'
   - 'nscd.service'
   - 'rsyslog.service'
   - 'auditd.service'
 
-unload_module_RedHat:
+unload_module_RedHat: # 不需要的模块。
   - 'cramfs'
   - 'freevxfs'
   - 'jffs2'
@@ -67,7 +67,7 @@ unload_module_RedHat:
   - 'rds'
   - 'tipc'
 
-base_packages_RedHat_7:
+base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - '@Base'
   - 'audispd-plugins'
   - 'bind-utils'
@@ -96,7 +96,7 @@ base_packages_RedHat_7:
   - 'tree'
   - 'xfsprogs'
 
-remove_packages_RedHat_7:
+remove_packages_RedHat_7: # 版本7需要删除的系统组件。
   - 'aic94xx-firmware'
   - 'alsa-firmware'
   - 'alsa-tools-firmware'
@@ -120,7 +120,7 @@ remove_packages_RedHat_7:
   - 'iwl7265-firmware'
   - 'microcode_ctl'
 
-base_packages_RedHat_6:
+base_packages_RedHat_6: # 版本6需要安装的系统组件。
   - '@Base'
   - 'audispd-plugins'
   - 'bind-utils'
@@ -150,5 +150,5 @@ base_packages_RedHat_6:
   - 'vim-enhanced'
   - 'xfsprogs'
 
-remove_packages_RedHat_6:
+remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
