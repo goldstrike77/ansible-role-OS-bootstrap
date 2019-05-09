@@ -98,7 +98,7 @@ __Table of Contents__
 * `os_win_software`: 需要安装的第三方软件。
 * `os_win_tz`: 主机时区。
 * `os_win_unicode`: 主机字符集编码。
-* `os_win_update_category`: 需要更新的类别列表。
+* `os_win_update_category`: 需要更新的补丁类别列表。
 
 ### 其他变量
 有一些变量位于 vars/main.yml:
@@ -111,7 +111,7 @@ __Table of Contents__
 ### 主机清单文件
 参见测试/库存示例
 
-    node01 ansible_host='192.168.1.10' os_update_password: 'bguM7WftNdrP'
+    node01 ansible_host='192.168.1.10' os_update_password='bguM7WftNdrP'
 
 ### 角色配置中的变量
 变量作为参数传入使用角色的示例
