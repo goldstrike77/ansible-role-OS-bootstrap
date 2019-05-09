@@ -158,7 +158,7 @@ __Table of Contents__
       - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
       - 'transparent_hugepage=never'
       - 'numa=off'
-    os_linux_id_rsa: ''
+    os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ=='
     os_linux_MTA_relayhost: '1.1.1.1'
     os_linux_syslog_local_keep: '2'
     os_linux_tz: 'Asia/Shanghai'
