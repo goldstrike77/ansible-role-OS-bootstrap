@@ -41,6 +41,7 @@ __Table of Contents__
 ##### 通用参数
 * `os_audit`: 是否启用主机审计。
 * `os_config`: 是否执行主机初始配置。
+* `os_exporter`: 是否部署普罗米修斯客户端。
 * `os_datadisc`: 是否挂载数据盘。
 * `os_disable_ipv6`: 是否关闭IPv6。
 * `os_harden`: 是否执行主机加固配置。
@@ -52,6 +53,13 @@ __Table of Contents__
 * `os_syslog_port`: 远程日志服务器端口。
 * `os_syslog_server`: 远程日志服务器地址。
 * `os_update_password`: 修改新部署Linux主机管理账户密码。
+
+##### 领事参数
+* `environments`: 定义系统环境。
+* `consul_public_register`: 是否向领事注册普罗米修斯终端。
+* `consul_public_exporter_token`: 领事客户端访问控制令牌。
+* `consul_public_clients`: 领事公共客户端列表。
+* `consul_public_http_port`: 领事公共客户端端口。
 
 ##### Linux 数据盘参数
 * `os_linux_disc_device`: 数据盘块设备。
@@ -99,6 +107,16 @@ __Table of Contents__
 * `os_win_tz`: 主机时区。
 * `os_win_unicode`: 主机字符集编码。
 * `os_win_update_category`: 需要更新的补丁类别列表。
+
+##### Prometheus WMI 参数
+* `wmi_exporter_collector`: WMI 收集器
+
+##### Prometheus Node Exporter 参数
+* `node_exporter_port`: 客户端端口
+* `node_exporter_collector`: 收集器
+* `node_exporter_systemd_collector`: 服务收集器
+* `node_exporter_ignored_mount_points_collector`: 收集器忽略的磁盘挂载点
+* `node_exporter_ignored_devices_collector`: 收集器忽略的块设备
 
 ### 其他变量
 有一些变量位于 vars/main.yml:
@@ -204,6 +222,11 @@ __Table of Contents__
     os_win_tz: 'China Standard Time'
     os_win_unicode: 'zh-CN'
     os_win_update_category: ['CriticalUpdates', 'SecurityUpdates']
+    environments: 'SIT'
+    consul_public_register: true
+    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+    consul_public_clients: 'localhost'
+    consul_public_http_port: '8500'
 
 ## 许可证
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)

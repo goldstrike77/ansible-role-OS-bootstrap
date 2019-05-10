@@ -1,0 +1,57 @@
+#!/bin/bash
+#
+# /etc/rc.d/init.d/prometheus
+#
+# Prometheus monitoring server
+#
+#  chkconfig: 2345 20 80 Read
+#  description: Prometheus monitoring server
+#  processname: prometheus
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+. /etc/default/node_exporter
+
+PROGNAME=node_exporter
+PROG=/usr/bin/node_exporter
+USER=root
+LOGFILE=/var/log/node_exporter.log
+LOCKFILE=/var/run/$PROGNAME.pid
+
+start() {
+    echo -n "Starting $PROGNAME: "
+    daemon --user $USER --pidfile="$LOCKFILE" "$PROG $NODE_EXPORTER_OPTS &>$LOGFILE &"
+    echo $(pidofproc $PROGNAME) >$LOCKFILE
+    echo
+}
+
+stop() {
+    echo -n "Shutting down $PROGNAME: "
+    killproc $PROGNAME
+    rm -f $LOCKFILE
+    echo
+}
+
+case "$1" in
+    start)
+    start
+    ;;
+    stop)
+    stop
+    ;;
+    status)
+    status $PROGNAME
+    ;;
+    restart)
+    stop
+    start
+    ;;
+    reload)
+    echo "Sending SIGHUP to $PROGNAME"
+    kill -SIGHUP $(pidofproc $PROGNAME)
+    ;;
+    *)
+        echo "Usage: <servicename> {start|stop|status|reload|restart}"
+        exit 1
+    ;;
+esac

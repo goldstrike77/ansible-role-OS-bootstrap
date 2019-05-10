@@ -152,3 +152,12 @@ base_packages_RedHat_6: # 版本6需要安装的系统组件。
 
 remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
+
+node_exporter_collector_textfile_directory: '/var/lib/prometheus'
+node_exporter_collector_textfile_scritps:
+  - 'os_info'
+node_exporter_repo_name: "prometheus"
+node_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
+node_exporter_software: 'node_exporter'
+node_exporter_version: '0.15.2-1.el7.centos' # Contains major breaking changes to metric names from v0.16
+node_exporter_upgrade: false

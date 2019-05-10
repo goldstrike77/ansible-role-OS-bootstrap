@@ -32,6 +32,11 @@
   when: os_datadisc
   tags: datadisc
 
+- name: Include Prometheus Exporter tasks for specific OS
+  include: 'Exporter/{{ ansible_system }}.yml'
+  when: os_exporter
+  tags: exporter
+
 - name: OS Harden operation
   block:
     - name: Check if Linux Harden already processed

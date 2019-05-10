@@ -1,0 +1,65 @@
+---
+- name: WMI exporter installation
+  win_chocolatey:
+    name: '{{ wmi_exporter_software }}'
+    state: 'latest'
+    params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
+  ignore_errors: yes
+  register: soft_updated
+
+- name: Reloading the WMI exporter service
+  win_service:
+    name: 'wmi_exporter'
+    state: 'restarted'
+    start_mode: 'auto'
+  when: soft_updated.changed
+  ignore_errors: yes
+
+- name: Create wmi exporter collector directory structure
+  win_file:
+    path: 'C:\ProgramData\wmi_textfile_inputs'
+    state: 'directory'
+
+- name: WMI exporter collector scripts transfer
+  win_template:
+    src: 'scripts/{{ ansible_system }}/{{ item }}.j2'
+    dest: 'C:\Program Files\wmi_exporter\{{ item }}.ps1'
+  with_items:
+    - '{{ wmi_exporter_collector_scripts }}'
+
+- name: Create a scheduled task to node info collector
+  win_scheduled_task:
+    name: '{{ item }}'
+    executable: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+    arguments: '-ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
+    state: present
+    enabled: yes
+    user: SYSTEM
+    triggers:
+    - type: daily
+      start_boundary: '2017-10-09T0{{ 5|random(start=1) }}:00:00'
+  with_items:
+    - '{{ wmi_exporter_collector_scripts }}'
+
+- name: Register exporter service with an http health check
+  win_uri:
+    url: 'http://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'PUT'
+    body: '{"ID":"{{ inventory_hostname | upper }}_wmi_exporter","name":"wmi_exporter","address":"{{ ansible_ip_addresses[0] }}","port":9182,"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"},"checks":[{"http":"http://{{ ansible_ip_addresses[0] }}:9182/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_public_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ item }}'
+  loop: '{{ consul_public_clients|flatten(levels=1) }}'
+  when: consul_public_register
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 3
+  no_log: true
+  changed_when: false
+  failed_when: false

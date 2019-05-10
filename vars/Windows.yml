@@ -15,3 +15,7 @@ os_win_misc_role: # 杂项策略。
 
 os_win_temp_path: 'c:' # 临时存储分区。
 os_win_disc_extend_script: 'data_disc_extend.txt' # 数据盘扩展脚本。
+
+wmi_exporter_software: 'prometheus-wmi-exporter.install'
+wmi_exporter_collector_scripts:
+  - 'os_info'

@@ -1,18 +1,26 @@
 ---
 # 通用参数 #
-os_audit: true # 是否启用主机审计。
-os_config: true # 是否执行主机初始配置。
-os_datadisc: true # 是否挂载数据盘。
+os_audit: false # 是否启用主机审计。
+os_config: false # 是否执行主机初始配置。
+os_exporter: false # 是否部署普罗米修斯客户端。
+os_datadisc: false # 是否挂载数据盘。
 os_disable_ipv6: true # 是否关闭IPv6。
-os_harden: true # 是否执行主机加固配置。
+os_harden: false # 是否执行主机加固配置。
 os_pass_length: '12' # 账户最低密码长度。
 os_pass_maxAge: '60' # Windows主机账户密码有效期。
 os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
-os_software: true # 是否执行主机基本软件安装。
+os_software: false # 是否执行主机基本软件安装。
 os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12209' # 远程日志服务器端口。
 os_syslog_server: '1.1.1.1' # 远程日志服务器地址。
 os_update_password: 'bguM7WftNdrP' # 修改新部署Linux主机管理账户密码。
+
+# 领事参数 #
+environments: 'SIT' # 定义系统环境。
+consul_public_register: false # 是否向领事注册普罗米修斯终端。
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 领事客户端访问控制令牌。
+consul_public_clients: 'localhost' # 领事公共客户端列表。
+consul_public_http_port: '8500' # 领事公共客户端端口。
 
 # Linux 数据盘参数 #
 os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
@@ -87,3 +95,87 @@ os_win_software: # 需要安装的第三方软件。
 os_win_tz: 'China Standard Time' # 主机时区。
 os_win_unicode: 'zh-CN' # 主机字符集编码。
 os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的类别列表。
+
+# Prometheus WMI 参数 #
+wmi_exporter_collector: # WMI 收集器
+  - 'ad'
+  - 'cpu'
+  - 'cs'
+  - 'dns'
+  - 'iis'
+  - 'logical_disk'
+  - 'mssql'
+  - 'net'
+  - 'os'
+  - 'service'
+  - 'system'
+  - 'tcp'
+  - 'textfile'
+#  - hyperv
+#  - msmq
+#  - process
+#  - vmware
+wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
+
+# Prometheus node exporter 参数 #
+node_exporter_port: '9100' # 普罗米修斯客户端端口
+node_exporter_collector: # Node Exporter 收集器
+  - 'arp'
+  - 'bcache'
+  - 'conntrack'
+  - 'cpu'
+  - 'entropy'
+  - 'filefd'
+  - 'hwmon'
+  - 'infiniband'
+  - 'ipvs'
+  - 'loadavg'
+  - 'meminfo'
+  - 'netdev'
+  - 'netstat'
+  - 'nfs'
+  - 'ntp'
+  - 'sockstat'
+  - 'stat'
+  - 'time'
+  - 'uname'
+  - 'vmstat'
+  - 'timex'
+#  - mdadm
+#  - bonding
+#  - wifi
+#  - xfs # kernel 4.4+
+#  - zfs
+#  - buddyinfo
+#  - drbd
+#  - interrupts
+#  - ksmd
+#  - logind
+#  - meminfo_numa
+#  - mountstats
+#  - qdisc
+#  - runit
+#  - supervisord
+  - 'systemd'
+#  - tcpstat
+  - 'textfile'
+node_exporter_systemd_collector: # Node Exporter 服务收集器
+  - 'sshd'
+  - 'auditd'
+  - 'rsyslog'
+  - 'crond'
+  - 'ntpd'
+node_exporter_ignored_mount_points_collector: # Node Exporter 收集器忽略的磁盘挂载点
+  - 'data/docker/'
+  - 'dev'
+  - 'proc'
+  - 'rootfs'
+  - 'rpc_pipefs'
+  - 'run'
+  - 'run/docker/netns/'
+  - 'sys'
+node_exporter_ignored_devices_collector: # Node Exporter 收集器忽略的块设备
+  - 'ram'
+  - 'loop'
+  - 'fd'
+  - 'sr'

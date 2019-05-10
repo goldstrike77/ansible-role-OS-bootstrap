@@ -1,0 +1,110 @@
+---
+- name: Include tasks for specific OS
+  include: '{{ ansible_os_family }}.yml'
+
+- name: Node exporter configure file transfer
+  template:
+    src: 'node_exporter.j2'
+    dest: '/etc/default/node_exporter'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  register: soft_config
+
+- name: Service file transfer for CentOS 6
+  copy:
+    src: 'node_exporter.init'
+    dest: '/etc/init.d/node_exporter'
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_distribution_major_version == "6"
+
+- name: Node exporter firewall operation
+  block:
+    - name: Allow node exporter service port
+      lineinfile:
+        dest: '/etc/sysconfig/iptables'
+        regexp: '^-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT$'
+        line: '-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT'
+        insertafter: '^:OUTPUT ACCEPT \[\d*:\d*\]$'
+    - name: Reload the node exporter service firewalld
+      service:
+        name: 'iptables'
+        state: reloaded
+  when: 
+    - ansible_distribution_major_version|int == 6
+    - soft_updated is changed or soft_config is changed
+
+- name: Node exporter firewall operation
+  firewalld:
+    port: "{{ item }}/tcp"
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  loop: '{{ node_exporter_port }}'
+  when: 
+    - ansible_distribution_major_version|int > 6
+    - soft_updated is changed or soft_config is changed
+
+- name: Reloading the node exporter service
+  service:
+    name: 'node_exporter'
+    enabled: yes
+    state: restarted
+  when:
+    - ansible_distribution_major_version|int == 6
+    - soft_updated.changed or soft_config.changed
+
+- name: Reloading the node exporter service
+  systemd:
+    name: 'node_exporter.service'
+    enabled: yes
+    state: restarted
+    daemon_reload: yes
+  when:
+    - ansible_distribution_major_version|int > 6
+    - soft_updated.changed or soft_config.changed
+
+- name: Node exporter collector scripts transfer
+  template:
+    src: 'scripts/{{ ansible_system }}/{{ item }}.j2'
+    dest: '/usr/local/bin/{{ item }}.sh'
+    owner: 'root'
+    group: 'root'
+    mode: 0755
+  with_items:
+    - '{{ node_exporter_collector_textfile_scritps }}'
+
+- name: Create a scheduled task to node info collector 
+  cron:
+    user: 'root'
+    name: 'text collector {{ item }}'
+    special_time: 'daily'
+    job: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
+  with_items: 
+    - '{{ node_exporter_collector_textfile_scritps }}'
+
+- name: Register exporter service with an http health check
+  uri:
+    url: 'http://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'PUT'
+    body: '{"ID":"{{ inventory_hostname | upper }}_node_exporter","name":"node_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ node_exporter_port }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ node_exporter_port }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body_format: 'json'
+    status_code: '200'
+    headers:
+      X-Consul-Token: '{{ consul_public_exporter_token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ item }}'
+  loop: '{{ consul_public_clients|flatten(levels=1) }}'
+  when: consul_public_register
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 3
+  no_log: true
+  changed_when: false
+  failed_when: false
