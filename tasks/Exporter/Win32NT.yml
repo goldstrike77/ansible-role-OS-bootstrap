@@ -1,11 +1,16 @@
 ---
-- name: 'Installs roles or features'
-  win_feature:
-    name: '{{ item }}'
-    state: 'present'
-  with_items:
-    - '{{ os_win_roles }}'
-  ignore_errors: yes
+- name: Install chocolatey
+  win_chocolatey:
+    name: 'chocolatey'
+    state: 'downgrade'
+    version: '0.10.11'
+    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
+  register: chocolatey_status
+  until: chocolatey_status is succeeded
+  retries: 10
+  delay: 6
+  changed_when: false
+  failed_when: false
 
 - name: WMI exporter installation
   win_chocolatey:
