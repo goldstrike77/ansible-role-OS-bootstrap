@@ -8,6 +8,8 @@ After=network.target
 [Service]
 EnvironmentFile=-/etc/default/node_exporter
 User=nobody
+LimitNOFILE=4096
+LimitNPROC=4096
 ExecStart=/usr/local/bin/node_exporter $NODE_EXPORTER_OPTS
 Restart=on-failure
 
