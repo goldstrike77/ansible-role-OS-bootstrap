@@ -1,21 +1,34 @@
 ---
+- name: 'Installs roles or features'
+  win_feature:
+    name: '{{ item }}'
+    state: 'present'
+  with_items:
+    - '{{ os_win_roles }}'
+  ignore_errors: yes
+
 - name: WMI exporter installation
   win_chocolatey:
     name: '{{ wmi_exporter_software }}'
     state: 'latest'
     params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
-  ignore_errors: yes
   register: soft_updated
+  until: soft_updated is succeeded
+  retries: 10
+  delay: 6
+  ignore_errors: yes
+  changed_when: false
+  failed_when: false
 
 - name: Reloading the WMI exporter service
   win_service:
     name: 'wmi_exporter'
     state: 'restarted'
     start_mode: 'auto'
-  when: soft_updated.changed
+  when: soft_updated is changed
   ignore_errors: yes
 
-- name: Create wmi exporter collector directory structure
+- name: Create WMI exporter collector directory structure
   win_file:
     path: 'C:\ProgramData\wmi_textfile_inputs'
     state: 'directory'
@@ -30,8 +43,9 @@
 - name: Create a scheduled task to node info collector
   win_scheduled_task:
     name: '{{ item }}'
-    executable: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-    arguments: '-ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
+    actions:
+    - path: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
+      arguments: '-ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
     state: present
     enabled: yes
     user: SYSTEM
@@ -50,7 +64,7 @@
     status_code: '200'
     headers:
       X-Consul-Token: '{{ consul_public_exporter_token }}'
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      X-Requested-By: '{{ ansible_ip_addresses[0] }}'
       cache-control: 'no-cache'
   environment:
     no_proxy: '{{ item }}'
