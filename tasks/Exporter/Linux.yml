@@ -2,6 +2,19 @@
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
 
+- name: Node exporter program binary transfer
+  unarchive:
+    src: 'node_exporter-0.15.2.linux-amd64.tar.gz'
+    dest: '/usr/local/bin'
+    owner: 'nobody'
+    group: 'nobody'
+    mode: '0755'
+    extra_opts: [--strip-components=1]
+    exclude:
+      - 'NOTICE'
+      - 'LICENSE'
+  register: soft_updated 
+
 - name: Node exporter configure file transfer
   template:
     src: 'node_exporter.j2'
@@ -11,7 +24,7 @@
     mode: 0644
   register: soft_config
 
-- name: Service file transfer for CentOS 6
+- name: Service file transfer
   copy:
     src: 'node_exporter.init'
     dest: '/etc/init.d/node_exporter'
@@ -19,6 +32,15 @@
     group: root
     mode: 0755
   when: ansible_distribution_major_version == "6"
+
+- name: Service file transfer
+  copy:
+    src: 'node_exporter.service'
+    dest: '/lib/systemd/system/node_exporter.service'
+    owner: root
+    group: root
+    mode: 0755
+  when: ansible_distribution_major_version|int > 6
 
 - name: Node exporter firewall operation
   block:
@@ -54,7 +76,7 @@
     state: restarted
   when:
     - ansible_distribution_major_version|int == 6
-    - soft_updated.changed or soft_config.changed
+    - soft_updated is changed or soft_config is changed
 
 - name: Reloading the node exporter service
   systemd:
@@ -64,7 +86,7 @@
     daemon_reload: yes
   when:
     - ansible_distribution_major_version|int > 6
-    - soft_updated.changed or soft_config.changed
+    - soft_updated is changed or soft_config is changed
 
 - name: Node exporter collector scripts transfer
   template:
