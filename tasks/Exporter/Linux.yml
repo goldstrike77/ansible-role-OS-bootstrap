@@ -1,7 +1,4 @@
 ---
-- name: Include tasks for specific OS
-  include: '{{ ansible_os_family }}.yml'
-
 - name: Node exporter program binary transfer
   unarchive:
     src: 'node_exporter-0.15.2.linux-amd64.tar.gz'
