@@ -104,7 +104,7 @@ wmi_exporter_collector: # WMI 收集器
   - 'dns'
   - 'iis'
   - 'logical_disk'
-  - 'mssql'
+#  - 'mssql'
   - 'net'
   - 'os'
   - 'service'
