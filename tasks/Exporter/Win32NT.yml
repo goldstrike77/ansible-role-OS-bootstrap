@@ -46,7 +46,7 @@
     - '{{ wmi_exporter_collector_scripts }}'
 
 - name: Node information collection at first time
-  win_shell: 'C:\Program Files\wmi_exporter\{{ item }}.ps1'
+  win_shell: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
   with_items:
     - '{{ wmi_exporter_collector_scripts }}'
 
