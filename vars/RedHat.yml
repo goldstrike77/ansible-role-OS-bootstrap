@@ -152,7 +152,3 @@ base_packages_RedHat_6: # 版本6需要安装的系统组件。
 
 remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
-
-node_exporter_collector_textfile_directory: '/var/lib/prometheus'
-node_exporter_collector_textfile_scritps:
-  - 'os_info'

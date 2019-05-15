@@ -91,7 +91,18 @@
     dest: '/usr/local/bin/{{ item }}.sh'
     owner: 'root'
     group: 'root'
-    mode: 0755
+    mode: '0755'
+  with_items:
+    - '{{ node_exporter_collector_textfile_scritps }}'
+
+- name: Creating Node exporter collector textfile folder
+  file:
+    dest: '{{ node_exporter_collector_textfile_directory }}'
+    state: 'directory'
+    mode: '0755'
+
+- name: Node information collection at first time
+  shell: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
   with_items:
     - '{{ node_exporter_collector_textfile_scritps }}'
 

@@ -33,3 +33,7 @@ os_linux_kernel_parameters: # 内核参数。
   - { variable: 'net.ipv4.tcp_tw_reuse', value: '1' }
   - { variable: 'net.ipv4.tcp_window_scaling', value: '0' }
   - { variable: 'net.ipv6.conf.all.disable_ipv6', value: '{% if os_disable_ipv6 %}1{% else %}0{% endif %}' }
+
+node_exporter_collector_textfile_directory: '/var/lib/prometheus'
+node_exporter_collector_textfile_scritps:
+  - 'os_info'

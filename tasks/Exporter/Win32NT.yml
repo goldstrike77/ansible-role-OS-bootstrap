@@ -45,6 +45,11 @@
   with_items:
     - '{{ wmi_exporter_collector_scripts }}'
 
+- name: Node information collection at first time
+  win_shell: 'C:\Program Files\wmi_exporter\{{ item }}.ps1'
+  with_items:
+    - '{{ wmi_exporter_collector_scripts }}'
+
 - name: Create a scheduled task to node info collector
   win_scheduled_task:
     name: '{{ item }}'
