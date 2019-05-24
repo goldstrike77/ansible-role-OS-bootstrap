@@ -6,6 +6,7 @@
     replace: "{{ os_linux_grub_add_args | join(' ') }}"
   notify: Generate RHEL7 new grub config
   register: grub
+  when: os_linux_grub_add_args is defined
 
 - name: Force the handler to run immediately
   meta: flush_handlers

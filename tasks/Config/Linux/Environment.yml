@@ -3,6 +3,7 @@
   authorized_key:
     user: '{{ ansible_user }}'
     key: '{{ os_linux_id_rsa }}'
+  when: os_linux_id_rsa is defined
 
 - name: Ensure BASH log
   lineinfile:

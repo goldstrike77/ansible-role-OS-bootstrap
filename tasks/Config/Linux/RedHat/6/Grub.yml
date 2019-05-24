@@ -5,3 +5,4 @@
     regexp: 'quiet'
     replace: "{{ os_linux_grub_add_args | join(' ') }}"
   register: grub
+  when: os_linux_grub_add_args is defined
