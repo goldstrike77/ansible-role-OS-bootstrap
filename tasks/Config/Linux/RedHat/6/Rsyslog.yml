@@ -27,7 +27,7 @@
     - '  constant(value="{\"version\":\"1.1\",")'
     - '  constant(value="\"host\":\"") property(name="hostname" caseConversion="upper")'
     - '  constant(value="\",\"short_message\":\"") property(name="msg" format="json")'
-    - '  constant(value="\",\"timestamp\":") property(name="timegenerated" dateformat="unixtimestamp")'
+    - '  constant(value="\",\"timestamp\":") property(name="timereported" dateformat="unixtimestamp")'
     - '  constant(value=",\"level\":\"") property(name="syslogseverity")'
     - '  constant(value="\",\"facility\":\"") property(name="syslogfacility")'
     - '  constant(value="\",\"appname\":\"") property(name="APP-NAME")'
