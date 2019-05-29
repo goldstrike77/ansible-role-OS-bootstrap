@@ -67,6 +67,8 @@
 -a never,exit -F dir=/tmp -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete
 -a never,exit -F dir=/var/tmp -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete
 -a never,exit -F dir=/var/tmp -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete
+-a never,exit -F dir=/var/lib/rsyslog -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete
+-a never,exit -F dir=/var/lib/rsyslog -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete
 -a never,exit -F dir=/run -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete
 -a never,exit -F dir=/run -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete
 -a never,exit -F dir=/dev/shm -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete
