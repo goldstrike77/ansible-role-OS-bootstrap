@@ -8,6 +8,8 @@
     sysctl_set: yes
     sysctl_file: '/etc/sysctl.d/10-sysctl.conf'
   loop: '{{ os_linux_kernel_parameters }}'
+  changed_when: false
+  failed_when: false
 
 - name: Set nofile limits
   lineinfile:
