@@ -237,5 +237,7 @@ __Table of Contents__
 ## 贡献者
 特别感谢[上海联蔚信息科技有限公司](http://www.connext.com.cn)对这个角色的贡献。
 
-### 如果觉得对您有帮助，可以通过下列形式进行捐赠。
+----------
+
+##### 如果觉得对您有帮助，可以通过下列形式进行捐赠。
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/logo/donate.png"/></p>
