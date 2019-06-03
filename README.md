@@ -235,6 +235,7 @@ __Table of Contents__
 请发送您的建议使这个角色更好，如果觉得对您有帮助，可以通过下列形式进行捐赠。
 <p><img src="https://raw.githubusercontent.com/goldstrike77/goldstrike77.github.io/master/img/logo/donate.png" align="right" /></p>
 
+----------
 
 ## 贡献者
 特别感谢[上海联蔚信息科技有限公司](http://www.connext.com.cn)对这个角色的贡献。
