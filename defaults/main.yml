@@ -8,7 +8,7 @@ os_disable_ipv6: true # 是否关闭IPv6。
 os_harden: false # 是否执行主机加固配置。
 os_pass_length: '12' # 账户最低密码长度。
 os_pass_maxAge: '60' # Windows主机账户密码有效期。
-os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
+#os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
 os_software: false # 是否执行主机基本软件安装。
 os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12209' # 远程日志服务器端口。
