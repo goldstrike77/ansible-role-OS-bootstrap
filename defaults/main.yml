@@ -13,7 +13,7 @@ os_software: false # 是否执行主机基本软件安装。
 os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12209' # 远程日志服务器端口。
 os_syslog_server: '1.1.1.1' # 远程日志服务器地址。
-os_update_password: 'bguM7WftNdrP' # 修改新部署Linux主机管理账户密码。
+#os_update_password: 'bguM7WftNdrP' # 修改新部署Linux主机管理账户密码。
 
 # 领事参数 #
 environments: 'SIT' # 定义系统环境。
