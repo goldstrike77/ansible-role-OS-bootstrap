@@ -37,6 +37,7 @@ os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全�
 os_linux_disable_fs_shm_exec: true # /dev/shm 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
+os_linux_disable_tcp_offloading: false # 是否禁用TCP Offloading。
 os_linux_disable_RootLogin: true # 是否禁用root登录。
 os_linux_disable_selinux: true # 是否禁用selinux。
 os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。

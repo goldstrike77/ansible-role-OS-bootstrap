@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ -n "$1" ]; then
+  /sbin/ethtool -G $1 rx 4096 tx 4096
+  /sbin/ethtool -K $1 tso on gso on
+fi

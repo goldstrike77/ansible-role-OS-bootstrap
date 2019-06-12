@@ -76,6 +76,7 @@ __Table of Contents__
 * `os_linux_disable_fs_shm_exec`: /dev/shm 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_tmp_exec`: /tmp 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_vartmp_exec`: /var/tmp 挂载点分区是否启用安全挂载参数。
+* `os_linux_disable_tcp_offloading`: false # 是否禁用TCP Offloading。
 * `os_linux_disable_RootLogin`: 是否禁用root登录。
 * `os_linux_disable_selinux`: 是否禁用selinux。
 * `os_linux_disable_sysstat_collect`: 是否禁用sysstat监测。
@@ -166,6 +167,7 @@ __Table of Contents__
     os_linux_disable_fs_shm_exec: true
     os_linux_disable_fs_tmp_exec: false
     os_linux_disable_fs_vartmp_exec: false
+    os_linux_disable_tcp_offloading: false
     os_linux_disable_RootLogin: true
     os_linux_disable_selinux: true
     os_linux_disable_sysstat_collect: true
