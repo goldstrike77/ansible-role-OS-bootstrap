@@ -64,7 +64,7 @@ __Table of Contents__
 * `gelf_syslog`: 是否启用远程日志。
 * `gelf_syslog_port`: 远程日志服务器端口。
 * `gelf_syslog_protocol`: 远程日志服务器协议。
-* `gelf_syslog_server`: 远程日志服务器地址。
+* `gelf_syslog_server`: 远程日志服务器地址列表。
 
 ##### Linux 数据盘参数
 * `os_linux_disc_device`: 数据盘块设备。
@@ -165,12 +165,14 @@ __Table of Contents__
     environments: 'SIT'
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_clients: 'localhost'
+    consul_public_clients:
+      - 'localhost'
     consul_public_http_port: '8500'
     gelf_syslog: false
     gelf_syslog_port: '12201'
     gelf_syslog_protocol: 'udp'
-    gelf_syslog_server: '127.0.0.1'
+    gelf_syslog_server:
+      - '127.0.0.1'
     os_linux_disc_device: '/dev/sdb'
     os_linux_fsopts: 'defaults,noatime,nobarrier'
     os_linux_fstype: 'xfs'

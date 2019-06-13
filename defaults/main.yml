@@ -18,14 +18,16 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 environments: 'SIT' # 定义系统环境。
 consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
 consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。
-consul_public_clients: 'localhost' # 公共领事公共客户端列表。
 consul_public_http_port: '8500' # 公共领事公共客户端端口。
+consul_public_clients: # 公共领事公共客户端列表。
+  - '127.0.0.1'
 
 # 远程日志参数 #
 gelf_syslog: false # 是否启用远程日志。
 gelf_syslog_port: '12201' # 远程日志服务器端口。
 gelf_syslog_protocol: 'udp' # 远程日志服务器协议。
-gelf_syslog_server: '127.0.0.1' # 远程日志服务器地址。
+gelf_syslog_server: # 远程日志服务器地址列表。
+  - '127.0.0.1'
 
 # Linux 数据盘参数 #
 os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
