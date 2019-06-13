@@ -48,7 +48,7 @@ __Table of Contents__
 * `os_pass_length`: 账户最低密码长度。
 * `os_pass_maxAge`: Windows主机账户密码有效期。
 * `os_software`: 是否执行主机基本软件安装和更新。
-* `os_proxy_server`: 主机YUM代理服务器。
+* `os_proxy_server`: 主机代理服务器。
 * `os_update_password`: 修改新部署Linux主机管理账户密码。
 
 ##### 公共领事参数
@@ -139,7 +139,7 @@ __Table of Contents__
 ### 主机清单文件
 参见测试/库存示例
 
-    node01 ansible_host='192.168.1.10' os_update_password='bguM7WftNdrP'
+    node01 ansible_host='192.168.1.10'
 
 ### 角色配置中的变量
 变量作为参数传入使用角色的示例
