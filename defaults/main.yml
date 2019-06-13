@@ -1,14 +1,16 @@
 ---
+# 任务参数 #
+os_config: false # 是否执行主机初始配置。
+os_datadisc: false # 是否挂载数据盘。
+os_exporter: false # 是否部署普罗米修斯客户端。
+os_harden: false # 是否执行主机加固配置。
+os_software: false # 是否执行主机基本软件安装和更新。
+
 # 通用参数 #
 os_audit: false # 是否启用主机审计。
-os_config: false # 是否执行主机初始配置。
-os_exporter: false # 是否部署普罗米修斯客户端。
-os_datadisc: false # 是否挂载数据盘。
 os_disable_ipv6: false # 是否关闭IPv6。
-os_harden: false # 是否执行主机加固配置。
 os_pass_length: '12' # 账户最低密码长度。
 os_pass_maxAge: '60' # Windows主机账户密码有效期。
-os_software: false # 是否执行主机基本软件安装和更新。
 #os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
 #os_update_password: 'changeme' # 修改新部署Linux主机管理账户密码。
 

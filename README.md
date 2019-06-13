@@ -38,16 +38,18 @@ __Table of Contents__
 ### 主要变量 #
 需要（或需要）修改的变量
 
+##### 任务参数
+* `os_config`: 是否执行主机初始配置。
+* `os_datadisc`: 是否挂载数据盘。
+* `os_exporter`: 是否部署普罗米修斯客户端。
+* `os_harden`: 是否执行主机加固配置。
+* `os_software`: 是否执行主机基本软件安装和更新。
+
 ##### 通用参数
 * `os_audit`: 是否启用主机审计。
-* `os_config`: 是否执行主机初始配置。
-* `os_exporter`: 是否部署普罗米修斯客户端。
-* `os_datadisc`: 是否挂载数据盘。
 * `os_disable_ipv6`: 是否关闭IPv6。
-* `os_harden`: 是否执行主机加固配置。
 * `os_pass_length`: 账户最低密码长度。
 * `os_pass_maxAge`: Windows主机账户密码有效期。
-* `os_software`: 是否执行主机基本软件安装和更新。
 * `os_proxy_server`: 主机代理服务器。
 * `os_update_password`: 修改新部署Linux主机管理账户密码。
 
@@ -151,15 +153,15 @@ __Table of Contents__
 ### 组变量和剧本的组合
 您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
 
-    os_audit: false
     os_config: false
-    os_exporter: false
     os_datadisc: false
-    os_disable_ipv6: false
+    os_exporter: false
     os_harden: false
+    os_software: false
+    os_audit: false
+    os_disable_ipv6: false
     os_pass_length: '12'
     os_pass_maxAge: '60'
-    os_software: false
     environments: 'SIT'
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
