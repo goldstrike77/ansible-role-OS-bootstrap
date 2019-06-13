@@ -61,10 +61,10 @@ __Table of Contents__
 * `consul_public_http_port`: 公共领事公共客户端端口。
 
 ##### 远程日志参数
-* `gelf_syslog`: 是否启用远程日志。
-* `gelf_syslog_port`: 远程日志服务器端口。
-* `gelf_syslog_protocol`: 远程日志服务器协议。
-* `gelf_syslog_server`: 远程日志服务器地址列表。
+* `syslog`: 是否启用远程日志。
+* `syslog_port`: 远程日志服务器端口。
+* `syslog_protocol`: 远程日志服务器协议。
+* `syslog_server`: 远程日志服务器地址列表。
 
 ##### Linux 数据盘参数
 * `os_linux_disc_device`: 数据盘块设备。
@@ -168,10 +168,10 @@ __Table of Contents__
     consul_public_clients:
       - 'localhost'
     consul_public_http_port: '8500'
-    gelf_syslog: false
-    gelf_syslog_port: '12201'
-    gelf_syslog_protocol: 'udp'
-    gelf_syslog_server:
+    syslog: false
+    syslog_port: '12201'
+    syslog_protocol: 'udp'
+    syslog_server:
       - '127.0.0.1'
     os_linux_disc_device: '/dev/sdb'
     os_linux_fsopts: 'defaults,noatime,nobarrier'

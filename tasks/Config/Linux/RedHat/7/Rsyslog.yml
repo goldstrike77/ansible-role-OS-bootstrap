@@ -17,7 +17,7 @@
     - '  constant(value="\",\"procid\":\"") property(name="PROCID")'
     - '  constant(value="\"}")'
     - '}'
-    - 'action(type="omfwd" target="{{ gelf_syslog_server | list | random }}" port="{{ gelf_syslog_port }}" protocol="{{ gelf_syslog_protocol }}" template="gelf")'
+    - 'action(type="omfwd" target="{{ syslog_server | list | random }}" port="{{ syslog_port }}" protocol="{{ syslog_protocol }}" template="gelf")'
   register: conf_update
 
 - name: Ignore flooded logs with systemd messages

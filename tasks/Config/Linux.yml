@@ -4,7 +4,7 @@
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Service.yml'
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Rsyslog.yml'
-  when: gelf_syslog
+  when: syslog
 
 - include: '{{ ansible_system }}/Environment.yml'
 
