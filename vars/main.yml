@@ -1,11 +1,5 @@
 ---
 # Linux variables
-os_linux_user_pw: # 密码复杂度策略。
-  minlen: '{{ os_pass_length | default(12) }}'
-  dcredit: '-1'
-  ucredit: '-1'
-  lcredit: '-1'
-
 os_linux_kernel_parameters: # 内核参数。
   - { variable: 'net.core.somaxconn', value: '20480' }
   - { variable: 'net.ipv4.conf.all.accept_redirects', value: '0' }

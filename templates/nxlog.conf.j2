@@ -59,9 +59,9 @@ LogFile %ROOT%\data\nxlog.log
 </Input>
 
 <Output out_eventlog>
-  Module     om_udp
-  Host       {{ os_syslog_server }}
-  Port       {{ os_syslog_port }}
+  Module     om_{{ gelf_syslog_protocol }}
+  Host       {{ gelf_syslog_server }}
+  Port       {{ gelf_syslog_port }}
   OutputType GELF
 </Output>
 

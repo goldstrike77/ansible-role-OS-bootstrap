@@ -4,23 +4,26 @@ os_audit: false # 是否启用主机审计。
 os_config: false # 是否执行主机初始配置。
 os_exporter: false # 是否部署普罗米修斯客户端。
 os_datadisc: false # 是否挂载数据盘。
-os_disable_ipv6: true # 是否关闭IPv6。
+os_disable_ipv6: false # 是否关闭IPv6。
 os_harden: false # 是否执行主机加固配置。
 os_pass_length: '12' # 账户最低密码长度。
 os_pass_maxAge: '60' # Windows主机账户密码有效期。
+os_software: false # 是否执行主机基本软件安装和更新。
 #os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
-os_software: false # 是否执行主机基本软件安装。
-os_syslog: false # 是否启用远程日志。
-os_syslog_port: '12209' # 远程日志服务器端口。
-os_syslog_server: '1.1.1.1' # 远程日志服务器地址。
-#os_update_password: 'bguM7WftNdrP' # 修改新部署Linux主机管理账户密码。
+#os_update_password: 'changeme' # 修改新部署Linux主机管理账户密码。
 
-# 领事参数 #
+# 公共领事参数 #
 environments: 'SIT' # 定义系统环境。
-consul_public_register: false # 是否向领事注册普罗米修斯终端。
-consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 领事客户端访问控制令牌。
-consul_public_clients: 'localhost' # 领事公共客户端列表。
-consul_public_http_port: '8500' # 领事公共客户端端口。
+consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。
+consul_public_clients: 'localhost' # 公共领事公共客户端列表。
+consul_public_http_port: '8500' # 公共领事公共客户端端口。
+
+# 远程日志参数 #
+gelf_syslog: false # 是否启用远程日志。
+gelf_syslog_port: '12201' # 远程日志服务器端口。
+gelf_syslog_protocol: 'udp' # 远程日志服务器协议。
+gelf_syslog_server: '127.0.0.1' # 远程日志服务器地址。
 
 # Linux 数据盘参数 #
 os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
@@ -37,7 +40,7 @@ os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全�
 os_linux_disable_fs_shm_exec: true # /dev/shm 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
-os_linux_disable_tcp_offloading: false # 是否禁用TCP Offloading。
+os_linux_disable_tcp_offloading: true # 是否禁用TCP卸载。
 os_linux_disable_RootLogin: true # 是否禁用root登录。
 os_linux_disable_selinux: true # 是否禁用selinux。
 os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
@@ -54,9 +57,21 @@ os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
 os_linux_tz: 'Asia/Shanghai' # 主机时区。
 os_linux_ulimit_nofile: '20480' # 会话打开的文件/文件描述符的最大数目。
 os_linux_ulimit_nproc: '20480' # 会话打开的系统进程的最大数目。
+os_linux_user_pw: # 密码复杂度策略。
+  minlen: '{{ os_pass_length | default(12) }}'
+  dcredit: '-1'
+  ucredit: '-1'
+  lcredit: '-1'
 
 # Windows 系统参数 #
-os_win_disable_rss: true # 是否禁用Receive-Side Scaling。
+os_win_disable_allowindexingencryptedstoresoritems: false # 是否禁止对项目建立索引。
+os_win_disable_allowyouraccount: false # 是否禁止用户更改帐户设置。
+os_win_disable_autodownload: false # 是否禁止自动下载更新。
+os_win_disable_autorun: false # 是否禁止自动播放。
+os_win_disable_autoupdate: false # 是否禁止自动更新。
+os_win_disable_hidefileext: false # 是否隐藏已知文件类型的扩展名。
+os_win_disable_osupgrade: false # 是否禁止系统升级。
+os_win_disable_rss: false # 是否禁用接收端缩放。
 os_win_disable_task: # 需要关闭的系统任务调度程序。
   - 'ScheduledDefrag'
   - 'ServerManager'
@@ -97,8 +112,8 @@ os_win_tz: 'China Standard Time' # 主机时区。
 os_win_unicode: 'zh-CN' # 主机字符集编码。
 os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的类别列表。
 
-# Prometheus WMI 参数 #
-wmi_exporter_collector: # WMI 收集器
+# Windows 普罗米修斯客户端参数 #
+wmi_exporter_collector: # 普罗米修斯客户端收集器。
   - 'ad'
   - 'cpu'
   - 'cs'
@@ -118,9 +133,9 @@ wmi_exporter_collector: # WMI 收集器
 #  - vmware
 wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
 
-# Prometheus node exporter 参数 #
-node_exporter_port: '9100' # 普罗米修斯客户端端口
-node_exporter_collector: # Node Exporter 收集器
+# Linux 普罗米修斯客户端参数 #
+node_exporter_port: '9100' # 普罗米修斯客户端端口。
+node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'
   - 'conntrack'
@@ -160,13 +175,13 @@ node_exporter_collector: # Node Exporter 收集器
   - 'systemd'
 #  - tcpstat
   - 'textfile'
-node_exporter_systemd_collector: # Node Exporter 服务收集器
+node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
   - 'sshd'
   - 'auditd'
   - 'rsyslog'
   - 'crond'
   - 'ntpd'
-node_exporter_ignored_mount_points_collector: # Node Exporter 收集器忽略的磁盘挂载点
+node_exporter_ignored_mount_points_collector: # 普罗米修斯客户端收集器忽略的磁盘挂载点。
   - 'data/docker/'
   - 'dev'
   - 'proc'
@@ -175,7 +190,7 @@ node_exporter_ignored_mount_points_collector: # Node Exporter 收集器忽略的
   - 'run'
   - 'run/docker/netns/'
   - 'sys'
-node_exporter_ignored_devices_collector: # Node Exporter 收集器忽略的块设备
+node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽略的块设备。
   - 'ram'
   - 'loop'
   - 'fd'

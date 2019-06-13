@@ -47,19 +47,22 @@ __Table of Contents__
 * `os_harden`: 是否执行主机加固配置。
 * `os_pass_length`: 账户最低密码长度。
 * `os_pass_maxAge`: Windows主机账户密码有效期。
-* `os_proxy_server`: 主机代理服务器。
-* `os_software`: 是否执行主机基本软件安装。
-* `os_syslog`: 是否启用远程日志。
-* `os_syslog_port`: 远程日志服务器端口。
-* `os_syslog_server`: 远程日志服务器地址。
+* `os_software`: 是否执行主机基本软件安装和更新。
+* `os_proxy_server`: 主机YUM代理服务器。
 * `os_update_password`: 修改新部署Linux主机管理账户密码。
 
-##### 领事参数
+##### 公共领事参数
 * `environments`: 定义系统环境。
-* `consul_public_register`: 是否向领事注册普罗米修斯终端。
-* `consul_public_exporter_token`: 领事客户端访问控制令牌。
-* `consul_public_clients`: 领事公共客户端列表。
-* `consul_public_http_port`: 领事公共客户端端口。
+* `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
+* `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
+* `consul_public_clients`: 公共领事公共客户端列表。
+* `consul_public_http_port`: 公共领事公共客户端端口。
+
+##### 远程日志参数
+* `gelf_syslog`: 是否启用远程日志。
+* `gelf_syslog_port`: 远程日志服务器端口。
+* `gelf_syslog_protocol`: 远程日志服务器协议。
+* `gelf_syslog_server`: 远程日志服务器地址。
 
 ##### Linux 数据盘参数
 * `os_linux_disc_device`: 数据盘块设备。
@@ -76,7 +79,7 @@ __Table of Contents__
 * `os_linux_disable_fs_shm_exec`: /dev/shm 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_tmp_exec`: /tmp 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_vartmp_exec`: /var/tmp 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_tcp_offloading`: false # 是否禁用TCP Offloading。
+* `os_linux_disable_tcp_offloading`: 是否禁用TCP卸载。
 * `os_linux_disable_RootLogin`: 是否禁用root登录。
 * `os_linux_disable_selinux`: 是否禁用selinux。
 * `os_linux_disable_sysstat_collect`: 是否禁用sysstat监测。
@@ -90,9 +93,17 @@ __Table of Contents__
 * `os_linux_tz`: 主机时区。
 * `os_linux_ulimit_nofile`: 会话打开的文件/文件描述符的最大数目。
 * `os_linux_ulimit_nproc`: 会话打开的系统进程的最大数目。
+* `os_linux_user_pw`: 密码复杂度策略。
 
 ##### Windows 系统参数
-* `os_win_disable_rss`: 是否禁用Receive-Side Scaling。
+* `os_win_disable_allowindexingencryptedstoresoritems`: 是否禁止对项目建立索引。
+* `os_win_disable_allowyouraccount`: 是否禁止用户更改帐户设置。
+* `os_win_disable_autodownload`: 是否禁止自动下载更新。
+* `os_win_disable_autorun`: 是否禁止自动播放。
+* `os_win_disable_autoupdate`: 是否禁止自动更新。
+* `os_win_disable_hidefileext`: 是否隐藏已知文件类型的扩展名。
+* `os_win_disable_osupgrade`: 是否禁止系统升级。
+* `os_win_disable_rss`: 是否禁用接收端缩放。
 * `os_win_disable_task`: 需要关闭的系统任务调度程序。
 * `os_win_event_log`: 需要配置的系统事件日志。
 * `os_win_event_log_MaxSize`: 本地系统事件日志的最大容量(KB)。
@@ -101,23 +112,21 @@ __Table of Contents__
 * `os_win_fs_audit_user`: 文件系统审计账户名。
 * `os_win_gpo_audit_policy`: 组审计策略。
 * `os_win_location`: 主机地理位置。
-* `os_win_network_location`: 网络位置。
+* `os_win_network_location`:网络位置。
 * `os_win_pagefile_size`: 虚拟内存页面文件容量(MB)。
 * `os_win_roles`: 需要安装的系统组件。
 * `os_win_software`: 需要安装的第三方软件。
 * `os_win_tz`: 主机时区。
 * `os_win_unicode`: 主机字符集编码。
-* `os_win_update_category`: 需要更新的补丁类别列表。
+* `os_win_update_category`: 需要更新的类别列表。
 
-##### Prometheus WMI 参数
-* `wmi_exporter_collector`: WMI 收集器
+##### Windows 普罗米修斯客户端参数
+* `wmi_exporter_collector`: 普罗米修斯客户端收集器。
 
-##### Prometheus Node Exporter 参数
-* `node_exporter_port`: 客户端端口
-* `node_exporter_collector`: 收集器
-* `node_exporter_systemd_collector`: 服务收集器
-* `node_exporter_ignored_mount_points_collector`: 收集器忽略的磁盘挂载点
-* `node_exporter_ignored_devices_collector`: 收集器忽略的块设备
+
+##### Linux 普罗米修斯客户端参数
+* `node_exporter_port`: 普罗米修斯客户端端口。
+* `node_exporter_collector`: 普罗米修斯客户端系统收集器。
 
 ### 其他变量
 有一些变量位于 vars/main.yml:
@@ -142,19 +151,24 @@ __Table of Contents__
 ### 组变量和剧本的组合
 您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
 
-    os_audit: true
-    os_config: true
-    os_datadisc: true
-    os_disable_ipv6: true
-    os_harden: true
+    os_audit: false
+    os_config: false
+    os_exporter: false
+    os_datadisc: false
+    os_disable_ipv6: false
+    os_harden: false
     os_pass_length: '12'
     os_pass_maxAge: '60'
-    os_proxy_server: 'http://1.1.1.1:3142'
-    os_software: true
-    os_syslog: false
-    os_syslog_port: '12209'
-    os_syslog_server: '1.1.1.1'
-    os_update_password: 'bguM7WftNdrP'
+    os_software: false
+    environments: 'SIT'
+    consul_public_register: false
+    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
+    consul_public_clients: 'localhost'
+    consul_public_http_port: '8500'
+    gelf_syslog: false
+    gelf_syslog_port: '12201'
+    gelf_syslog_protocol: 'udp'
+    gelf_syslog_server: '127.0.0.1'
     os_linux_disc_device: '/dev/sdb'
     os_linux_fsopts: 'defaults,noatime,nobarrier'
     os_linux_fstype: 'xfs'
@@ -167,7 +181,7 @@ __Table of Contents__
     os_linux_disable_fs_shm_exec: true
     os_linux_disable_fs_tmp_exec: false
     os_linux_disable_fs_vartmp_exec: false
-    os_linux_disable_tcp_offloading: false
+    os_linux_disable_tcp_offloading: true
     os_linux_disable_RootLogin: true
     os_linux_disable_selinux: true
     os_linux_disable_sysstat_collect: true
@@ -178,13 +192,24 @@ __Table of Contents__
       - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
       - 'transparent_hugepage=never'
       - 'numa=off'
-    os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ=='
-    os_linux_MTA_relayhost: '1.1.1.1'
+    os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQFBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXqOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN168WEWWKyviVPG4yk0VEOWdc9l9cCAwEAAQ=='
     os_linux_syslog_local_keep: '2'
     os_linux_tz: 'Asia/Shanghai'
     os_linux_ulimit_nofile: '20480'
     os_linux_ulimit_nproc: '20480'
-    os_win_disable_rss: true
+    os_linux_user_pw:
+      minlen: '{{ os_pass_length | default(12) }}'
+      dcredit: '-1'
+      ucredit: '-1'
+      lcredit: '-1'
+    os_win_disable_allowindexingencryptedstoresoritems: false
+    os_win_disable_allowyouraccount: false
+    os_win_disable_autodownload: false
+    os_win_disable_autorun: false
+    os_win_disable_autoupdate: false
+    os_win_disable_hidefileext: false
+    os_win_disable_osupgrade: false
+    os_win_disable_rss: false
     os_win_disable_task:
       - 'ScheduledDefrag'
       - 'ServerManager'
@@ -202,7 +227,7 @@ __Table of Contents__
       - 'Delete'
       - 'DeleteSubdirectoriesAndFiles'
       - 'WriteData'
-    os_win_fs_audit_user:
+    os_win_fs_audit_user: 'Everyone'
     os_win_gpo_audit_policy:
       - 'Account Logon'
       - 'Logon/Logoff'
@@ -224,11 +249,65 @@ __Table of Contents__
     os_win_tz: 'China Standard Time'
     os_win_unicode: 'zh-CN'
     os_win_update_category: ['CriticalUpdates', 'SecurityUpdates']
-    environments: 'SIT'
-    consul_public_register: true
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_clients: 'localhost'
-    consul_public_http_port: '8500'
+    wmi_exporter_collector:
+      - 'ad'
+      - 'cpu'
+      - 'cs'
+      - 'dns'
+      - 'iis'
+      - 'logical_disk'
+      - 'net'
+      - 'os'
+      - 'service'
+      - 'system'
+      - 'tcp'
+      - 'textfile'
+    wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
+    node_exporter_port: '9100'
+    node_exporter_collector:
+      - 'arp'
+      - 'bcache'
+      - 'conntrack'
+      - 'cpu'
+      - 'entropy'
+      - 'filefd'
+      - 'hwmon'
+      - 'infiniband'
+      - 'ipvs'
+      - 'loadavg'
+      - 'meminfo'
+      - 'netdev'
+      - 'netstat'
+      - 'nfs'
+      - 'ntp'
+      - 'sockstat'
+      - 'stat'
+      - 'time'
+      - 'uname'
+      - 'vmstat'
+      - 'timex'
+      - 'systemd'
+      - 'textfile'
+    node_exporter_systemd_collector:
+      - 'sshd'
+      - 'auditd'
+      - 'rsyslog'
+      - 'crond'
+      - 'ntpd'
+    node_exporter_ignored_mount_points_collector:
+      - 'data/docker/'
+      - 'dev'
+      - 'proc'
+      - 'rootfs'
+      - 'rpc_pipefs'
+      - 'run'
+      - 'run/docker/netns/'
+      - 'sys'
+    node_exporter_ignored_devices_collector:
+      - 'ram'
+      - 'loop'
+      - 'fd'
+      - 'sr'
 
 ## 许可证
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)

@@ -34,7 +34,7 @@
     - '  constant(value="\",\"procid\":\"") property(name="PROCID")'
     - '  constant(value="\"}")'
     - '}'
-    - 'action(type="omfwd" target="{{ os_syslog_server | default("1.1.1.1") }}" port="{{ os_syslog_port | default("12201") }}" protocol="udp" template="gelf")'
+    - 'action(type="omfwd" target="{{ gelf_syslog_server }}" port="{{ gelf_syslog_port }}" protocol="{{ gelf_syslog_protocol }}" template="gelf")'
   register: conf_update
 
 - name: Reload rsyslog service

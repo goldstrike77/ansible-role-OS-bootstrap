@@ -5,13 +5,13 @@ os_win_local_user_pass_role: # 账户安全策略。
   - { name: 'maxPassAge', value: '/maxpwage:{{ os_pass_maxAge }}' }
 
 os_win_misc_role: # 杂项策略。
-  - { path: 'HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccount', name: 'value', data: '0', type: 'dword' }
-  - { path: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer', name: 'NoDriveTypeAutoRun', data: '255', type: 'dword' }
-  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'AutoDownload', data: '4', type: 'dword' }
-  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'DisableOSUpgrade', data: '1', type: 'dword' }
-  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search', name: 'AllowIndexingEncryptedStoresOrItems', data: '0', type: 'dword' }
-  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword' }
-  - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword' }
+  - { path: 'HKLM:\SOFTWARE\Microsoft\PolicyManager\default\Settings\AllowYourAccount', name: 'value', data: '0', type: 'dword', create: "{{ os_win_disable_allowyouraccount }}" }
+  - { path: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer', name: 'NoDriveTypeAutoRun', data: '255', type: 'dword', create: "{{ os_win_disable_autorun }}" }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'AutoDownload', data: '4', type: 'dword', create: "{{ os_win_disable_autodownload }}" }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore', name: 'DisableOSUpgrade', data: '1', type: 'dword', create: "{{ os_win_disable_osupgrade }}" }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Search', name: 'AllowIndexingEncryptedStoresOrItems', data: '0', type: 'dword', create: "{{ os_win_disable_allowindexingencryptedstoresoritems }}" }
+  - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword', create: "{{ os_win_disable_autoupdate }}" }
+  - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword', create: "{{ os_win_disable_hidefileext }}" }
 
 os_win_temp_path: 'c:' # 临时存储分区。
 os_win_disc_extend_script: 'data_disc_extend.txt' # 数据盘扩展脚本。
