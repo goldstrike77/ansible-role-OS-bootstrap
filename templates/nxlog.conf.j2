@@ -59,7 +59,7 @@ LogFile %ROOT%\data\nxlog.log
 </Input>
 
 <Output out_eventlog>
-  Module     om_{{ syslog_protocol }}
+  Module     om_{{ syslog_protocol | lower }}
   Host       {{ syslog_server | list | random }}
   Port       {{ syslog_port }}
   OutputType GELF
