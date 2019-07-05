@@ -1,0 +1,51 @@
+---
+- name: Get current OSSEC installed version
+  win_command: '"C:\Program Files (x86)\ossec-agent\ossec-agent.exe" -h'
+  register: ossec_agent_version
+  failed_when: false
+  changed_when: false
+
+- name: Check OSSEC agent version installed
+  set_fact: ossec_correct_version=true
+  when:
+    - ossec_agent_version.stdout is defined
+    - ossec_version.split('-')[0] in ossec_agent_version.stdout
+
+- name: Downloading windows OSSEC agent installer
+  win_get_url:
+    dest: C:\ossec-agent-installer.msi
+    url: '{{ ossec_winagent_repo }}wazuh-agent-{{ ossec_version }}.msi'
+  when: ossec_correct_version is not defined
+
+- name: Install windows OSSEC agent
+  win_package:
+    path: C:\ossec-agent-installer.msi
+  when: ossec_correct_version is not defined
+
+- name: Delete downloaded OSSEC agent installer file
+  win_file:
+    path: 'C:\ossec-agent-installer.msi'
+    state: 'absent'
+  when: ossec_correct_version is not defined
+
+- name: Windows OSSEC agent configuration file transfer
+  win_template:
+    src: 'ossec.conf.j2'
+    dest: '"C:\Program Files (x86)\ossec-agent\ossec.conf"'
+  register: ossec_agent_conf_udpate
+
+- name: OSSEC agent internal options configuration file transfer
+  win_template:
+    src: 'local_internal_options.conf.j2'
+    dest: '"C:\Program Files (x86)\ossec-agent\local_internal_options.conf"'
+  register: ossec_internal_conf_update
+
+- name: Check windows OSSEC agent client.keys exists
+  win_stat:
+    path: '"C:\Program Files (x86)\ossec-agent\client.keys"'
+  register: check_ossec_keys
+
+- name: Register windows OSSEC agent
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_managers.0.address }} -p {{ ossec_agent_authd.port }}    -P {{ ossec_authd_pass }}'
+  register: agent_auth_output
+  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0

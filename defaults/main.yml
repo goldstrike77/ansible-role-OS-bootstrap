@@ -31,7 +31,7 @@ syslog_server: # 远程日志服务器地址列表。
   - '127.0.0.1'
 
 # 入侵检测系统参数 #
-ossec_version: '3.9.2'
+ossec_version: '3.9.2-1'
 ossec_authd_pass: 'Bf6vJRT4WaEAHq'
 ossec_managers:
   - address: '127.0.0.1'
@@ -49,15 +49,6 @@ ossec_agent_authd:
 ossec_notify_time: '10'
 ossec_time_reconnect: '60'
 ossec_crypto_method: 'aes'
-ossec_winagent_config:
-  install_dir: 'C:\Program Files\ossec-agent\'
-  install_dir_x86: 'C:\Program Files (x86)\ossec-agent\'
-  auth_path: C:\'Program Files'\ossec-agent\agent-auth.exe
-  auth_path_x86: C:\'Program Files (x86)'\ossec-agent\agent-auth.exe
-  version: '3.9.2'
-  revision: '1'
-  repo: https://packages.ossec.com/3.x/windows/
-  md5: 43936e7bc7eb51bd186f47dac4a6f477
 ossec_agent_config:
   active_response:
     ar_disabled: 'no'

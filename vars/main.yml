@@ -31,3 +31,5 @@ os_linux_kernel_parameters: # 内核参数。
 node_exporter_collector_textfile_directory: '/var/lib/prometheus'
 node_exporter_collector_textfile_scritps:
   - 'os_info'
+
+ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'
