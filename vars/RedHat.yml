@@ -1,10 +1,25 @@
 ---
-epel_repo_name: "epel"
+epel_repo_name: 'epel'
 epel_repo_url: 'http://mirrors.aliyun.com/epel/{{ ansible_distribution_major_version }}/$basearch/'
 
-rsyslog_repo_name: "rsyslog"
+rsyslog_repo_name: 'rsyslog'
 rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
 rsyslog_packages: 'rsyslog'
+
+ossec_repo_name: 'wazuh'
+ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'
+
+osquery_repo_name: 'osquery'
+osquery_repo_url: 'http://cache.omygods.com/osquery'
+
+ossec_agent_dependent_packages:
+  - 'expect'
+  - 'openscap-scanner'
+  - 'openssl'
+  - 'osquery'
+
+ossec_agent_packages:
+  - 'wazuh-agent-{{ ossec_version }}*'
 
 disable_service_RedHat_6: # 版本6不需要的服务。
   - 'abrt-ccpp'

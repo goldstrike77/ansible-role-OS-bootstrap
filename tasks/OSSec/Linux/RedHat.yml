@@ -1,0 +1,35 @@
+---
+- name: Add OSQuery YUM repositories
+  yum_repository:
+    name: '{{ osquery_repo_name }}'
+    description: '{{ osquery_repo_name }} YUM repo'
+    file: '{{ osquery_repo_name }}'
+    baseurl: '{{ osquery_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Add OSSEC YUM repositories
+  yum_repository:
+    name: '{{ ossec_repo_name }}'
+    description: '{{ ossec_repo_name }} YUM repo'
+    file: '{{ ossec_repo_name }}'
+    baseurl: '{{ ossec_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the OSSEC agent dependents packages
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  loop: '{{ ossec_agent_dependent_packages }}'
+
+- name: Install the OSSEC agent packages
+  yum:
+    name: '{{ item }}'
+    state: 'present'
+    enablerepo: '{{ ossec_repo_name }}'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  loop: '{{ ossec_agent_packages }}'

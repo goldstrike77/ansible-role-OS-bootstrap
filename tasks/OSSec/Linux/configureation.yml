@@ -1,0 +1,39 @@
+---
+- name: Check OSSEC agent client.keys exists
+  stat:
+    path: '/var/ossec/etc/client.keys'
+  register: check_ossec_keys
+
+- name: Register OSSEC agent
+  shell: >
+    /var/ossec/bin/agent-auth
+    -A {{ inventory_hostname | upper }}
+    -m {{ ossec_managers.0.address }}
+    -p {{ ossec_agent_authd.port }}
+    -P {{ ossec_authd_pass }}
+    {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
+  register: agent_auth_output
+  no_log: true
+  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
+
+- name: Verify OSSEC agent registration
+  shell: 'echo {{ agent_auth_output }} | grep "Valid key created"'
+  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
+
+- name: OSSEC agent configuration file transfer
+  template:
+    src: 'ossec.conf.j2'
+    dest: '/var/ossec/etc/ossec.conf'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0640'
+  register: ossec_agent_conf_udpate
+
+- name: OSSEC agent internal options configuration file transfer
+  template:
+    src: 'local_internal_options.conf.j2'
+    dest: '/var/ossec/etc/local_internal_options.conf'
+    owner: 'root'
+    group: 'ossec'
+    mode: '0640'
+  register: ossec_internal_conf_update
