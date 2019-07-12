@@ -62,8 +62,8 @@ ossec_agent_config:
     queue_size: '5000'
     events_per_sec: '500'
   syscheck:
-    frequency: 43200
-    scan_on_start: 'yes'
+    frequency: 86400
+    scan_on_start: 'no'
     auto_ignore: 'no'
     alert_new_files: 'yes'
     remove_old_diff: 'yes'
@@ -93,6 +93,8 @@ ossec_agent_config:
       - dirs: /etc,/usr/bin,/usr/sbin
         checks: 'check_all="yes"'
       - dirs: /bin,/sbin
+        checks: 'check_all="yes"'
+      - dirs: /usr/local/sbin,/usr/local/bin
         checks: 'check_all="yes"'
     win_directories:
       - dirs: '%WINDIR%\regedit.exe'
@@ -231,7 +233,7 @@ ossec_agent_config:
       - key: '\Enum$'
         type: "sregex"
   rootcheck:
-    frequency: 43200
+    frequency: 86400
   openscap:
     disable: 'no'
     timeout: 1800

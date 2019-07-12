@@ -76,14 +76,11 @@
   {% if ossec_agent_config.syscheck is defined %}
   <syscheck>
     <disabled>no</disabled>
-<!--    #<alert_new_files>{{ ossec_agent_config.syscheck.alert_new_files }}</alert_new_files> -->
-    <!-- Frequency that syscheck is executed -- default every 20 hours -->
     <frequency>{{ ossec_agent_config.syscheck.frequency }}</frequency>
     {% if ansible_system == "Linux" %}
-<!--    #<directories check_all="yes" realtime="yes" restrict="^/var/ossec/etc/shared/agent.conf$">/var/ossec/etc/shared</directories> -->
-    <directories check_all="yes">/etc,/usr/bin,/usr/sbin</directories>
-    <directories check_all="yes">/bin,/sbin,/boot</directories>
-
+    {% for directory in ossec_agent_config.syscheck.directories %}
+    <directories {{ directory.checks }}>{{ directory.dirs }}</directories>
+    {% endfor %}
     <auto_ignore>{{ ossec_agent_config.syscheck.auto_ignore }}</auto_ignore>
     <scan_on_start>{{ ossec_agent_config.syscheck.scan_on_start }}</scan_on_start>
     {% endif %}
