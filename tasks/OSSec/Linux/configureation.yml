@@ -8,7 +8,7 @@
   shell: >
     /var/ossec/bin/agent-auth
     -A {{ inventory_hostname | upper }}
-    -m {{ ossec_managers.0.address }}
+    -m {{ ossec_agent_authd.address }}
     -p {{ ossec_agent_authd.port }}
     -P {{ ossec_authd_pass }}
     {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}

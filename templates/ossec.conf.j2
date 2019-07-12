@@ -6,19 +6,11 @@
 
 <ossec_config>
   <client>
-
-    {% for manager in ossec_managers  %}
     <server>
-      <address>{{ manager.address }}</address>
-      {% if manager.port is defined %}
-      <port>{{ manager.port }}</port>
-      {% endif %}
-      {% if manager.protocol is defined %}
-      <protocol>{{ manager.protocol }}</protocol>
-      {% endif %}
+      <address>{{ ossec_managers.address | list | random }}</address>
+      <port>{{ ossec_managers.port }}</port>
+      <protocol>{{ ossec_managers.protocol }}</protocol>
     </server>
-    {% endfor %}
-
     {% if ossec_profile is not none %}
     <config-profile>{{ ossec_profile }}</config-profile>
     {% endif %}
