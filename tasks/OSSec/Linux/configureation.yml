@@ -12,12 +12,12 @@
     -p {{ ossec_agent_authd.port }}
     -P {{ ossec_authd_pass }}
     {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
-  register: agent_auth_output
+  register: ossec_agent_auth_output
   no_log: true
   when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
 
 - name: Verify OSSEC agent registration
-  shell: 'echo {{ agent_auth_output }} | grep "Valid key created"'
+  shell: 'echo {{ ossec_agent_auth_output }} | grep "Valid key created"'
   when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
 
 - name: OSSEC agent configuration file transfer

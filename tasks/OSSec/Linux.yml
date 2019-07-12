@@ -12,4 +12,4 @@
 - name: Reload the OSSEC agent service
   shell: echo ''
   notify: 'Ensure OSSEC agent service is enabled'
-  when: ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed
+  when: ossec_agent_auth_output is changed or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed

@@ -46,6 +46,6 @@
   register: check_ossec_keys
 
 - name: Register windows OSSEC agent
-  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_managers.0.address }} -p {{ ossec_agent_authd.port }}    -P {{ ossec_authd_pass }}'
-  register: agent_auth_output
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_managers.0.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_authd_pass }}'
+  register: ossec_agent_auth_output
   when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
