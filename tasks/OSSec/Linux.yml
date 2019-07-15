@@ -16,3 +16,6 @@
 
 - name: Force the handler to run immediately
   meta: flush_handlers
+
+- name: Remove OSSec metadata
+  include: '{{ ansible_system }}/cleanup.yml'
