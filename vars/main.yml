@@ -33,3 +33,7 @@ node_exporter_collector_textfile_scritps:
   - 'os_info'
 
 ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'
+
+ossec_internal_options:
+  - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
+  - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }
