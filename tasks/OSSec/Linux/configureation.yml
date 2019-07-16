@@ -1,9 +1,4 @@
 ---
-- name: Check OSSEC agent client.keys exists
-  stat:
-    path: '/var/ossec/etc/client.keys'
-  register: check_ossec_keys
-
 - name: Register OSSEC agent
   shell: >
     /var/ossec/bin/agent-auth
@@ -14,11 +9,9 @@
     {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   no_log: true
-  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
 
 - name: Verify OSSEC agent registration
   shell: 'echo {{ ossec_agent_auth_output }} | grep "Valid key created"'
-  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
 
 - name: OSSEC agent configuration file transfer
   template:

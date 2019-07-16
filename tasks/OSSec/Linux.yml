@@ -1,21 +1,24 @@
 ---
-- name: Include tasks for specific OS
-  include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
+- name: Check OSSEC agent client.keys exists
+  stat:
+    path: '/var/ossec/etc/client.keys'
+  register: check_ossec_keys
 
-- name: Configuration the OSQuery
-  include: '{{ ansible_system }}/osquery.yml'
-  when: ossec_agent_config.osquery.disable == 'no'
-
-- name: Configuration the OSSEC agent
-  include: '{{ ansible_system }}/configureation.yml'
-
-- name: Reload the OSSEC agent service
-  shell: echo ''
-  notify: 'Ensure OSSEC agent service is enabled'
-  when: ossec_agent_auth_output is changed or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed
-
-- name: Force the handler to run immediately
-  meta: flush_handlers
-
-- name: Remove OSSec metadata
-  include: '{{ ansible_system }}/cleanup.yml'
+- name: OSsec agent operation
+  block:
+    - name: Include tasks for specific OS
+      include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
+    - name: Configuration the OSQuery
+      include: '{{ ansible_system }}/osquery.yml'
+      when: ossec_agent_config.osquery.disable == 'no'
+    - name: Configuration the OSSEC agent
+      include: '{{ ansible_system }}/configureation.yml'
+    - name: Reload the OSSEC agent service
+      shell: echo ''
+      notify: 'Ensure OSSEC agent service is enabled'
+      when: ossec_agent_auth_output is changed or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed
+    - name: Force the handler to run immediately
+      meta: flush_handlers
+    - name: Remove OSSec metadata
+      include: '{{ ansible_system }}/cleanup.yml'
+  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
