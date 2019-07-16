@@ -313,8 +313,10 @@ ossec_agent_config:
   labels:
     enable: true
     list:
-      - key: 'Environments'
-        value: 'Production'
+      - key: 'group'
+        value: '{{ group_names[0] | upper }}'
+      - key: 'environment'
+        value: '{{ environments | upper }}'
 
 # Linux 数据盘参数 #
 os_linux_disc_device: '/dev/sdb' # 数据盘块设备。

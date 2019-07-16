@@ -40,12 +40,6 @@
     dest: '"C:\Program Files (x86)\ossec-agent\local_internal_options.conf"'
   register: ossec_internal_conf_update
 
-- name: Check windows OSSEC agent client.keys exists
-  win_stat:
-    path: '"C:\Program Files (x86)\ossec-agent\client.keys"'
-  register: check_ossec_keys
-
 - name: Register windows OSSEC agent
   win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_authd_pass }}'
   register: ossec_agent_auth_output
-  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0

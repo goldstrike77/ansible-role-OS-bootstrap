@@ -1,10 +1,17 @@
 ---
-- name: Configuration the OSSEC agent
-  include: '{{ ansible_system }}/configureation.yml'
+- name: Check windows OSSEC agent client.keys exists
+  win_stat:
+    path: '"C:\Program Files (x86)\ossec-agent\client.keys"'
+  register: check_ossec_keys
 
-- name: Reload the OSSEC agent service
-  win_service:
-    name: 'wazuh'
-    state: 'restarted'
-    start_mode: 'auto'
-  when: ossec_correct_version is not defined or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed or ossec_agent_auth_output is changed
+- name: OSsec agent operation
+  block:
+    - name: Configuration the OSSEC agent
+      include: '{{ ansible_system }}/configureation.yml'
+    - name: Reload the OSSEC agent service
+      win_service:
+        name: 'wazuh'
+        state: 'restarted'
+        start_mode: 'auto'
+      when: ossec_correct_version is not defined or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed or ossec_agent_auth_output is changed
+  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
