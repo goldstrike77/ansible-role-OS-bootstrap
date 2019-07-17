@@ -19,3 +19,5 @@ os_win_disc_extend_script: 'data_disc_extend.txt' # 数据盘扩展脚本。
 wmi_exporter_software: 'prometheus-wmi-exporter.install'
 wmi_exporter_collector_scripts:
   - 'os_info'
+
+win_chocolatey_version: '0.10.11'

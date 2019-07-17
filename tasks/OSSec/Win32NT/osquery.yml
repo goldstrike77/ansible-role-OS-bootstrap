@@ -1,0 +1,31 @@
+---
+- name: Install chocolatey
+  win_chocolatey:
+    name: 'chocolatey'
+    state: 'downgrade'
+    version: '{{ win_chocolatey_version }}'
+    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
+  register: chocolatey_status
+  until: chocolatey_status is succeeded
+  retries: 10
+  delay: 6
+  changed_when: false
+  failed_when: false
+
+- name: Osquery software installation
+  win_chocolatey:
+    name: 'osquery'
+    state: 'latest'
+    timeout: '60'
+    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
+  register: osquery_win_software_status
+  until: osquery_win_software_status is succeeded
+  retries: 10
+  delay: 6
+  changed_when: false
+  failed_when: false
+
+- name: Windows Osquery configuration file transfer
+  win_copy:
+    src: 'osquery.win.conf'
+    dest: 'C:\Program Files\osquery\osquery.conf'

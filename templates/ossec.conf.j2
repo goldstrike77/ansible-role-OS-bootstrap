@@ -49,10 +49,7 @@
     <check_pids>yes</check_pids>
     <check_ports>yes</check_ports>
     <check_if>yes</check_if>
-
-    <!-- Frequency that rootcheck is executed - every 12 hours -->
     <frequency>{{ ossec_agent_config.rootcheck.frequency }}</frequency>
-
     <rootkit_files>/var/ossec/etc/shared/rootkit_files.txt</rootkit_files>
     <rootkit_trojans>/var/ossec/etc/shared/rootkit_trojans.txt</rootkit_trojans>
     <system_audit>/var/ossec/etc/shared/system_audit_rcl.txt</system_audit>
@@ -63,50 +60,40 @@
     <skip_nfs>yes</skip_nfs>
     {% endif %}
 
-    {% if ansible_os_family == "Windows" %}
+    {% if ansible_system == "Win32NT" %}
     <windows_audit>./shared/win_audit_rcl.txt</windows_audit>
     <windows_apps>./shared/win_applications_rcl.txt</windows_apps>
     <windows_malware>./shared/win_malware_rcl.txt</windows_malware>
     {% endif %}
-
   </rootcheck>
   {% endif %}
 
-  <!-- Directories to check  (perform all possible verifications) -->
   {% if ossec_agent_config.syscheck is defined %}
   <syscheck>
     <disabled>no</disabled>
     <frequency>{{ ossec_agent_config.syscheck.frequency }}</frequency>
     {% if ansible_system == "Linux" %}
-    {% for directory in ossec_agent_config.syscheck.directories %}
-    <directories {{ directory.checks }}>{{ directory.dirs }}</directories>
+    {% for directory in ossec_agent_config.syscheck.linux_directories %}
+    <directories check_all="yes" whodata="{% if directory.whodata is defined and directory.whodata == 'yes' %}yes{% else %}no{% endif %}">{{ directory.dirs }}</directories>
     {% endfor %}
     <auto_ignore>{{ ossec_agent_config.syscheck.auto_ignore }}</auto_ignore>
     <scan_on_start>{{ ossec_agent_config.syscheck.scan_on_start }}</scan_on_start>
     {% endif %}
 
-    <!-- Directories to check  (perform all possible verifications) -->
-    {% if ossec_agent_config.syscheck.directories is defined and ansible_os_family == "Linux" %}
-    {% for directory in ossec_agent_config.syscheck.directories %}
-    <directories {{ directory.checks }}>{{ directory.dirs }}</directories>
-    {% endfor %}
-    {% endif %}
-
-    <!-- Directories to check  (perform all possible verifications) -->
-    {% if ossec_agent_config.syscheck.win_directories is defined and ansible_os_family == "Windows" %}
+    {% if ansible_system == "Win32NT" %}
     {% for directory in ossec_agent_config.syscheck.win_directories %}
-    <directories {{ directory.checks }}>{{ directory.dirs }}</directories>
+    <directories check_all="yes" whodata="{% if directory.whodata is defined and directory.whodata == 'yes' %}yes{% else %}no{% endif %}">{{ directory.dirs }}</directories>
     {% endfor %}
     {% endif %}
 
     <!-- Files/directories to ignore -->
-    {% if ossec_agent_config.syscheck.ignore is defined and ansible_system == "Linux" %}
-    {% for ignore in ossec_agent_config.syscheck.ignore %}
+    {% if ossec_agent_config.syscheck.linux_ignore is defined and ansible_system == "Linux" %}
+    {% for ignore in ossec_agent_config.syscheck.linux_ignore %}
     <ignore>{{ ignore }}</ignore>
     {% endfor %}
     {% endif %}
 
-    {% if ossec_agent_config.syscheck.ignore is defined and ansible_system == "Windows" %}
+    {% if ossec_agent_config.syscheck.ignore is defined and ansible_system == "Win32NT" %}
     {% for ignore in ossec_agent_config.syscheck.ignore_win %}
     <ignore type="sregex">{{ ignore }}</ignore>
     {% endfor %}
@@ -128,7 +115,7 @@
     <restart_audit>{{ ossec_agent_config.syscheck.restart_audit }}</restart_audit>
     {% endif %} 
 
-    {% if ansible_os_family == "Windows" %}
+    {% if ansible_system == "Win32NT" %}
     {% for registry_key in ossec_agent_config.syscheck.windows_registry %}
     {% if registry_key.arch is defined %}
     <windows_registry arch="{{ registry_key.arch }}">{{ registry_key.key }}</windows_registry>
@@ -138,7 +125,7 @@
     {% endfor %}
     {% endif %}
 
-    {% if ansible_os_family == "Windows" %}
+    {% if ansible_system == "Win32NT" %}
     {% for registry_key in ossec_agent_config.syscheck.windows_registry_ignore %}
     {% if registry_key.type is defined %}
     <registry_ignore type="{{ registry_key.type }}">{{ registry_key.key }}</registry_ignore>
@@ -148,7 +135,7 @@
     {% endfor %}
     {% endif %}
 
-    {% if ansible_os_family == "Windows" %}
+    {% if ansible_system == "Win32NT" %}
     <!-- Frequency for ACL checking (seconds) -->
     <windows_audit_interval>{{ ossec_agent_config.syscheck.win_audit_interval }}</windows_audit_interval>
     {% endif %}

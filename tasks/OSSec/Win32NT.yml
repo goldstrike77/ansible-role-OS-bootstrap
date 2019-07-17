@@ -6,6 +6,8 @@
 
 - name: OSsec agent operation
   block:
+    - name: Configuration the OSQuery
+      include: '{{ ansible_system }}/osquery.yml'
     - name: Configuration the OSSEC agent
       include: '{{ ansible_system }}/configureation.yml'
     - name: Reload the OSSEC agent service
