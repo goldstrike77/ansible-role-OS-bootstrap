@@ -35,7 +35,7 @@ ossec_version: '3.9.3-1'
 ossec_authd_pass: 'Bf6vJRT4WaEAHq'
 ossec_managers:
   address:
-    - '127.0.0.1'
+    - '1.1.1.1'
   port: '1514'
   protocol: 'tcp'
   api_port: '55000'
@@ -44,7 +44,7 @@ ossec_managers:
 ossec_profile: null
 ossec_auto_restart: 'yes'
 ossec_agent_authd:
-  address: '127.0.0.1'
+  address: '1.1.1.1'
   port: '1515'
   ssl_auto_negotiate: 'no'
 ossec_notify_time: '10'
@@ -57,25 +57,11 @@ ossec_agent_config:
     ca_store_win: 'wpk_root.pem'
     ca_verification: 'yes'
   log_format: 'plain'
-  client_buffer:
-    disable: 'no'
-    queue_size: '5000'
-    events_per_sec: '500'
   openscap:
     disable: 'no'
     timeout: 1800
     interval: '1d'
     scan_on_start: 'yes'
-  vuls:
-    disable: 'yes'
-    interval: '1d'
-    run_on_start: 'yes'
-    args:
-      - 'mincvss 5'
-      - 'antiquity-limit 20'
-      - 'updatenvd'
-      - 'nvd-year 2016'
-      - 'autoupdate'
   labels:
     enable: true
     list:

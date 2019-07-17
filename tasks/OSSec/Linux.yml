@@ -10,7 +10,6 @@
       include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
     - name: Configuration the OSQuery
       include: '{{ ansible_system }}/osquery.yml'
-      when: ossec_agent_config.osquery.disable == 'no'
     - name: Configuration the OSSEC agent
       include: '{{ ansible_system }}/configureation.yml'
     - name: Reload the OSSEC agent service

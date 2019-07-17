@@ -15,12 +15,12 @@
   register: conf_update
 
 - name: Ensure audit events are collected
-  template:
-    src: audit.rules.j2
-    dest: /etc/audit/rules.d/audit.rules
-    owner: root
-    group: root
-    mode: 0600
+  copy:
+    src: 'audit.rules'
+    dest: '/etc/audit/rules.d/audit.rules'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
   register: role_update
 
 - name: Reload audit service

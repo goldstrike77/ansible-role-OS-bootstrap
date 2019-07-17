@@ -10,6 +10,9 @@
 # Make this bigger for busy systems
 -b 8192
 
+# Enable auditing but mutable
+-e 1
+
 # Feel free to add below this line. See auditctl man page
 -f 1
 

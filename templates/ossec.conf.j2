@@ -1,9 +1,3 @@
-<!--
-  Wazuh - Agent
-  More info at: https://documentation.ossec.com
-  Mailing list: https://groups.google.com/forum/#!forum/ossec
--->
-
 <ossec_config>
   <client>
     <server>
@@ -11,22 +5,17 @@
       <port>{{ ossec_managers.port }}</port>
       <protocol>{{ ossec_managers.protocol }}</protocol>
     </server>
-    {% if ossec_profile is not none %}
+{% if ossec_profile is not none %}
     <config-profile>{{ ossec_profile }}</config-profile>
-    {% endif %}
-    {% if ossec_notify_time is not none and wazuh_time_reconnect is not none %}
+{% endif %}
+{% if ossec_notify_time is not none and wazuh_time_reconnect is not none %}
     <notify_time>{{ ossec_notify_time }}</notify_time>
     <time-reconnect>{{ ossec_time_reconnect }}</time-reconnect>
-    {% endif %}
+{% endif %}
     <auto_restart>{{ ossec_auto_restart }}</auto_restart>
     <crypto_method>{{ ossec_crypto_method }}</crypto_method>
   </client>
-  <client_buffer>
-    <!-- Agent buffer options -->
-    <disabled>{{ ossec_agent_config.client_buffer.disable }}</disabled>
-    <queue_size>{{ ossec_agent_config.client_buffer.queue_size }}</queue_size>
-    <events_per_second>{{ ossec_agent_config.client_buffer.events_per_sec }}</events_per_second>
-  </client_buffer>
+
   <logging>
     <log_format>{{ ossec_agent_config.log_format }}</log_format>
   </logging>
@@ -88,22 +77,11 @@
 {% endif %}
   </wodle>
 
-  {% if ansible_system == "Linux" and ossec_agent_config.vuls.disable == 'no' %}
-  <wodle name="command">
-    <disabled>no</disabled>
-    <tag>Wazuh-VULS</tag>
-    <command>/usr/bin/python /var/ossec/wodles/vuls/vuls.py{% for arg in ossec_agent_config.vuls.args %} --{{ arg }}{% endfor %}</command>
-    <interval>{{ ossec_agent_config.vuls.interval }}</interval>
-    <ignore_output>yes</ignore_output>
-    <run_on_start>{{ ossec_agent_config.vuls.run_on_start }}</run_on_start>
-  </wodle>
-  {% endif %}
-
 {% if ossec_agent_config.labels.enable %}
   <labels>
-  {% for label in ossec_agent_config.labels.list %}
+{% for label in ossec_agent_config.labels.list %}
     <label key="{{ label.key }}"{% if label.hidden is defined %} hidden="{{ label.hidden }}"{% endif %}>{{ label.value }}</label>
-  {% endfor %}
+{% endfor %}
   </labels>
 {% endif %}
 
