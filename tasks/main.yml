@@ -37,6 +37,13 @@
   when: os_exporter
   tags: exporter
 
+- name: Include OSSec tasks for specific OS
+  include: 'OSSec/{{ ansible_system }}.yml'
+  when:
+    - os_ossec
+    - not ossec_is_install or ossec_is_install is not defined
+  tags: ossec
+
 - name: OS Harden operation
   block:
     - name: Check if Linux Harden already processed
@@ -86,10 +93,3 @@
         - not os_win_config_result.stat.exists
   when: os_config
   tags: config
-
-- name: Include OSSec tasks for specific OS
-  include: 'OSSec/{{ ansible_system }}.yml'
-  when:
-    - os_ossec
-    - not ossec_is_install or ossec_is_install is not defined
-  tags: ossec
