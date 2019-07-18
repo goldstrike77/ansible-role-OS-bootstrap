@@ -31,9 +31,8 @@ syslog_server: # 远程日志服务器地址列表。
   - '127.0.0.1'
 
 # 入侵检测系统参数 #
-ossec_version: '3.9.3-1'
-ossec_authd_pass: 'Bf6vJRT4WaEAHq'
-ossec_managers:
+ossec_version: '3.9.3-1' # WAZUH代理版本。
+ossec_managers: # WAZUH管理器参数。
   address:
     - '1.1.1.1'
   port: '1514'
@@ -41,15 +40,16 @@ ossec_managers:
   api_port: '55000'
   api_proto: 'https'
   api_user: null
-ossec_auto_restart: 'yes'
-ossec_agent_authd:
+ossec_agent_authd: # WAZUH代理注册参数。
   address: '1.1.1.1'
+  authd_pass: 'Bf6vJRT4WaEAHq'
   port: '1515'
   ssl_auto_negotiate: 'no'
-ossec_notify_time: '10'
-ossec_time_reconnect: '60'
-ossec_crypto_method: 'aes'
-ossec_agent_config:
+ossec_agent_config: # WAZUH代理参数。
+  auto_restart: 'yes'
+  notify_time: '10'
+  time_reconnect: '60'
+  crypto_method: 'aes'
   active_response:
     ar_disabled: 'no'
     ca_store: '/var/ossec/etc/wpk_root.pem'
@@ -58,7 +58,7 @@ ossec_agent_config:
   log_format: 'plain'
   openscap:
     disable: 'no'
-    timeout: 1800
+    timeout: '1800'
     interval: '1d'
     scan_on_start: 'yes'
 

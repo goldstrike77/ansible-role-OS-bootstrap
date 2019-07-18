@@ -6,11 +6,11 @@
       <protocol>{{ ossec_managers.protocol }}</protocol>
     </server>
 {% if ossec_notify_time is not none and wazuh_time_reconnect is not none %}
-    <notify_time>{{ ossec_notify_time }}</notify_time>
-    <time-reconnect>{{ ossec_time_reconnect }}</time-reconnect>
+    <notify_time>{{ ossec_agent_config.notify_time }}</notify_time>
+    <time-reconnect>{{ ossec_agent_config.time_reconnect }}</time-reconnect>
 {% endif %}
-    <auto_restart>{{ ossec_auto_restart }}</auto_restart>
-    <crypto_method>{{ ossec_crypto_method }}</crypto_method>
+    <auto_restart>{{ ossec_agent_config.auto_restart }}</auto_restart>
+    <crypto_method>{{ ossec_agent_config.crypto_method }}</crypto_method>
   </client>
 
   <logging>

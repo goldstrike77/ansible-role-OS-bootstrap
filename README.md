@@ -65,6 +65,12 @@ __Table of Contents__
 * `syslog_protocol`: 远程日志服务器协议。
 * `syslog_server`: 远程日志服务器地址列表。
 
+##### 入侵检测系统参数
+* `ossec_version`: WAZUH代理版本。
+* `ossec_managers`: WAZUH管理器参数。
+* `ossec_agent_authd`: WAZUH代理注册参数。
+* `ossec_agent_config`: WAZUH代理参数。
+
 ##### Linux 数据盘参数
 * `os_linux_disc_device`: 数据盘块设备。
 * `os_linux_fsopts`: 数据盘挂载参数。
@@ -172,6 +178,36 @@ __Table of Contents__
     syslog_protocol: 'udp'
     syslog_server:
       - '127.0.0.1'
+    ossec_version: '3.9.3-1'
+    ossec_managers:
+      address:
+        - '1.1.1.1'
+      port: '1514'
+      protocol: 'tcp'
+      api_port: '55000'
+      api_proto: 'https'
+      api_user: null
+    ossec_agent_authd:
+      address: '1.1.1.1'
+      authd_pass: 'Bf6vJRT4WaEAHq'
+      port: '1515'
+      ssl_auto_negotiate: 'no'
+    ossec_agent_config:
+      auto_restart: 'yes'
+      notify_time: '10'
+      time_reconnect: '60'
+      crypto_method: 'aes'
+      active_response:
+        ar_disabled: 'no'
+        ca_store: '/var/ossec/etc/wpk_root.pem'
+        ca_store_win: 'wpk_root.pem'
+        ca_verification: 'yes'
+      log_format: 'plain'
+      openscap:
+        disable: 'no'
+        timeout: '1800'
+        interval: '1d'
+        scan_on_start: 'yes'
     os_linux_disc_device: '/dev/sdb'
     os_linux_fsopts: 'defaults,noatime,nobarrier'
     os_linux_fstype: 'xfs'

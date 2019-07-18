@@ -29,7 +29,7 @@
   when: ossec_correct_version is not defined
 
 - name: Register windows OSSEC agent
-  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_authd_pass }}'
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_agent_authd.authd_pass }}'
   register: ossec_agent_auth_output
   changed_when: false
   failed_when: false
