@@ -42,6 +42,7 @@ __Table of Contents__
 * `os_datadisc`: 是否挂载数据盘。
 * `os_exporter`: 是否部署普罗米修斯客户端。
 * `os_harden`: 是否执行主机加固配置。
+* `os_ossec`: 是否部署入侵检测客户端。
 * `os_software`: 是否执行主机基本软件安装和更新。
 
 ##### 通用参数
@@ -158,12 +159,13 @@ __Table of Contents__
 ### 组变量和剧本的组合
 您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
 
-    os_config: false
-    os_datadisc: false
-    os_exporter: false
-    os_harden: false
-    os_software: false
-    os_audit: false
+    os_config: true
+    os_datadisc: true
+    os_exporter: true
+    os_harden: true
+    os_ossec: true
+    os_software: true
+    os_audit: true
     os_disable_ipv6: false
     os_pass_length: '12'
     os_pass_maxAge: '60'
