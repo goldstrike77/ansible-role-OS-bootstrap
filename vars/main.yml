@@ -16,6 +16,7 @@ os_linux_kernel_parameters: # 内核参数。
   - { variable: 'net.ipv4.conf.default.send_redirects', value: '0' }
   - { variable: 'net.ipv4.icmp_echo_ignore_broadcasts', value: '1' }
   - { variable: 'net.ipv4.icmp_ignore_bogus_error_responses', value: '1' }
+  - { variable: 'net.ipv4.net.ipv4.ip_forward', value: '0' }
   - { variable: 'net.ipv4.tcp_fin_timeout', value: '10' }
   - { variable: 'net.ipv4.tcp_keepalive_intvl', value: '30' }
   - { variable: 'net.ipv4.tcp_keepalive_probes', value: '3' }
