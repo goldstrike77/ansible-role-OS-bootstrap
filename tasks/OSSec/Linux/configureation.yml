@@ -8,10 +8,17 @@
     -P {{ ossec_authd_pass }}
     {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
+  changed_when: false
+  failed_when: false
   no_log: true
+
+- debug:
+    msg: '{{ ossec_agent_auth_output.stderr_lines[-1] }}'
+  when: ossec_agent_auth_output.rc != 0
 
 - name: Verify OSSEC agent registration
   shell: 'echo {{ ossec_agent_auth_output }} | grep "Valid key created"'
+  when: ossec_agent_auth_output.rc == 0
 
 - name: OSSEC agent configuration file transfer
   template:
@@ -20,7 +27,7 @@
     owner: 'root'
     group: 'ossec'
     mode: '0640'
-  register: ossec_agent_conf_udpate
+  when: ossec_agent_auth_output.rc == 0
 
 - name: OSSEC agent internal options configuration file transfer
   template:
@@ -30,4 +37,4 @@
     group: 'ossec'
     mode: '0640'
   loop: '{{ ossec_internal_options }}'
-  register: ossec_internal_conf_update
+  when: ossec_agent_auth_output.rc == 0

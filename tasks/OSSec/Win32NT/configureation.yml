@@ -28,18 +28,25 @@
     state: 'absent'
   when: ossec_correct_version is not defined
 
+- name: Register windows OSSEC agent
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_authd_pass }}'
+  register: ossec_agent_auth_output
+  changed_when: false
+  failed_when: false
+  no_log: true
+
+- debug:
+    msg: '{{ ossec_agent_auth_output.stderr_lines[-2] }}'
+  when: ossec_agent_auth_output.rc != 0
+
 - name: Windows OSSEC agent configuration file transfer
   win_template:
     src: 'ossec.conf.j2'
     dest: '"C:\Program Files (x86)\ossec-agent\ossec.conf"'
-  register: ossec_agent_conf_udpate
+  when: ossec_agent_auth_output.rc == 0
 
 - name: OSSEC agent internal options configuration file transfer
   win_template:
     src: 'local_internal_options.conf.j2'
     dest: '"C:\Program Files (x86)\ossec-agent\local_internal_options.conf"'
-  register: ossec_internal_conf_update
-
-- name: Register windows OSSEC agent
-  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_authd_pass }}'
-  register: ossec_agent_auth_output
+  when: ossec_agent_auth_output.rc == 0

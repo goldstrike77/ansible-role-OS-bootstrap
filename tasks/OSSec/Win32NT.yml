@@ -15,5 +15,5 @@
         name: 'wazuh'
         state: 'restarted'
         start_mode: 'auto'
-      when: ossec_correct_version is not defined or ossec_agent_conf_udpate is changed or ossec_internal_conf_update is changed or ossec_agent_auth_output is changed
+      when: ossec_agent_auth_output.rc == 0
   when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0

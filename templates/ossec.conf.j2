@@ -5,9 +5,6 @@
       <port>{{ ossec_managers.port }}</port>
       <protocol>{{ ossec_managers.protocol }}</protocol>
     </server>
-{% if ossec_profile is not none %}
-    <config-profile>{{ ossec_profile }}</config-profile>
-{% endif %}
 {% if ossec_notify_time is not none and wazuh_time_reconnect is not none %}
     <notify_time>{{ ossec_notify_time }}</notify_time>
     <time-reconnect>{{ ossec_time_reconnect }}</time-reconnect>
@@ -26,6 +23,7 @@
     <ca_verification>{{ ossec_agent_config.active_response.ca_verification }}</ca_verification>
   </active-response>
 
+{% if ansible_system == 'Linux' %}
   <wodle name="open-scap">
     <disabled>{{ ossec_agent_config.openscap.disable }}</disabled>
     <timeout>{{ ossec_agent_config.openscap.timeout }}</timeout>
@@ -76,13 +74,11 @@
     </content>
 {% endif %}
   </wodle>
-
-{% if ossec_agent_config.labels.enable %}
-  <labels>
-{% for label in ossec_agent_config.labels.list %}
-    <label key="{{ label.key }}"{% if label.hidden is defined %} hidden="{{ label.hidden }}"{% endif %}>{{ label.value }}</label>
-{% endfor %}
-  </labels>
 {% endif %}
+
+  <labels>
+    <label key="group">{{ group_names[0] | upper }}</label>
+    <label key="environment">{{ environments | upper }}</label>
+  </labels>
 
 </ossec_config>

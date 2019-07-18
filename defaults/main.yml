@@ -41,7 +41,6 @@ ossec_managers:
   api_port: '55000'
   api_proto: 'https'
   api_user: null
-ossec_profile: null
 ossec_auto_restart: 'yes'
 ossec_agent_authd:
   address: '1.1.1.1'
@@ -62,13 +61,6 @@ ossec_agent_config:
     timeout: 1800
     interval: '1d'
     scan_on_start: 'yes'
-  labels:
-    enable: true
-    list:
-      - key: 'group'
-        value: '{{ group_names[0] | upper }}'
-      - key: 'environment'
-        value: '{{ environments | upper }}'
 
 # Linux 数据盘参数 #
 os_linux_disc_device: '/dev/sdb' # 数据盘块设备。

@@ -11,7 +11,7 @@
     - { state: 'present', file: '/etc/audit/auditd.conf', regexp: '^disp_qos =', line: 'disp_qos = lossless' }
     - { state: 'present', file: '/etc/audisp/plugins.d/syslog.conf', regexp: '^active =', line: 'active = yes' }
     - { state: 'present', file: '/etc/audisp/audispd.conf', regexp: '^name_format =', line: 'name_format = none' }
-    - { state: 'present', file: '/etc/audisp/audispd.conf', regexp: '^q_depth =', line: 'q_depth = 2048' }
+    - { state: 'present', file: '/etc/audisp/audispd.conf', regexp: '^q_depth =', line: 'q_depth = 8192' }
   register: conf_update
 
 - name: Ensure audit events are collected
