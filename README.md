@@ -146,7 +146,8 @@ __Table of Contents__
 有一些变量位于 vars/main.yml:
 
 ## 依赖关系
-- Ansible versions > 2.6
+- Ansible versions > 2.6 are supported.
+- [Beats](https://github.com/goldstrike77/ansible-role-OS-beats.git)
 
 ## 示例
 

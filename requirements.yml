@@ -1,0 +1,7 @@
+- name: ansible-role-OS-bootstrap
+  src: git+https://github.com/goldstrike77/ansible-role-OS-bootstrap
+  version: origin/master
+
+- name: ansible-role-OS-beats
+  src: git+https://github.com/goldstrike77/ansible-role-OS-beats
+  version: origin/master
