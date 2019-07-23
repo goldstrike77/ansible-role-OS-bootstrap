@@ -46,7 +46,6 @@ __Table of Contents__
 * `os_software`: 是否执行主机基本软件安装和更新。
 
 ##### 通用参数
-* `os_audit`: 是否启用主机审计。
 * `os_disable_ipv6`: 是否关闭IPv6。
 * `os_pass_length`: 账户最低密码长度。
 * `os_pass_maxAge`: Windows主机账户密码有效期。
@@ -65,6 +64,13 @@ __Table of Contents__
 * `syslog_port`: 远程日志服务器端口。
 * `syslog_protocol`: 远程日志服务器协议。
 * `syslog_server`: 远程日志服务器地址列表。
+
+##### 审计参数 #
+* `os_audit`: 是否启用主机审计。
+* `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
+* `os_auditbeat_version`: Auditbeat 版本。
+* `os_auditbeat_port_arg`: Auditbeat 通讯端口。
+* `os_auditbeat_output`: Auditbeat 数据收集器参数。
 
 ##### 入侵检测系统参数
 * `ossec_version`: WAZUH代理版本。
@@ -165,7 +171,6 @@ __Table of Contents__
     os_harden: true
     os_ossec: true
     os_software: true
-    os_audit: true
     os_disable_ipv6: false
     os_pass_length: '12'
     os_pass_maxAge: '60'
@@ -180,6 +185,15 @@ __Table of Contents__
     syslog_protocol: 'udp'
     syslog_server:
       - '127.0.0.1'
+    os_audit: true
+    os_audit_type: 'auditbeat'
+    os_auditbeat_version: '7.1.1'
+    os_auditbeat_port_arg:
+      http: '5067'
+      exporter: '9480'
+    os_auditbeat_output:
+      host: '{{ syslog_server }}'
+      port: '5044'
     ossec_version: '3.9.3-1'
     ossec_managers:
       address:

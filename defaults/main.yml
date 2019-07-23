@@ -32,11 +32,11 @@ syslog_server: # 远程日志服务器地址列表。
 # 审计参数 #
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
-os_auditbeat_version: '7.1.1'
-os_auditbeat_port_arg:
+os_auditbeat_version: '7.1.1' # Beats 版本。
+os_auditbeat_port_arg: # Beats 通信端口。
   http: '5067'
   exporter: '9480'
-os_auditbeat_output:
+os_auditbeat_output: # Beats 数据收集器参数。
   host: '{{ syslog_server }}'
   port: '5044'
 
