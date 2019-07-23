@@ -36,7 +36,6 @@ disable_service_RedHat_6: # 版本6不需要的服务。
   - 'postfix'
   - 'sysstat'
 enabled_service_RedHat_6: # 版本6需要的服务。
-  - 'auditd'
   - 'iptables'
   - 'nscd'
   - 'ntpd'
@@ -67,7 +66,6 @@ enabled_service_RedHat_7: # 版本7需要的服务。
   - 'ntpd.service'
   - 'nscd.service'
   - 'rsyslog.service'
-  - 'auditd.service'
 
 unload_module_RedHat: # 不需要的模块。
   - 'cramfs'

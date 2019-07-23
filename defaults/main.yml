@@ -8,7 +8,6 @@ os_ossec: false # 是否部署入侵检测客户端。
 os_software: false # 是否执行主机基本软件安装和更新。
 
 # 通用参数 #
-os_audit: false # 是否启用主机审计。
 os_disable_ipv6: false # 是否关闭IPv6。
 os_pass_length: '12' # 账户最低密码长度。
 os_pass_maxAge: '60' # Windows主机账户密码有效期。
@@ -29,6 +28,17 @@ syslog_port: '12201' # 远程日志服务器端口。
 syslog_protocol: 'udp' # 远程日志服务器协议。
 syslog_server: # 远程日志服务器地址列表。
   - '127.0.0.1'
+
+# 审计参数 #
+os_audit: false # 是否启用主机审计。
+os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
+os_auditbeat_version: '7.1.1'
+os_auditbeat_port_arg:
+  http: '5067'
+  exporter: '9480'
+os_auditbeat_output:
+  host: '{{ syslog_server }}'
+  port: '5044'
 
 # 入侵检测系统参数 #
 ossec_version: '3.9.3-1' # WAZUH代理版本。

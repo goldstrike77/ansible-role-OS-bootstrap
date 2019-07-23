@@ -15,8 +15,8 @@
   register: conf_update
 
 - name: Ensure audit events are collected
-  copy:
-    src: 'audit.rules'
+  template:
+    src: 'audit.rules.j2'
     dest: '/etc/audit/rules.d/audit.rules'
     owner: 'root'
     group: 'root'
@@ -45,3 +45,12 @@
   when:
     - conf_update.changed or role_update.changed
     - ansible_distribution_major_version|int == 6
+
+- name: Disable auditbeat service and ensure it is masked
+  systemd:
+    name: 'auditbeat.service'
+    enabled: 'no'
+    state: 'stopped'
+    masked: 'yes'
+  changed_when: false
+  failed_when: false

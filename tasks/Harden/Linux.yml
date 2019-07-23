@@ -5,7 +5,9 @@
   when: os_linux_disable_unused_module
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Audit.yml'
-  when: os_audit
+  when:
+    - os_audit
+    - os_audit_type == 'auditd'
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/User.yml'
 
