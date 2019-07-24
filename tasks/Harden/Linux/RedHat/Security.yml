@@ -29,7 +29,7 @@
     - { regexp: '^MACs', line: 'MACs hmac-sha2-512,hmac-sha2-256' }
     - { regexp: '^ClientAliveInterval', line: 'ClientAliveInterval 300' }
     - { regexp: '^ClientAliveCountMax', line: 'ClientAliveCountMax 3' }
-    - { regexp: '^LoginGraceTime', line: 'LoginGraceTime 60' }
+    - { regexp: '^LoginGraceTime', line: 'LoginGraceTime 30' }
     - { regexp: '^Banner', line: 'Banner /etc/issue.net' }
     - { regexp: '^UseDNS', line: 'UseDNS no' }
     - { regexp: '^GSSAPIAuthentication', line: 'GSSAPIAuthentication no' }

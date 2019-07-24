@@ -38,6 +38,7 @@ os_linux_audit_rules: # 审计参数
   - '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
 
 os_linux_kernel_parameters: # 内核参数。
+  - { variable: 'fs.suid_dumpable', value: '0' }
   - { variable: 'net.core.somaxconn', value: '20480' }
   - { variable: 'net.ipv4.conf.all.accept_redirects', value: '0' }
   - { variable: 'net.ipv4.conf.all.accept_source_route', value: '0' }
@@ -69,8 +70,6 @@ os_linux_kernel_parameters: # 内核参数。
 node_exporter_collector_textfile_directory: '/var/lib/prometheus'
 node_exporter_collector_textfile_scritps:
   - 'os_info'
-
-ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'
 
 ossec_internal_options:
   - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }

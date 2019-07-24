@@ -19,6 +19,7 @@
   with_items:
     - '* soft nofile {{ os_linux_ulimit_nofile }}'
     - '* hard nofile {{ os_linux_ulimit_nofile }}'
+    - '* hard core 0'
 
 - name: Set nproc limits
   lineinfile: 
