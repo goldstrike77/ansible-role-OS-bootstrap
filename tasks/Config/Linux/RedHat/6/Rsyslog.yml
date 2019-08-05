@@ -15,6 +15,9 @@
   with_items:
     - '{{ rsyslog_packages }}'
   register: soft_update
+  until: soft_update is succeeded
+  retries: 3
+  delay: 5
 
 - name: Remote rsyslog Configuration
   lineinfile:

@@ -24,6 +24,10 @@
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   loop: '{{ ossec_agent_dependent_packages }}'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5
 
 - name: Install the OSSEC agent packages
   yum:
@@ -33,3 +37,7 @@
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   loop: '{{ ossec_agent_packages }}'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5

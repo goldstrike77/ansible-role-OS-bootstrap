@@ -21,6 +21,10 @@
     validate_certs: 'no'
     disable_gpg_check: 'yes'
     update_cache: 'yes'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5
 
 - name: 'Remove the useless packages'
   yum:
@@ -31,3 +35,7 @@
   yum:
     name: '*'
     state: 'latest'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 3
+  delay: 5
