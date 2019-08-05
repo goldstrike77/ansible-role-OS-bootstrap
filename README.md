@@ -54,6 +54,7 @@ __Table of Contents__
 
 ##### 公共领事参数
 * `environments`: 定义系统环境。
+* `exporter_is_install`: 是否部署普罗米修斯客户端。
 * `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
 * `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
 * `consul_public_clients`: 公共领事公共客户端列表。
@@ -176,6 +177,7 @@ __Table of Contents__
     os_pass_length: '12'
     os_pass_maxAge: '60'
     environments: 'SIT'
+    exporter_is_install: '{{ os_exporter | bool | to_json }}'
     consul_public_register: false
     consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
     consul_public_clients:
