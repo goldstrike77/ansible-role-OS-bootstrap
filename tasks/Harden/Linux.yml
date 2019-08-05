@@ -22,6 +22,6 @@
   copy:
     src: 'bootstrap_Harden.Succeed'
     dest: '/etc/bootstrap_Harden.Succeed'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'

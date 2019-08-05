@@ -1,15 +1,25 @@
 ---
-- name: Disable unused file systems and network protocols
+- name: Disable unused module
   lineinfile:
     path: '/etc/modprobe.d/CIS.conf'
     create: 'yes'
     line: 'install {{ item }} /bin/true'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   with_items:
     - "{{ vars['unload_module_' + ansible_os_family] }}"
-  register: result
+
+- name: Black unused module
+  lineinfile:
+    path: '/etc/modprobe.d/blacklist'
+    create: 'yes'
+    line: 'blacklist {{ item }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  with_items:
+    - "{{ vars['unload_module_' + ansible_os_family] }}"
 
 - name: Unload unused file systems and network protocol modules
   modprobe:
