@@ -1,0 +1,8 @@
+---
+- name: Ensure file permissions are configured
+  file:
+    path: '{{ item }}'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  loop: '{{ os_linux_protected_file}}'

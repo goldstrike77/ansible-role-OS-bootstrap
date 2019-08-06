@@ -74,15 +74,16 @@ unload_module_RedHat: # 不需要的模块。
   - 'jffs2'
   - 'hfs'
   - 'hfsplus'
-  - 'quashfs'
   - 'udf'
 #  - 'vfat' # for EFI
   - 'dccp'
   - 'rds'
+  - 'squashfs'
   - 'tipc'
 
 base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - '@Base'
+  - 'aide'
   - 'audispd-plugins'
   - 'bind-utils'
   - 'deltarpm'
@@ -136,6 +137,7 @@ remove_packages_RedHat_7: # 版本7需要删除的系统组件。
 
 base_packages_RedHat_6: # 版本6需要安装的系统组件。
   - '@Base'
+  - 'aide'
   - 'audispd-plugins'
   - 'bind-utils'
   - 'deltarpm'
@@ -166,3 +168,15 @@ base_packages_RedHat_6: # 版本6需要安装的系统组件。
 
 remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
+
+os_linux_protected_file: # 需要限制权限的系统文件。
+  - '/etc/cron.d'
+  - '/etc/cron.daily'
+  - '/etc/cron.hourly'
+  - '/etc/cron.monthly'
+  - '/etc/cron.weekly'
+  - '/etc/crontab'
+  - '/etc/group'
+  - '/etc/gshadow'
+  - '/etc/passwd'
+  - '/etc/shadow'
