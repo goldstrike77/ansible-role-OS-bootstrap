@@ -12,6 +12,7 @@
     line: '{{ item }}'
   with_items:
     - 'umask 027'
+    - HISTSIZE=50
     - TMOUT=600
     - PROMPT_COMMAND='history -a >(tee -a ~/.bash_history | logger -t "$USER ${SSH_CLIENT%% *} $PWD")'
 
