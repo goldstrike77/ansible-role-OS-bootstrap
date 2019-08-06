@@ -176,7 +176,3 @@ os_linux_protected_file: # 需要限制权限的系统文件。
   - '/etc/cron.monthly'
   - '/etc/cron.weekly'
   - '/etc/crontab'
-  - '/etc/group'
-  - '/etc/gshadow'
-  - '/etc/passwd'
-  - '/etc/shadow'
