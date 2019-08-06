@@ -6,3 +6,5 @@
     group: 'root'
     mode: '0600'
   loop: '{{ os_linux_protected_file}}'
+  changed_when: false
+  failed_when: false

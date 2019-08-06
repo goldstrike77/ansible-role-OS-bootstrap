@@ -170,6 +170,7 @@ remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
 
 os_linux_protected_file: # 需要限制权限的系统文件。
+  - '/boot/grub2/grub.cfg'
   - '/etc/cron.d'
   - '/etc/cron.daily'
   - '/etc/cron.hourly'
