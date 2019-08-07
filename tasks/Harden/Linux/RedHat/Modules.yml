@@ -12,7 +12,7 @@
 
 - name: Black unused module
   lineinfile:
-    path: '/etc/modprobe.d/blacklist'
+    path: '/etc/modprobe.d/blacklist.conf'
     create: 'yes'
     line: 'blacklist {{ item }}'
     owner: 'root'

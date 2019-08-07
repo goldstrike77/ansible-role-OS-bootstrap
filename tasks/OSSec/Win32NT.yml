@@ -4,6 +4,17 @@
     path: '"C:\Program Files (x86)\ossec-agent\client.keys"'
   register: check_ossec_keys
 
+- name: Check register manager are accessible from current host
+  wait_for:
+    host: '{{ ossec_agent_authd.address }}'
+    port: '{{ ossec_agent_authd.port }}'
+    state: 'started'
+    delay: 0
+    timeout: 5
+  changed_when: false
+  failed_when: false
+  register: check_ossec_reg
+
 - name: OSsec agent operation
   block:
     - name: Configuration the OSQuery
@@ -16,4 +27,7 @@
         state: 'restarted'
         start_mode: 'auto'
       when: ossec_agent_auth_output.rc == 0
-  when: not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
+  when:
+    - check_ossec_reg.state is defined
+    - check_ossec_reg.state == 'started'
+    - not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0

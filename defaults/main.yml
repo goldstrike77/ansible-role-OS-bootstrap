@@ -52,7 +52,7 @@ ossec_managers: # WAZUH管理器参数。
   api_proto: 'https'
   api_user: null
 ossec_agent_authd: # WAZUH代理注册参数。
-  address: '1.1.1.1'
+  address: '{{ ossec_managers.address[0] }}'
   authd_pass: 'Bf6vJRT4WaEAHq'
   port: '1515'
   ssl_auto_negotiate: 'no'
