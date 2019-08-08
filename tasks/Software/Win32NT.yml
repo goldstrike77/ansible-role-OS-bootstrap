@@ -13,7 +13,6 @@
     source: 'http://chocolatey.org'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
   register: chocolatey_status
   until: chocolatey_status is succeeded
   retries: 10
@@ -27,7 +26,6 @@
     source: 'http://chocolatey.org'
     state: 'latest'
     timeout: '60'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
   with_items:
     - '{{ os_win_software }}'
   register: os_win_software_status

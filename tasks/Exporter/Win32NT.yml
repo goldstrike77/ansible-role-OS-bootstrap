@@ -5,7 +5,6 @@
     source: 'http://chocolatey.org'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
-    proxy_url: '{{ os_proxy_server | default(omit,true) }}'
   register: chocolatey_status
   until: chocolatey_status is succeeded
   retries: 10
