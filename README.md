@@ -110,6 +110,12 @@ __Table of Contents__
 * `os_linux_ulimit_nproc`: 会话打开的系统进程的最大数目。
 * `os_linux_user_pw`: 密码复杂度策略。
 
+##### Windows 数据盘参数
+* `os_win_disk_number`: 数据盘编号。
+* `os_win_disk_fsystem`: 分区文件系统。
+* `os_win_disk_size`: 分区容量。
+* `os_win_disk_letter`: 分区盘符。
+
 ##### Windows 系统参数
 * `os_win_disable_allowindexingencryptedstoresoritems`: 是否禁止对项目建立索引。
 * `os_win_disable_allowyouraccount`: 是否禁止用户更改帐户设置。
@@ -147,7 +153,7 @@ __Table of Contents__
 有一些变量位于 vars/main.yml:
 
 ## 依赖关系
-- Ansible versions > 2.6 are supported.
+- Ansible versions > 2.8 are supported.
 - [Beats](https://github.com/goldstrike77/ansible-role-OS-beats.git)
 
 ## 示例
@@ -260,6 +266,10 @@ __Table of Contents__
       dcredit: '-1'
       ucredit: '-1'
       lcredit: '-1'
+    os_win_disk_number: 1
+    os_win_disk_fsystem: 'NTFS'
+    os_win_disk_size: '-1'
+    os_win_disk_letter: 'D'
     os_win_disable_allowindexingencryptedstoresoritems: false
     os_win_disable_allowyouraccount: false
     os_win_disable_autodownload: false

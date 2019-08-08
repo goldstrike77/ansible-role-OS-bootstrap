@@ -2,6 +2,7 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
+    source: 'http://chocolatey.org'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
@@ -15,6 +16,7 @@
 - name: WMI exporter installation
   win_chocolatey:
     name: '{{ wmi_exporter_software }}'
+    source: 'http://chocolatey.org'
     state: 'latest'
     params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
   register: soft_updated
@@ -29,7 +31,7 @@
   win_service:
     name: 'wmi_exporter'
     state: 'restarted'
-    start_mode: 'auto'
+    start_mode: 'delayed'
   when: soft_updated is changed
   ignore_errors: yes
 
@@ -70,7 +72,6 @@
     url: 'http://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
     body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_wmi_exporter","name":"wmi_exporter","address":"{{ ansible_ip_addresses[0] }}","port":9182,"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"},"checks":[{"http":"http://{{ ansible_ip_addresses[0] }}:9182/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
-    body_format: 'json'
     status_code: '200'
     headers:
       X-Consul-Token: '{{ consul_public_exporter_token }}'

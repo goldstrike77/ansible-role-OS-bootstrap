@@ -1,13 +1,25 @@
 ---
-- name: Automate disk-related script transfer
-  win_copy:
-    src: '{{ os_win_disc_extend_script }}'
-    dest: '{{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
-
-- name: DiskPart with script
-  win_command: 'diskpart /s {{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
-
-- name: Automate disk-related script removed
-  win_file:
-    path: '{{ os_win_temp_path }}\{{ os_win_disc_extend_script }}'
-    state: absent
+- name: Windows Data disk operation
+  block:
+    - name: Retrieve disc information
+      win_disk_facts:
+    - name: Abort when the disk number does not exist
+      debug:
+        msg: "Disk number {{ os_win_disk_number }} does not exist."
+      when: ansible_facts.disks[os_win_disk_number] is undefined
+    - name: Initialize disk
+      win_shell: "Initialize-Disk -Number {{ os_win_disk_number }}"
+      when: ansible_facts.disks[os_win_disk_number].guid is none
+    - name: 'Create a partition with drive letter {{ os_win_disk_letter }}'
+      win_partition:
+        drive_letter: '{{ os_win_disk_letter }}'
+        partition_size: '{{ os_win_disk_size }}'
+        disk_number: '{{ os_win_disk_number }}'
+      when: ansible_facts.disks[os_win_disk_number].guid is none
+    - name: Format the newly created partition
+      win_format:
+        drive_letter: '{{ os_win_disk_letter }}'
+        file_system: '{{ os_win_disk_fsystem }}'
+        full: false
+      when: ansible_facts.disks[os_win_disk_number].guid is none
+  when: os_win_disk_number is defined

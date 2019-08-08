@@ -5,6 +5,7 @@
   no_log: true
   changed_when: false
   failed_when: false
+  when: os_linux_disc_device is defined
 
 - name: Logical Volume operation
   block:
@@ -34,4 +35,6 @@
         fstype: '{{ os_linux_fstype }}'
         opts: '{{ os_linux_fsopts }}'
         state: 'mounted'
-  when: check_partitions.stdout == '0'
+  when:
+    - check_partitions is defined
+    - check_partitions.stdout == '0'

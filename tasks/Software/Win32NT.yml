@@ -10,6 +10,7 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
+    source: 'http://chocolatey.org'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'
@@ -23,6 +24,7 @@
 - name: 'Third party software installation'
   win_chocolatey:
     name: '{{ item }}'
+    source: 'http://chocolatey.org'
     state: 'latest'
     timeout: '60'
     proxy_url: '{{ os_proxy_server | default(omit,true) }}'

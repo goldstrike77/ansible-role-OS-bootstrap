@@ -111,6 +111,12 @@ os_linux_user_pw: # 密码复杂度策略。
   ucredit: '-1'
   lcredit: '-1'
 
+# Windows 数据盘参数 #
+os_win_disk_number: 1 # 数据盘编号。
+os_win_disk_fsystem: 'NTFS' # 分区文件系统。
+os_win_disk_size: '-1' # 分区容量。
+os_win_disk_letter: 'D' # 分区盘符。
+
 # Windows 系统参数 #
 os_win_disable_allowindexingencryptedstoresoritems: false # 是否禁止对项目建立索引。
 os_win_disable_allowyouraccount: false # 是否禁止用户更改帐户设置。
@@ -162,23 +168,34 @@ os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的
 
 # Windows 普罗米修斯客户端参数 #
 wmi_exporter_collector: # 普罗米修斯客户端收集器。
-  - 'ad'
   - 'cpu'
   - 'cs'
-  - 'dns'
-  - 'iis'
   - 'logical_disk'
-#  - 'mssql'
+  - 'memory'
   - 'net'
   - 'os'
   - 'service'
   - 'system'
   - 'tcp'
   - 'textfile'
-#  - hyperv
-#  - msmq
-#  - process
-#  - vmware
+#  - 'ad'
+#  - 'container'
+#  - 'dns'
+#  - 'hyperv'
+#  - 'iis'
+#  - 'msmq'
+#  - 'mssql'
+#  - 'netframework_clrexceptions'
+#  - 'netframework_clrinterop'
+#  - 'netframework_clrjit'
+#  - 'netframework_clrloading'
+#  - 'netframework_clrlocksandthreads'
+#  - 'netframework_clrmemory'
+#  - 'netframework_clrremoting'
+#  - 'netframework_clrsecurity'
+#  - 'process'
+#  - 'thermalzone'
+#  - 'vmware'
 wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
 
 # Linux 普罗米修斯客户端参数 #
@@ -201,28 +218,28 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'ntp'
   - 'sockstat'
   - 'stat'
+  - 'systemd'
+  - 'textfile'
   - 'time'
+  - 'timex'
   - 'uname'
   - 'vmstat'
-  - 'timex'
-#  - mdadm
 #  - bonding
-#  - wifi
-#  - xfs # kernel 4.4+
-#  - zfs
 #  - buddyinfo
 #  - drbd
 #  - interrupts
 #  - ksmd
 #  - logind
+#  - mdadm
 #  - meminfo_numa
 #  - mountstats
 #  - qdisc
 #  - runit
 #  - supervisord
-  - 'systemd'
 #  - tcpstat
-  - 'textfile'
+#  - wifi
+#  - xfs # kernel 4.4+
+#  - zfs
 node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
   - 'crond'
   - 'ntpd'
