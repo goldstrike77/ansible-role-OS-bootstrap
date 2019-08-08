@@ -5,7 +5,7 @@
   register: check_ossec_keys
 
 - name: Check register manager are accessible from current host
-  wait_for:
+  win_wait_for:
     host: '{{ ossec_agent_authd.address }}'
     port: '{{ ossec_agent_authd.port }}'
     state: 'started'
@@ -28,6 +28,5 @@
         start_mode: 'auto'
       when: ossec_agent_auth_output.rc == 0
   when:
-    - check_ossec_reg.state is defined
-    - check_ossec_reg.state == 'started'
+    - check_ossec_reg.msg is not defined
     - not check_ossec_keys.stat.exists or check_ossec_keys.stat.size == 0
