@@ -2,7 +2,7 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
   register: chocolatey_status
@@ -15,7 +15,7 @@
 - name: Osquery software installation
   win_chocolatey:
     name: 'osquery'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'latest'
     timeout: '60'
   register: osquery_win_software_status

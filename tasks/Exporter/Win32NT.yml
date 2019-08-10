@@ -2,7 +2,7 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
   register: chocolatey_status
@@ -15,7 +15,7 @@
 - name: WMI exporter installation
   win_chocolatey:
     name: '{{ wmi_exporter_software }}'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'latest'
     params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
   register: soft_updated

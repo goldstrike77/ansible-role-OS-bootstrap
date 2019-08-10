@@ -18,5 +18,6 @@ wmi_exporter_collector_scripts:
   - 'os_info'
 
 win_chocolatey_version: '0.10.11'
+win_chocolatey_source: 'https://chocolatey.org/api/v2/'
 
 ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'

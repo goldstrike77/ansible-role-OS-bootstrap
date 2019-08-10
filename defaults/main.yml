@@ -115,7 +115,7 @@ os_linux_user_pw: # 密码复杂度策略。
 os_win_disk_number: 1 # 数据盘编号。
 os_win_disk_fsystem: 'NTFS' # 分区文件系统。
 os_win_disk_size: '-1' # 分区容量。
-os_win_disk_letter: 'D' # 分区盘符。
+os_win_disk_letter: 'E' # 分区盘符。
 
 # Windows 系统参数 #
 os_win_disable_allowindexingencryptedstoresoritems: false # 是否禁止对项目建立索引。

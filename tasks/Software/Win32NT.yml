@@ -10,7 +10,7 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
   register: chocolatey_status
@@ -23,7 +23,7 @@
 - name: 'Third party software installation'
   win_chocolatey:
     name: '{{ item }}'
-    source: 'http://chocolatey.org'
+    source: '{{ win_chocolatey_source }}'
     state: 'latest'
     timeout: '60'
   with_items:
