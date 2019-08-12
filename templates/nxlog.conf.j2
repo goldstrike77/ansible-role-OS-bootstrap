@@ -60,7 +60,7 @@ LogFile %ROOT%\data\nxlog.log
 
 <Output out_eventlog>
   Module     om_{{ syslog_protocol | lower }}
-  Host       {{ syslog_server | list | random }}
+  Host       {{ syslog_server | list | random(seed=inventory_hostname) }}
   Port       {{ syslog_port }}
   OutputType GELF
 </Output>

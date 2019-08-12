@@ -1,7 +1,7 @@
 <ossec_config>
   <client>
     <server>
-      <address>{{ ossec_managers.address | list | random }}</address>
+      <address>{{ ossec_managers.address | list | random(seed=inventory_hostname) }}</address>
       <port>{{ ossec_managers.port }}</port>
       <protocol>{{ ossec_managers.protocol }}</protocol>
     </server>
