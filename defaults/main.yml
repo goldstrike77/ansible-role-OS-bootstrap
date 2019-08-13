@@ -257,6 +257,7 @@ node_exporter_ignored_mount_points_collector: # 普罗米修斯客户端收集�
   - 'run'
   - 'run/docker/netns/'
   - 'sys'
+  - 'var/lib/kubelet/'
 node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽略的块设备。
   - 'ram'
   - 'loop'
