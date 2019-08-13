@@ -104,10 +104,13 @@ __Table of Contents__
 * `os_linux_grub_add_args`: GRUB新增参数。
 * `os_linux_id_rsa`: 主机SSH密钥。
 * `os_linux_MTA_relayhost`: 邮件中继服务器地址。
+* `os_linux_shell_history`: 历史记录存储在内存中的行数。
+* `os_linux_shell_timeout`: 系统终端空闲等待时间(秒)。
 * `os_linux_syslog_local_keep`: 本地日志保留期(周)。
 * `os_linux_tz`: 主机时区。
 * `os_linux_ulimit_nofile`: 会话打开的文件/文件描述符的最大数目。
 * `os_linux_ulimit_nproc`: 会话打开的系统进程的最大数目。
+* `os_linux_default_umask`: 一般用户默认文件创建模式掩码。
 * `os_linux_user_pw`: 密码复杂度策略。
 
 ##### Windows 数据盘参数
@@ -257,10 +260,13 @@ __Table of Contents__
       - 'transparent_hugepage=never'
       - 'numa=off'
     os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQFBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXqOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN168WEWWKyviVPG4yk0VEOWdc9l9cCAwEAAQ=='
+    os_linux_shell_history: '50'
+    os_linux_shell_timeout: '900'
     os_linux_syslog_local_keep: '2'
     os_linux_tz: 'Asia/Shanghai'
     os_linux_ulimit_nofile: '20480'
     os_linux_ulimit_nproc: '20480'
+    os_linux_default_umask: '002'
     os_linux_user_pw:
       minlen: '{{ os_pass_length | default(12) }}'
       dcredit: '-1'

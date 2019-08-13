@@ -101,10 +101,13 @@ os_linux_enables_needed_service: true # 是否启用需要的服务。
 #  - 'numa=off'
 #os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ==' # 主机SSH密钥。
 #os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
+os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
+os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
 os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
 os_linux_tz: 'Asia/Shanghai' # 主机时区。
 os_linux_ulimit_nofile: '20480' # 会话打开的文件/文件描述符的最大数目。
 os_linux_ulimit_nproc: '20480' # 会话打开的系统进程的最大数目。
+os_linux_default_umask: '002' # 一般用户默认文件创建模式掩码。
 os_linux_user_pw: # 密码复杂度策略。
   minlen: '{{ os_pass_length | default(12) }}'
   dcredit: '-1'
