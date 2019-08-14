@@ -15,6 +15,8 @@ LogFile %ROOT%\data\nxlog.log
   Module       im_msvistalog
   ReadFromLast FALSE
   SavePos      FALSE
+  Exec         $enviornment = '{{ environments | default("ENV") | upper }}';
+  Exec         $group = '{{ group_names[0] | default("GROUP") | upper }}';
   Query <QueryList> \
     <Query Id="0"> \
       <Select Path="System">*</Select> \
