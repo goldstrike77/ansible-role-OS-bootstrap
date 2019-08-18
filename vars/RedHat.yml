@@ -6,6 +6,10 @@ rsyslog_repo_name: 'rsyslog'
 rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
 rsyslog_packages: 'rsyslog'
 
+exporter_repo_name: 'prometheus'
+exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
+exporter_software: 'node_exporter'
+
 ossec_repo_name: 'wazuh'
 ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'
 

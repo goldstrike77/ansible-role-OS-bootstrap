@@ -1,16 +1,23 @@
 ---
-- name: Node exporter program binary transfer
-  unarchive:
-    src: 'node_exporter-0.15.2.linux-amd64.tar.gz'
-    dest: '/usr/local/bin'
-    owner: 'nobody'
-    group: 'nobody'
-    mode: '0755'
-    extra_opts: [--strip-components=1]
-    exclude:
-      - 'NOTICE'
-      - 'LICENSE'
-  register: soft_updated 
+- name: Add prometheus YUM repositories
+  yum_repository:
+    name: '{{ exporter_repo_name }}'
+    description: '{{ exporter_repo_name }} YUM repository'
+    file: '{{ exporter_repo_name }}'
+    baseurl: '{{ exporter_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the prometheus node exporter
+  yum:
+    name: '{{ exporter_software }}'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  register: soft_updated
+  until: soft_updated is succeeded
+  retries: 3
+  delay: 5
 
 - name: Node exporter configure file transfer
   template:
@@ -20,24 +27,6 @@
     group: 'root'
     mode: 0644
   register: soft_config
-
-- name: Service file transfer
-  copy:
-    src: 'node_exporter.init'
-    dest: '/etc/init.d/node_exporter'
-    owner: root
-    group: root
-    mode: 0755
-  when: ansible_distribution_major_version == "6"
-
-- name: Service file transfer
-  copy:
-    src: 'node_exporter.service'
-    dest: '/lib/systemd/system/node_exporter.service'
-    owner: root
-    group: root
-    mode: 0755
-  when: ansible_distribution_major_version|int > 6
 
 - name: Node exporter firewall operation
   block:
@@ -53,7 +42,7 @@
         state: reloaded
   when: 
     - ansible_distribution_major_version|int == 6
-    - soft_updated is changed or soft_config is changed
+    - soft_config is changed
 
 - name: Node exporter firewall operation
   firewalld:
@@ -64,7 +53,7 @@
     state: 'enabled'
   when: 
     - ansible_distribution_major_version|int > 6
-    - soft_updated is changed or soft_config is changed
+    - soft_config is changed
 
 - name: Reloading the node exporter service
   service:
@@ -73,7 +62,7 @@
     state: restarted
   when:
     - ansible_distribution_major_version|int == 6
-    - soft_updated is changed or soft_config is changed
+    - soft_config is changed
 
 - name: Reloading the node exporter service
   systemd:
@@ -83,7 +72,7 @@
     daemon_reload: yes
   when:
     - ansible_distribution_major_version|int > 6
-    - soft_updated is changed or soft_config is changed
+    - soft_config is changed
 
 - name: Node exporter collector scripts transfer
   template:
