@@ -18,7 +18,7 @@
 
 - name: Ensure password strongeg
   lineinfile:
-    state: present
+    state: 'present'
     dest: '/etc/pam.d/system-auth'
     regexp: '^password    requisite     pam_cracklib.so'
     line: "password    requisite     pam_cracklib.so try_first_pass retry=3 type= minlen={{ os_linux_user_pw['minlen'] }} dcredit={{ os_linux_user_pw['dcredit'] }} ucredit={{ os_linux_user_pw['ucredit'] }} lcredit={{ os_linux_user_pw['lcredit'] }}"

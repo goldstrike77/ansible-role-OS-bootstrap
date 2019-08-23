@@ -25,7 +25,7 @@
     dest: '/etc/default/node_exporter'
     owner: 'root'
     group: 'root'
-    mode: 0644
+    mode: '0644'
   register: soft_config
 
 - name: Node exporter firewall operation
@@ -44,6 +44,10 @@
     - ansible_distribution_major_version|int == 6
     - soft_config is changed
 
+- name: Gathering service facts
+  service_facts:
+  register: services_state
+
 - name: Node exporter firewall operation
   firewalld:
     port: "{{ node_exporter_port }}/tcp"
@@ -54,12 +58,13 @@
   when: 
     - ansible_distribution_major_version|int > 6
     - soft_config is changed
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
 
 - name: Reloading the node exporter service
   service:
     name: 'node_exporter'
-    enabled: yes
-    state: restarted
+    enabled: 'yes'
+    state: 'restarted'
   when:
     - ansible_distribution_major_version|int == 6
     - soft_config is changed
@@ -67,9 +72,9 @@
 - name: Reloading the node exporter service
   systemd:
     name: 'node_exporter.service'
-    enabled: yes
-    state: restarted
-    daemon_reload: yes
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
   when:
     - ansible_distribution_major_version|int > 6
     - soft_config is changed

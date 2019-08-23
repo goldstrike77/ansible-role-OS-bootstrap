@@ -16,9 +16,9 @@
   copy:
     src: 'bootstrap_Config.Succeed'
     dest: '/etc/bootstrap_Config.Succeed'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
 
 - name: Restart the host
   shell: sleep 2 && /sbin/shutdown -r now "Ansible system required"

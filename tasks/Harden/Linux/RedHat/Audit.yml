@@ -25,9 +25,9 @@
 
 - name: Reload audit service
   systemd:
-    name: auditd.service
-    enabled: yes
-    state: restarted
+    name: 'auditd.service'
+    enabled: 'yes'
+    state: 'restarted'
     daemon_reload: yes
   async: 1
   poll: 0
@@ -37,9 +37,9 @@
 
 - name: Reload audit service
   service:
-    name: auditd
-    enabled: yes
-    state: restarted
+    name: 'auditd'
+    enabled: 'yes'
+    state: 'restarted'
   async: 1
   poll: 0
   when:

@@ -11,7 +11,7 @@
 - name: Upgrade the rsyslog
   yum:
     name: '{{ item }}'
-    state: latest
+    state: 'latest'
   with_items:
     - '{{ rsyslog_packages }}'
   register: soft_update
@@ -21,8 +21,8 @@
 
 - name: Remote rsyslog Configuration
   lineinfile:
-    dest: /etc/rsyslog.conf
-    state: present
+    dest: '/etc/rsyslog.conf'
+    state: 'present'
     line: '{{ item }}'
   with_items:
     - '$PreserveFQDN on'
@@ -45,9 +45,9 @@
 
 - name: Reload rsyslog service
   service:
-    name: rsyslog
-    enabled: yes
-    state: restarted
+    name: 'rsyslog'
+    enabled: 'yes'
+    state: 'restarted'
   async: 1
   poll: 0
   when:
@@ -56,8 +56,8 @@
 
 - name: Local syslog logrotate parameters
   template:
-    src: logrotate.conf.j2
-    dest: /etc/logrotate.conf
-    owner: root
-    group: root
-    mode: 0644
+    src: 'logrotate.conf.j2'
+    dest: '/etc/logrotate.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'

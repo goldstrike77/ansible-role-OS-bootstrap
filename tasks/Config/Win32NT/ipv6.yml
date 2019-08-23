@@ -1,8 +1,8 @@
 ---
 - name: Disable Non-native IPv6 (Tunnels)
   win_regedit:
-    key: HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters
-    name: DisabledComponents
+    key: 'HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters'
+    name: 'DisabledComponents'
     data: 14
     type: dword
   when: os_disable_ipv6

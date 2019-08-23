@@ -3,9 +3,9 @@
   sysctl:
     name: '{{ item.variable }}'
     value: '{{ item.value }}'
-    state: present
-    reload: yes
-    sysctl_set: yes
+    state: 'present'
+    reload: 'yes'
+    sysctl_set: 'yes'
     sysctl_file: '/etc/sysctl.d/10-sysctl.conf'
   loop: '{{ os_linux_kernel_parameters }}'
   changed_when: false
@@ -14,7 +14,7 @@
 - name: Set nofile limits
   lineinfile:
     dest: /etc/security/limits.conf
-    state: present
+    state: 'present'
     line: '{{ item }}'
   with_items:
     - '* soft nofile {{ os_linux_ulimit_nofile }}'
@@ -24,10 +24,10 @@
 - name: Set nproc limits
   lineinfile: 
     dest: /etc/security/limits.d/90-nproc.conf
-    insertafter: EOF
-    state: present
-    create: yes
-    mode: 0644
+    insertafter: 'EOF'
+    state: 'present'
+    create: 'yes'
+    mode: '0644'
     line: '{{ item }}'
   with_items:
     - '* soft nproc {{ os_linux_ulimit_nproc }}'

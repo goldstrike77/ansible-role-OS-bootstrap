@@ -7,8 +7,8 @@
 
 - name: Ensure BASH log
   lineinfile:
-    dest: /etc/profile
-    state: present
+    dest: '/etc/profile'
+    state: 'present'
     line: '{{ item }}'
   with_items:
     - 'HISTSIZE={{ os_linux_shell_history }}'
@@ -17,8 +17,8 @@
 
 - name: Disable Vim tracking
   lineinfile:
-    dest: /etc/vimrc
-    state: present
+    dest: '/etc/vimrc'
+    state: 'present'
     regexp: '^set viminfo='
     line: 'set viminfo=""'
 
@@ -29,39 +29,39 @@
 
 - name: Disable sysstat collect
   file:
-    path: /etc/cron.d/sysstat
-    state: absent
+    path: '/etc/cron.d/sysstat'
+    state: 'absent'
   when:
     - os_linux_disable_sysstat_collect
     - sysstat_file.stat.exists
 
 - name: Disable MTA IPv6 protocol
   lineinfile:
-    state: present
-    dest: /etc/postfix/main.cf
+    state: 'present'
+    dest: '/etc/postfix/main.cf'
     regexp: '^inet_protocols ='
     line: 'inet_protocols = ipv4'
   when: os_disable_ipv6
 
 - name: Ensure NTP system events and so on is suppressed
   lineinfile:
-    dest: /etc/ntp.conf
-    state: present
+    dest: '/etc/ntp.conf'
+    state: 'present'
     line: 'logconfig=allsync +allclock'
   register: result
 
 - name: Change HW Clock configuration
   lineinfile:
-    state: present
+    state: 'present'
     dest: '/etc/sysconfig/ntpdate'
     regexp: '^SYNC_HWCLOCK'
     line: 'SYNC_HWCLOCK=yes'
 
 - name: Reload NTP service
   systemd:
-    name: ntpd.service
-    enabled: yes
-    state: restarted
+    name: 'ntpd.service'
+    enabled: 'yes'
+    state: 'restarted'
   async: 1
   poll: 0
   when:
@@ -70,9 +70,9 @@
 
 - name: Reload NTP service
   service :
-    name: ntpd
-    enabled: yes
-    state: restarted
+    name: 'ntpd'
+    enabled: 'yes'
+    state: 'restarted'
   async: 1
   poll: 0
   when:
@@ -81,7 +81,7 @@
 
 - name: Configure MTA
   lineinfile:
-    state: present
+    state: 'present'
     dest: '/etc/postfix/main.cf'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
@@ -91,8 +91,8 @@
 
 - name: Configure terminal scheme
   lineinfile:
-    dest: /etc/bashrc
-    state: present
+    dest: '/etc/bashrc'
+    state: 'present'
     line: '{{ item }}'
   with_items:
     - 'TMOUT={{ os_linux_shell_timeout }}'
@@ -105,7 +105,7 @@
     dest: '/sbin/ifup-local'
     owner: 'root'
     group: 'root'
-    mode: 0755
+    mode: '0755'
   when: os_linux_disable_tcp_offloading
 
 - name: Set its SELinux context

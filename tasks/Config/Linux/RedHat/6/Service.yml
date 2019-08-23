@@ -2,8 +2,8 @@
 - name: Ensure unused service is disabled
   service:
     name: '{{ item }}'
-    enabled: no
-    state: stopped
+    enabled: 'no'
+    state: 'stopped'
   async: 1
   poll: 0
   with_items:
@@ -14,8 +14,8 @@
 - name: Ensure used service is enabled
   service:
     name: '{{ item }}'
-    enabled: yes
-    state: started
+    enabled: 'yes'
+    state: 'started'
   async: 1
   poll: 0
   with_items:

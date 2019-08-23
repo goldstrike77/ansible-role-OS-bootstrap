@@ -2,4 +2,4 @@
 - name: Disable SELinux
   selinux:
     conf: '/etc/selinux/config'
-    state: disabled
+    state: 'disabled'

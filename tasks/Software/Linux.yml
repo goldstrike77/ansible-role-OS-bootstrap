@@ -6,6 +6,6 @@
   copy:
     src: 'bootstrap_Software.Succeed'
     dest: '/etc/bootstrap_Software.Succeed'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'

@@ -3,9 +3,9 @@
   copy:
     src: 'issue'
     dest: '{{ item }}'
-    owner: root
-    group: root
-    mode: 0644
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   with_items:
     - '/etc/issue'
     - '/etc/issue.net'
@@ -40,7 +40,7 @@
 
 - name: Disable root login
   lineinfile:
-    state: present
+    state: 'present'
     dest: /etc/ssh/sshd_config
     regexp: '^PermitRootLogin'
     line: 'PermitRootLogin no'
@@ -48,10 +48,10 @@
 
 - name: Reload sshd service
   systemd:
-    name: sshd.service
-    enabled: yes
-    state: reloaded
-    daemon_reload: yes
+    name: 'sshd.service'
+    enabled: 'yes'
+    state: 'reloaded'
+    daemon_reload: 'yes'
   async: 1
   poll: 0
   when:
@@ -60,9 +60,9 @@
 
 - name: Reload sshd service
   service:
-    name: sshd
-    enabled: yes
-    state: reloaded
+    name: 'sshd'
+    enabled: 'yes'
+    state: 'reloaded'
   async: 1
   poll: 0
   when:

@@ -1,8 +1,8 @@
 ---
 - name: Remote rsyslog Configuration
   lineinfile:
-    dest: /etc/rsyslog.conf
-    state: present
+    dest: '/etc/rsyslog.conf'
+    state: 'present'
     line: '{{ item }}'
   with_items:
     - '$PreserveFQDN on'
@@ -30,10 +30,10 @@
 
 - name: Reload rsyslog service
   systemd:
-    name: rsyslog.service
-    enabled: yes
-    state: restarted
-    daemon_reload: yes
+    name: 'rsyslog.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
   async: 1
   poll: 0
   when:
@@ -41,8 +41,8 @@
 
 - name: Local syslog logrotate parameters
   template:
-    src: logrotate.conf.j2
-    dest: /etc/logrotate.conf
-    owner: root
-    group: root
-    mode: 0644
+    src: 'logrotate.conf.j2'
+    dest: '/etc/logrotate.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
