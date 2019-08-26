@@ -2,7 +2,7 @@
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Security.yml'
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Modules.yml'
-  when: os_linux_disable_unused_module
+  when: os_linux_disable_unused_module | bool
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Audit.yml'
   when:
