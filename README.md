@@ -37,7 +37,7 @@ __Table of Contents__
 ### 主要变量 #
 需要（或需要）修改的变量
 
-##### 任务参数
+### = 主任务参数 =
 * `os_config`: 是否执行主机初始配置。
 * `os_datadisc`: 是否挂载数据盘。
 * `os_exporter`: 是否部署普罗米修斯客户端。
@@ -45,81 +45,31 @@ __Table of Contents__
 * `os_ossec`: 是否部署入侵检测客户端。
 * `os_software`: 是否执行主机基本软件安装和更新。
 
+#### - 主机初始配置参数 -
 ##### 通用参数
 * `os_disable_ipv6`: 是否关闭IPv6。
-* `os_pass_length`: 账户最低密码长度。
-* `os_pass_maxAge`: Windows主机账户密码有效期。
 * `os_proxy_server`: 主机代理服务器。
-* `os_update_password`: 修改新部署Linux主机管理账户密码。
-
-##### 公共领事参数
-* `environments`: 定义系统环境。
-* `exporter_is_install`: 是否部署普罗米修斯客户端。
-* `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
-* `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
-* `consul_public_clients`: 公共领事公共客户端列表。
-* `consul_public_http_port`: 公共领事公共客户端端口。
-
 ##### 远程日志参数
 * `syslog`: 是否启用远程日志。
 * `syslog_port`: 远程日志服务器端口。
 * `syslog_protocol`: 远程日志服务器协议。
 * `syslog_server`: 远程日志服务器地址列表。
-
-##### 审计参数 #
-* `os_audit`: 是否启用主机审计。
-* `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
-* `os_auditbeat_version`: Auditbeat 版本。
-* `os_auditbeat_port_arg`: Auditbeat 通讯端口。
-* `os_auditbeat_output`: Auditbeat 数据收集器参数。
-
-##### 入侵检测系统参数
-* `ossec_version`: WAZUH代理版本。
-* `ossec_managers`: WAZUH管理器参数。
-* `ossec_agent_authd`: WAZUH代理注册参数。
-* `ossec_agent_config`: WAZUH代理参数。
-
-##### Linux 数据盘参数
-* `os_linux_disc_device`: 数据盘块设备。
-* `os_linux_fsopts`: 数据盘挂载参数。
-* `os_linux_fstype`: 数据盘文件系统。
-* `os_linux_lv`: 逻辑卷名称。
-* `os_linux_lv_size`: 逻辑卷容量。
-* `os_linux_mount_point`: 逻辑卷挂载点。
-* `os_linux_vg`: 逻辑卷卷组名称。
-
-##### Linux 系统参数
-* `os_linux_disable_fs_exec_flags`: 磁盘分区安全挂载参数。
-* `os_linux_disable_fs_home_exec`: /home 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_fs_shm_exec`: /dev/shm 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_fs_tmp_exec`: /tmp 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_fs_vartmp_exec`: /var/tmp 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_tcp_offloading`: 是否禁用TCP卸载。
-* `os_linux_disable_RootLogin`: 是否禁用root登录。
-* `os_linux_disable_selinux`: 是否禁用selinux。
-* `os_linux_disable_sysstat_collect`: 是否禁用sysstat监测。
-* `os_linux_disable_unused_module`: 是否禁用不需要的模块。
+##### Linux 初始参数
 * `os_linux_disable_unused_service`: 是否禁用不需要的服务。
 * `os_linux_enables_needed_service`: 是否启用需要的服务。
+* `os_linux_disable_tcp_offloading`: 是否禁用TCP卸载。
+* `os_linux_disable_sysstat_collect`: 是否禁用sysstat监测。
 * `os_linux_grub_add_args`: GRUB新增参数。
 * `os_linux_id_rsa`: 主机SSH密钥。
 * `os_linux_MTA_relayhost`: 邮件中继服务器地址。
 * `os_linux_shell_history`: 历史记录存储在内存中的行数。
 * `os_linux_shell_timeout`: 系统终端空闲等待时间(秒)。
-* `os_linux_syslog_local_keep`: 本地日志保留期(周)。
+* `os_linux_syslog_local_keep`:本地日志保留期(周)。
 * `os_linux_tz`: 主机时区。
 * `os_linux_ulimit_nofile`: 会话打开的文件/文件描述符的最大数目。
 * `os_linux_ulimit_nproc`: 会话打开的系统进程的最大数目。
 * `os_linux_default_umask`: 一般用户默认文件创建模式掩码。
-* `os_linux_user_pw`: 密码复杂度策略。
-
-##### Windows 数据盘参数
-* `os_win_disk_number`: 数据盘编号。
-* `os_win_disk_fsystem`: 分区文件系统。
-* `os_win_disk_size`: 分区容量。
-* `os_win_disk_letter`: 分区盘符。
-
-##### Windows 系统参数
+##### Windows 初始参数
 * `os_win_disable_allowindexingencryptedstoresoritems`: 是否禁止对项目建立索引。
 * `os_win_disable_allowyouraccount`: 是否禁止用户更改帐户设置。
 * `os_win_disable_autodownload`: 是否禁止自动下载更新。
@@ -132,25 +82,84 @@ __Table of Contents__
 * `os_win_event_log`: 需要配置的系统事件日志。
 * `os_win_event_log_MaxSize`: 本地系统事件日志的最大容量(KB)。
 * `os_win_format`: 主机语言格式
+* `os_win_location`: 主机地理位置。
+* `os_win_network_location`: 网络位置
+* `os_win_pagefile_size`: 虚拟内存页面文件容量(MB)。
+* `os_win_tz`: 主机时区。
+* `os_win_unicode`: 主机字符集编码。
+
+#### - 主机数据盘操作 -
+##### Linux 数据盘参数
+* `os_linux_disc_device`: 数据盘块设备。
+* `os_linux_fsopts`: 数据盘挂载参数。
+* `os_linux_fstype`: 数据盘文件系统。
+* `os_linux_lv`: 逻辑卷名称。
+* `os_linux_lv_size`: 逻辑卷容量。
+* `os_linux_mount_point`: 逻辑卷挂载点。
+* `os_linux_vg`: 逻辑卷卷组名称。
+##### Windows 数据盘参数
+* `os_win_disk_number`: 数据盘编号。
+* `os_win_disk_fsystem`: 分区文件系统。
+* `os_win_disk_size`: 分区容量。
+* `os_win_disk_letter`: 分区盘符。
+
+#### - 主机加固配置参数 -
+* `os_pass_length`: 账户最低密码长度。
+* `os_pass_maxAge`: Windows主机账户密码有效期。
+* `os_update_password`: 修改新部署Linux主机管理账户密码。
+##### 审计参数
+* `os_audit`: 是否启用主机审计。
+* `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
+* `os_auditbeat_version`: Beats 版本。
+* `os_auditbeat_port_arg`: Beats 通信端口。
+* `os_auditbeat_output`: Beats 数据收集器参数。
+##### Linux 加固参数
+* `os_linux_audit_rules`: Linux 审计规则
+* `os_linux_disable_fs_exec_flags`: 磁盘分区安全挂载参数。
+* `os_linux_disable_fs_home_exec`: /home 挂载点分区是否启用安全挂载参数。
+* `os_linux_disable_fs_shm_exec`: /dev/shm 挂载点分区是否启用安全挂载参数。
+* `os_linux_disable_fs_tmp_exec`: /tmp 挂载点分区是否启用安全挂载参数。
+* `os_linux_disable_fs_vartmp_exec`: /var/tmp 挂载点分区是否启用安全挂载参数。
+* `os_linux_disable_RootLogin`: 是否禁用root登录。
+* `os_linux_disable_selinux`: 是否禁用selinux。
+* `os_linux_disable_unused_module`: 是否禁用不需要的模块。
+* `os_linux_user_pw`: 密码复杂度策略。
+##### Windows 加固参数
 * `os_win_fs_audit_rule`: 文件系统审计规则。
 * `os_win_fs_audit_user`: 文件系统审计账户名。
 * `os_win_gpo_audit_policy`: 组审计策略。
-* `os_win_location`: 主机地理位置。
-* `os_win_network_location`:网络位置。
-* `os_win_pagefile_size`: 虚拟内存页面文件容量(MB)。
+
+#### - 入侵检测系统参数 -
+* `ossec_version`: WAZUH代理版本。
+* `ossec_managers`: WAZUH管理器参数。
+* `ossec_agent_authd`: WAZUH代理注册参数。
+* `ossec_agent_config`: WAZUH代理参数。
+
+#### - 主机基本软件安装和更新参数 -
+##### Linux 参数
+* `/var/[specific OS].yml`
+##### Windows 参数
 * `os_win_roles`: 需要安装的系统组件。
 * `os_win_software`: 需要安装的第三方软件。
-* `os_win_tz`: 主机时区。
-* `os_win_unicode`: 主机字符集编码。
 * `os_win_update_category`: 需要更新的类别列表。
 
+#### - 普罗米修斯客户端配置参数 -
 ##### Windows 普罗米修斯客户端参数
 * `wmi_exporter_collector`: 普罗米修斯客户端收集器。
-
-
 ##### Linux 普罗米修斯客户端参数
 * `node_exporter_port`: 普罗米修斯客户端端口。
 * `node_exporter_collector`: 普罗米修斯客户端系统收集器。
+* `node_exporter_systemd_collector`: 普罗米修斯客户端服务收集器。
+* `node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。
+* `node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
+
+#### - 公共领事配置参数 -
+* `environments`: 定义系统环境。
+* `exporter_is_install`: 是否部署普罗米修斯客户端。
+* `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
+* `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
+* `consul_public_http_port`: 公共领事公共客户端端口。
+* `consul_public_clients`: 公共领事公共客户端列表。
 
 ### 其他变量
 有一些变量位于 vars/main.yml:
@@ -176,212 +185,6 @@ __Table of Contents__
 ### 组变量和剧本的组合
 您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
 
-    os_config: true
-    os_datadisc: true
-    os_exporter: true
-    os_harden: true
-    os_ossec: true
-    os_software: true
-    os_disable_ipv6: false
-    os_pass_length: '12'
-    os_pass_maxAge: '60'
-    environments: 'SIT'
-    exporter_is_install: '{{ os_exporter | bool | to_json }}'
-    consul_public_register: false
-    consul_public_exporter_token: '00000000-0000-0000-0000-000000000000'
-    consul_public_clients:
-      - 'localhost'
-    consul_public_http_port: '8500'
-    syslog: false
-    syslog_port: '12201'
-    syslog_protocol: 'udp'
-    syslog_server:
-      - '127.0.0.1'
-    os_audit: true
-    os_audit_type: 'auditbeat'
-    os_auditbeat_version: '7.1.1'
-    os_auditbeat_port_arg:
-      http: '5067'
-      exporter: '9480'
-    os_auditbeat_output:
-      host: '{{ syslog_server }}'
-      port: '5044'
-    ossec_version: '3.9.3-1'
-    ossec_managers:
-      address:
-        - '1.1.1.1'
-      port: '1514'
-      protocol: 'tcp'
-      api_port: '55000'
-      api_proto: 'https'
-      api_user: null
-    ossec_agent_authd:
-      address: '1.1.1.1'
-      authd_pass: 'Bf6vJRT4WaEAHq'
-      port: '1515'
-      ssl_auto_negotiate: 'no'
-    ossec_agent_config:
-      auto_restart: 'yes'
-      notify_time: '10'
-      time_reconnect: '60'
-      crypto_method: 'aes'
-      active_response:
-        ar_disabled: 'no'
-        ca_store: '/var/ossec/etc/wpk_root.pem'
-        ca_store_win: 'wpk_root.pem'
-        ca_verification: 'yes'
-      log_format: 'plain'
-      openscap:
-        disable: 'no'
-        timeout: '1800'
-        interval: '1d'
-        scan_on_start: 'yes'
-    os_linux_disc_device: '/dev/sdb'
-    os_linux_fsopts: 'defaults,noatime,nobarrier'
-    os_linux_fstype: 'xfs'
-    os_linux_lv: 'lv_data'
-    os_linux_lv_size: '100%FREE'
-    os_linux_mount_point: '/data'
-    os_linux_vg: 'VolGroup01'
-    os_linux_disable_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime'
-    os_linux_disable_fs_home_exec: false
-    os_linux_disable_fs_shm_exec: true
-    os_linux_disable_fs_tmp_exec: false
-    os_linux_disable_fs_vartmp_exec: false
-    os_linux_disable_tcp_offloading: true
-    os_linux_disable_RootLogin: true
-    os_linux_disable_selinux: true
-    os_linux_disable_sysstat_collect: true
-    os_linux_disable_unused_module: true
-    os_linux_disable_unused_service: true
-    os_linux_enables_needed_service: true
-    os_linux_grub_add_args:
-      - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
-      - 'transparent_hugepage=never'
-      - 'numa=off'
-    os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQFBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXqOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN168WEWWKyviVPG4yk0VEOWdc9l9cCAwEAAQ=='
-    os_linux_shell_history: '50'
-    os_linux_shell_timeout: '900'
-    os_linux_syslog_local_keep: '2'
-    os_linux_tz: 'Asia/Shanghai'
-    os_linux_ulimit_nofile: '20480'
-    os_linux_ulimit_nproc: '20480'
-    os_linux_default_umask: '002'
-    os_linux_user_pw:
-      minlen: '{{ os_pass_length | default(12) }}'
-      dcredit: '-1'
-      ucredit: '-1'
-      lcredit: '-1'
-    os_win_disk_number: 1
-    os_win_disk_fsystem: 'NTFS'
-    os_win_disk_size: '-1'
-    os_win_disk_letter: 'D'
-    os_win_disable_allowindexingencryptedstoresoritems: false
-    os_win_disable_allowyouraccount: false
-    os_win_disable_autodownload: false
-    os_win_disable_autorun: false
-    os_win_disable_autoupdate: false
-    os_win_disable_hidefileext: false
-    os_win_disable_osupgrade: false
-    os_win_disable_rss: false
-    os_win_disable_task:
-      - 'ScheduledDefrag'
-      - 'ServerManager'
-    os_win_event_log:
-      - 'Application'
-      - 'Security'
-      - 'Setup'
-      - 'System'
-    os_win_event_log_MaxSize: '4096'
-    os_win_format: 'en-US'
-    os_win_fs_audit_rule:
-      - 'AppendData'
-      - 'CreateDirectories'
-      - 'CreateFiles'
-      - 'Delete'
-      - 'DeleteSubdirectoriesAndFiles'
-      - 'WriteData'
-    os_win_fs_audit_user: 'Everyone'
-    os_win_gpo_audit_policy:
-      - 'Account Logon'
-      - 'Logon/Logoff'
-      - 'Account Management'
-      - 'DS Access'
-      - 'Object Access'
-      - 'Policy change'
-      - 'Privilege use'
-    os_win_location: '45'
-    os_win_network_location: 'Private'
-    os_win_pagefile_size: 4096
-    os_win_roles:
-      - 'Telnet-Client'
-    os_win_software:
-      - 'googlechrome'
-      - 'notepadplusplus.install'
-      - 'nxlog'
-      - 'peazip.install'
-    os_win_tz: 'China Standard Time'
-    os_win_unicode: 'zh-CN'
-    os_win_update_category: ['CriticalUpdates', 'SecurityUpdates']
-    wmi_exporter_collector:
-      - 'ad'
-      - 'cpu'
-      - 'cs'
-      - 'dns'
-      - 'iis'
-      - 'logical_disk'
-      - 'net'
-      - 'os'
-      - 'service'
-      - 'system'
-      - 'tcp'
-      - 'textfile'
-    wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
-    node_exporter_port: '9100'
-    node_exporter_collector:
-      - 'arp'
-      - 'bcache'
-      - 'conntrack'
-      - 'cpu'
-      - 'entropy'
-      - 'filefd'
-      - 'hwmon'
-      - 'infiniband'
-      - 'ipvs'
-      - 'loadavg'
-      - 'meminfo'
-      - 'netdev'
-      - 'netstat'
-      - 'nfs'
-      - 'ntp'
-      - 'sockstat'
-      - 'stat'
-      - 'time'
-      - 'uname'
-      - 'vmstat'
-      - 'timex'
-      - 'systemd'
-      - 'textfile'
-    node_exporter_systemd_collector:
-      - 'sshd'
-      - 'auditd'
-      - 'rsyslog'
-      - 'crond'
-      - 'ntpd'
-    node_exporter_ignored_mount_points_collector:
-      - 'data/docker/'
-      - 'dev'
-      - 'proc'
-      - 'rootfs'
-      - 'rpc_pipefs'
-      - 'run'
-      - 'run/docker/netns/'
-      - 'sys'
-    node_exporter_ignored_devices_collector:
-      - 'ram'
-      - 'loop'
-      - 'fd'
-      - 'sr'
 
 ## 许可证
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)

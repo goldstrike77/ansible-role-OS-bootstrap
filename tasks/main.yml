@@ -24,23 +24,23 @@
       when:
         - ansible_system == 'Win32NT'
         - not os_win_soft_result.stat.exists
-  when: os_software
+  when: os_software | bool
   tags: software
 
 - name: Include data disc tasks for specific OS
   include: 'Datadisc/{{ ansible_system }}.yml'
-  when: os_datadisc
+  when: os_datadisc | bool
   tags: datadisc
 
 - name: Include Prometheus Exporter tasks for specific OS
   include: 'Exporter/{{ ansible_system }}.yml'
-  when: os_exporter
+  when: os_exporter | bool
   tags: exporter
 
 - name: Include OSSec tasks for specific OS
   include: 'OSSec/{{ ansible_system }}.yml'
   when:
-    - os_ossec
+    - os_ossec | bool
     - not ossec_is_install or ossec_is_install is not defined
   tags: ossec
 
@@ -66,7 +66,7 @@
       when:
         - ansible_system == 'Win32NT'
         - not os_win_harden_result.stat.exists
-  when: os_harden
+  when: os_harden | bool
   tags: harden
 
 - name: OS initialization configuration operation
@@ -91,5 +91,5 @@
       when:
         - ansible_system == 'Win32NT'
         - not os_win_config_result.stat.exists
-  when: os_config
+  when: os_config | bool
   tags: config

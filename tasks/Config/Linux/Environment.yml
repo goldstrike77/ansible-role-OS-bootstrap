@@ -32,7 +32,7 @@
     path: '/etc/cron.d/sysstat'
     state: 'absent'
   when:
-    - os_linux_disable_sysstat_collect
+    - os_linux_disable_sysstat_collect | bool
     - sysstat_file.stat.exists
 
 - name: Disable MTA IPv6 protocol
@@ -41,7 +41,7 @@
     dest: '/etc/postfix/main.cf'
     regexp: '^inet_protocols ='
     line: 'inet_protocols = ipv4'
-  when: os_disable_ipv6
+  when: os_disable_ipv6 | bool
 
 - name: Ensure NTP system events and so on is suppressed
   lineinfile:
@@ -65,7 +65,7 @@
   async: 1
   poll: 0
   when:
-    - result.changed
+    - result is changed
     - ansible_distribution_major_version|int > 6
 
 - name: Reload NTP service
@@ -76,7 +76,7 @@
   async: 1
   poll: 0
   when:
-    - result.changed
+    - result is changed
     - ansible_distribution_major_version|int == 6
 
 - name: Configure MTA
@@ -106,11 +106,11 @@
     owner: 'root'
     group: 'root'
     mode: '0755'
-  when: os_linux_disable_tcp_offloading
+  when: os_linux_disable_tcp_offloading | bool
 
 - name: Set its SELinux context
   shell: chcon --reference /sbin/ifup /sbin/ifup-local
-  when: os_linux_disable_tcp_offloading
+  when: os_linux_disable_tcp_offloading | bool
 
 - name: "Ensure default user umask is {{ os_linux_default_umask }} or more restrictive"
   block:

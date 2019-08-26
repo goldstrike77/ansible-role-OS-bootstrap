@@ -51,8 +51,8 @@
   async: 1
   poll: 0
   when:
-    - soft_update.changed
-    - conf_update.changed
+    - soft_update is changed
+    - conf_update is changed
 
 - name: Local syslog logrotate parameters
   template:

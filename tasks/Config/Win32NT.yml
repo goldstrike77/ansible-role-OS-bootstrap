@@ -1,6 +1,6 @@
 ---
 - include: '{{ ansible_system }}/nxlog.yml'
-  when: syslog
+  when: syslog | bool
 
 - include: '{{ ansible_system }}/ipv6.yml'
 

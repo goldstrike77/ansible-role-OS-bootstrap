@@ -37,7 +37,7 @@
   async: 1
   poll: 0
   when:
-    - conf_update.changed
+    - conf_update is changed
 
 - name: Local syslog logrotate parameters
   template:

@@ -79,7 +79,7 @@
   environment:
     no_proxy: '{{ item }}'
   loop: '{{ consul_public_clients|flatten(levels=1) }}'
-  when: consul_public_register
+  when: consul_public_register | bool
   register: register_status
   until: register_status.status_code == 200
   retries: 3

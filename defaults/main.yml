@@ -1,5 +1,5 @@
 ---
-# 任务参数 #
+# 主任务参数 #
 os_config: false # 是否执行主机初始配置。
 os_datadisc: false # 是否挂载数据盘。
 os_exporter: false # 是否部署普罗米修斯客户端。
@@ -7,29 +7,78 @@ os_harden: false # 是否执行主机加固配置。
 os_ossec: false # 是否部署入侵检测客户端。
 os_software: false # 是否执行主机基本软件安装和更新。
 
+# 主机初始配置参数 #
 # 通用参数 #
 os_disable_ipv6: false # 是否关闭IPv6。
-os_pass_length: '12' # 账户最低密码长度。
-os_pass_maxAge: '60' # Windows主机账户密码有效期。
 #os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
-#os_update_password: 'changeme' # 修改新部署Linux主机管理账户密码。
-
-# 公共领事参数 #
-environments: 'SIT' # 定义系统环境。
-exporter_is_install: '{{ os_exporter | bool | to_json }}' # 是否部署普罗米修斯客户端。
-consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
-consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。
-consul_public_http_port: '8500' # 公共领事公共客户端端口。
-consul_public_clients: # 公共领事公共客户端列表。
-  - '127.0.0.1'
-
 # 远程日志参数 #
 syslog: false # 是否启用远程日志。
 syslog_port: '12201' # 远程日志服务器端口。
 syslog_protocol: 'udp' # 远程日志服务器协议。
 syslog_server: # 远程日志服务器地址列表。
   - '127.0.0.1'
+# Linux 初始参数 #
+os_linux_disable_unused_service: true # 是否禁用不需要的服务。
+os_linux_enables_needed_service: true # 是否启用需要的服务。
+os_linux_disable_tcp_offloading: true # 是否禁用TCP卸载。
+os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
+#os_linux_grub_add_args: # GRUB新增参数。
+#  - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
+#  - 'transparent_hugepage=never'
+#  - 'numa=off'
+#os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ==' # 主机SSH密钥。
+#os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
+os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
+os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
+os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
+os_linux_tz: 'Asia/Shanghai' # 主机时区。
+os_linux_ulimit_nofile: '20480' # 会话打开的文件/文件描述符的最大数目。
+os_linux_ulimit_nproc: '20480' # 会话打开的系统进程的最大数目。
+os_linux_default_umask: '002' # 一般用户默认文件创建模式掩码。
+# Windows 初始参数 #
+os_win_disable_allowindexingencryptedstoresoritems: false # 是否禁止对项目建立索引。
+os_win_disable_allowyouraccount: false # 是否禁止用户更改帐户设置。
+os_win_disable_autodownload: false # 是否禁止自动下载更新。
+os_win_disable_autorun: false # 是否禁止自动播放。
+os_win_disable_autoupdate: false # 是否禁止自动更新。
+os_win_disable_hidefileext: false # 是否隐藏已知文件类型的扩展名。
+os_win_disable_osupgrade: false # 是否禁止系统升级。
+os_win_disable_rss: false # 是否禁用接收端缩放。
+os_win_disable_task: # 需要关闭的系统任务调度程序。
+  - 'ScheduledDefrag'
+  - 'ServerManager'
+os_win_event_log: # 需要配置的系统事件日志。
+  - 'Application'
+  - 'Security'
+  - 'Setup'
+  - 'System'
+os_win_event_log_MaxSize: '4096' # 本地系统事件日志的最大容量(KB)。
+os_win_format: 'en-US' # 主机语言格式
+os_win_location: '45' # 主机地理位置。https://docs.microsoft.com/en-us/windows/desktop/Intl/table-of-geographical-locations
+os_win_network_location: 'Private' # 网络位置。Private / Public
+os_win_pagefile_size: 4096 # 虚拟内存页面文件容量(MB)。
+os_win_tz: 'China Standard Time' # 主机时区。
+os_win_unicode: 'zh-CN' # 主机字符集编码。
 
+# 主机数据盘操作 #
+# Linux 数据盘参数 #
+os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
+os_linux_fsopts: 'defaults,noatime,nobarrier' # 数据盘挂载参数。
+os_linux_fstype: 'xfs' # 数据盘文件系统。
+os_linux_lv: 'lv_data' # 逻辑卷名称。
+os_linux_lv_size: '100%FREE' # 逻辑卷容量。
+os_linux_mount_point: '/data' # 逻辑卷挂载点。
+os_linux_vg: 'VolGroup01' # 逻辑卷卷组名称。
+# Windows 数据盘参数 #
+os_win_disk_number: 1 # 数据盘编号。
+os_win_disk_fsystem: 'NTFS' # 分区文件系统。
+os_win_disk_size: '-1' # 分区容量。
+os_win_disk_letter: 'E' # 分区盘符。
+
+# 主机加固配置参数 #
+os_pass_length: '12' # 账户最低密码长度。
+os_pass_maxAge: '60' # Windows主机账户密码有效期。
+#os_update_password: 'changeme' # 修改新部署Linux主机管理账户密码。
 # 审计参数 #
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
@@ -40,6 +89,71 @@ os_auditbeat_port_arg: # Beats 通信端口。
 os_auditbeat_output: # Beats 数据收集器参数。
   host: '{{ syslog_server }}'
   port: '5044'
+# Linux 加固参数 #
+os_linux_audit_rules: # Linux 审计规则
+  - '-w /sbin/insmod -p x -k modules'
+  - '-w /sbin/rmmod -p x -k modules'
+  - '-w /sbin/modprobe -p x -k modules'
+  - '-a always,exit -F arch=b32 -S init_module -S delete_module -k modules'
+  - '-a always,exit -F arch=b64 -S init_module -S delete_module -k modules'
+  - '-a always,exit -F arch=b64 -S mount -k mounts'
+  - '-a always,exit -F arch=b32 -S mount -k mounts'
+  - '-a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale'
+  - '-a always,exit -F arch=b32 -S sethostname -S setdomainname -k system-locale'
+  - '-w /etc/issue -p wa -k system-locale'
+  - '-w /etc/issue.net -p wa -k system-locale'
+  - '-w /etc/hosts -p wa -k system-locale'
+  - '-w /etc/sysconfig/network -p wa -k system-locale'
+  - '-w /var/log/sudo.log -p wa -k actions'
+  - '-w /etc/sudoers -p wa -k scope'
+  - '-w /etc/sudoers.d -p wa -k scope'
+  - '-w /etc/group -p wa -k identity'
+  - '-w /etc/passwd -p wa -k identity'
+  - '-w /etc/gshadow -p wa -k identity'
+  - '-w /etc/shadow -p wa -k identity'
+  - '-w /etc/security/opasswd -p wa -k identity'
+  - '-a exclude,always -F msgtype=CWD'
+  - '-a exclude,always -F msgtype=EOE'
+  - '-a never,exit -F dir=/tmp -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/tmp -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/var -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/var -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/run -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/run -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/dev/shm -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a never,exit -F dir=/dev/shm -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -k delete'
+  - '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
+os_linux_disable_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime' # 磁盘分区安全挂载参数。
+os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全挂载参数。
+os_linux_disable_fs_shm_exec: true # /dev/shm 挂载点分区是否启用安全挂载参数。
+os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
+os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
+os_linux_disable_RootLogin: true # 是否禁用root登录。
+os_linux_disable_selinux: true # 是否禁用selinux。
+os_linux_disable_unused_module: true # 是否禁用不需要的模块。
+os_linux_user_pw: # 密码复杂度策略。
+  minlen: '{{ os_pass_length | default(12) }}'
+  dcredit: '-1'
+  ucredit: '-1'
+  lcredit: '-1'
+# Windows 加固参数 #
+os_win_fs_audit_rule: # 文件系统审计规则。
+  - 'AppendData'
+  - 'CreateDirectories'
+  - 'CreateFiles'
+  - 'Delete'
+  - 'DeleteSubdirectoriesAndFiles'
+  - 'WriteData'
+os_win_fs_audit_user: 'Everyone' # 文件系统审计账户名。
+os_win_gpo_audit_policy: # 组审计策略。
+  - 'Account Logon'
+  - 'Logon/Logoff'
+  - 'Account Management'
+  - 'DS Access'
+  - 'Object Access'
+  - 'Policy change'
+  - 'Privilege use'
 
 # 入侵检测系统参数 #
 ossec_version: '3.9.3-1' # WAZUH代理版本。
@@ -73,91 +187,10 @@ ossec_agent_config: # WAZUH代理参数。
     interval: '1d'
     scan_on_start: 'yes'
 
-# Linux 数据盘参数 #
-os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
-os_linux_fsopts: 'defaults,noatime,nobarrier' # 数据盘挂载参数。
-os_linux_fstype: 'xfs' # 数据盘文件系统。
-os_linux_lv: 'lv_data' # 逻辑卷名称。
-os_linux_lv_size: '100%FREE' # 逻辑卷容量。
-os_linux_mount_point: '/data' # 逻辑卷挂载点。
-os_linux_vg: 'VolGroup01' # 逻辑卷卷组名称。
-
-# Linux 系统参数 #
-os_linux_disable_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime' # 磁盘分区安全挂载参数。
-os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全挂载参数。
-os_linux_disable_fs_shm_exec: true # /dev/shm 挂载点分区是否启用安全挂载参数。
-os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
-os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
-os_linux_disable_tcp_offloading: true # 是否禁用TCP卸载。
-os_linux_disable_RootLogin: true # 是否禁用root登录。
-os_linux_disable_selinux: true # 是否禁用selinux。
-os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
-os_linux_disable_unused_module: true # 是否禁用不需要的模块。
-os_linux_disable_unused_service: true # 是否禁用不需要的服务。
-os_linux_enables_needed_service: true # 是否启用需要的服务。
-#os_linux_grub_add_args: # GRUB新增参数。
-#  - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
-#  - 'transparent_hugepage=never'
-#  - 'numa=off'
-#os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ==' # 主机SSH密钥。
-#os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
-os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
-os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
-os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
-os_linux_tz: 'Asia/Shanghai' # 主机时区。
-os_linux_ulimit_nofile: '20480' # 会话打开的文件/文件描述符的最大数目。
-os_linux_ulimit_nproc: '20480' # 会话打开的系统进程的最大数目。
-os_linux_default_umask: '002' # 一般用户默认文件创建模式掩码。
-os_linux_user_pw: # 密码复杂度策略。
-  minlen: '{{ os_pass_length | default(12) }}'
-  dcredit: '-1'
-  ucredit: '-1'
-  lcredit: '-1'
-
-# Windows 数据盘参数 #
-os_win_disk_number: 1 # 数据盘编号。
-os_win_disk_fsystem: 'NTFS' # 分区文件系统。
-os_win_disk_size: '-1' # 分区容量。
-os_win_disk_letter: 'E' # 分区盘符。
-
-# Windows 系统参数 #
-os_win_disable_allowindexingencryptedstoresoritems: false # 是否禁止对项目建立索引。
-os_win_disable_allowyouraccount: false # 是否禁止用户更改帐户设置。
-os_win_disable_autodownload: false # 是否禁止自动下载更新。
-os_win_disable_autorun: false # 是否禁止自动播放。
-os_win_disable_autoupdate: false # 是否禁止自动更新。
-os_win_disable_hidefileext: false # 是否隐藏已知文件类型的扩展名。
-os_win_disable_osupgrade: false # 是否禁止系统升级。
-os_win_disable_rss: false # 是否禁用接收端缩放。
-os_win_disable_task: # 需要关闭的系统任务调度程序。
-  - 'ScheduledDefrag'
-  - 'ServerManager'
-os_win_event_log: # 需要配置的系统事件日志。
-  - 'Application'
-  - 'Security'
-  - 'Setup'
-  - 'System'
-os_win_event_log_MaxSize: '4096' # 本地系统事件日志的最大容量(KB)。
-os_win_format: 'en-US' # 主机语言格式
-os_win_fs_audit_rule: # 文件系统审计规则。
-  - 'AppendData'
-  - 'CreateDirectories'
-  - 'CreateFiles'
-  - 'Delete'
-  - 'DeleteSubdirectoriesAndFiles'
-  - 'WriteData'
-os_win_fs_audit_user: 'Everyone' # 文件系统审计账户名。
-os_win_gpo_audit_policy: # 组审计策略。
-  - 'Account Logon'
-  - 'Logon/Logoff'
-  - 'Account Management'
-  - 'DS Access'
-  - 'Object Access'
-  - 'Policy change'
-  - 'Privilege use'
-os_win_location: '45' # 主机地理位置。https://docs.microsoft.com/en-us/windows/desktop/Intl/table-of-geographical-locations
-os_win_network_location: 'Private' # 网络位置。Private / Public
-os_win_pagefile_size: 4096 # 虚拟内存页面文件容量(MB)。
+# 主机基本软件安装和更新参数 #
+# Linux 参数 #
+# /var/[specific OS].yml
+# Windows 参数 #
 os_win_roles: # 需要安装的系统组件。
   - 'Telnet-Client'
 os_win_software: # 需要安装的第三方软件。
@@ -165,10 +198,9 @@ os_win_software: # 需要安装的第三方软件。
   - 'notepadplusplus.install'
   - 'nxlog'
   - 'peazip.install'
-os_win_tz: 'China Standard Time' # 主机时区。
-os_win_unicode: 'zh-CN' # 主机字符集编码。
 os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的类别列表。
 
+# 普罗米修斯客户端配置参数 #
 # Windows 普罗米修斯客户端参数 #
 wmi_exporter_collector: # 普罗米修斯客户端收集器。
   - 'cpu'
@@ -200,7 +232,6 @@ wmi_exporter_collector: # 普罗米修斯客户端收集器。
 #  - 'thermalzone'
 #  - 'vmware'
 wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
-
 # Linux 普罗米修斯客户端参数 #
 node_exporter_port: '9100' # 普罗米修斯客户端端口。
 node_exporter_collector: # 普罗米修斯客户端系统收集器。
@@ -266,3 +297,12 @@ node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽�
   - 'loop'
   - 'fd'
   - 'sr'
+
+# 公共领事配置参数 #
+environments: 'SIT' # 定义系统环境。
+exporter_is_install: '{{ os_exporter | bool | to_json }}' # 是否部署普罗米修斯客户端。
+consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
+consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。
+consul_public_http_port: '8500' # 公共领事公共客户端端口。
+consul_public_clients: # 公共领事公共客户端列表。
+  - '127.0.0.1'

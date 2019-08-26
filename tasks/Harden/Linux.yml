@@ -6,7 +6,7 @@
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Audit.yml'
   when:
-    - os_audit
+    - os_audit | bool
     - os_audit_type == 'auditd'
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/User.yml'
@@ -16,7 +16,7 @@
 - include: '{{ ansible_system }}/Permissions.yml'
 
 - include: '{{ ansible_system }}/Selinux.yml'
-  when: os_linux_disable_selinux
+  when: os_linux_disable_selinux | bool
 
 - include: '{{ ansible_system }}/Password.yml'
 

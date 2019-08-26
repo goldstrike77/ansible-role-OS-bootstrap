@@ -1,6 +1,6 @@
 ---
 - include: '{{ ansible_system }}/audit.yml'
-  when: os_audit
+  when: os_audit | bool
 
 - include: '{{ ansible_system }}/password.yml'
 

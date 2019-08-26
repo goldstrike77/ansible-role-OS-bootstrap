@@ -66,6 +66,6 @@ dependencies:
       beats_output_auth: false
       beats_output_host: '{{ os_auditbeat_output.host }}'
     when:
-      - os_harden
-      - os_audit
+      - os_harden | bool
+      - os_audit | bool
       - os_audit_type == 'auditbeat'
