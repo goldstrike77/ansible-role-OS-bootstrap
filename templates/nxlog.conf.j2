@@ -17,6 +17,8 @@ LogFile %ROOT%\data\nxlog.log
   SavePos      FALSE
   Exec         $enviornment = '{{ environments | default("ENV") | upper }}';
   Exec         $group = '{{ group_names[0] | default("GROUP") | upper }}';
+  Exec         $subscription = '{{ subscription | default("DEFAULT") | upper }}';
+  Exec         $region = '{{ region | default("DEFAULT") | upper }}';
   Query <QueryList> \
     <Query Id="0"> \
       <Select Path="System">*</Select> \
