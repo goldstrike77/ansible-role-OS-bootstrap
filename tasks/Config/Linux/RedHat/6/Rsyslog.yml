@@ -28,6 +28,8 @@
     - '$PreserveFQDN on'
     - 'template(name="gelf" type="list") {'
     - '  constant(value="{\"version\":\"1.1\",")'
+    - '  constant(value="\"subscription\":\"{{ subscription | default("default") | upper }}\",")'
+    - '  constant(value="\"region\":\"{{ region | default("default") | upper }}\",")'
     - '  constant(value="\"enviornment\":\"{{ environments | default("ENV") | upper }}\",")'
     - '  constant(value="\"group\":\"{{ group_names[0] | default("GROUP") | upper }}\",")'
     - '  constant(value="\"SourceModuleName\":\"in_rsyslog\",")'
