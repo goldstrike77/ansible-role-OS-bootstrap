@@ -82,7 +82,7 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 # 审计参数 #
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
-os_auditbeat_version: '7.1.1' # Beats 版本。
+os_auditbeat_version: '7.2.1' # Beats 版本。
 os_auditbeat_port_arg: # Beats 通信端口。
   http: '5067'
   exporter: '9480'
