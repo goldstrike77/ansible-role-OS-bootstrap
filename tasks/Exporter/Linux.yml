@@ -109,9 +109,21 @@
   with_items: 
     - '{{ node_exporter_collector_textfile_scritps }}'
 
-- name: Register exporter service with an http health check
+- name: Check register client are accessible from current host
   uri:
     url: 'http://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
+    method: 'GET'
+    timeout: '5'
+  environment:
+    no_proxy: '{{ item }}'
+  loop: '{{ consul_public_clients }}'
+  changed_when: false
+  failed_when: false
+  register: check_consul_reg
+
+- name: Register exporter service with an http health check
+  uri:
+    url: 'http://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
     body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_node_exporter","name":"node_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ node_exporter_port }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}","subscription":"{{ subscription | upper }}","region":"{{ region | upper }}"},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ node_exporter_port }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
     body_format: 'json'
@@ -121,9 +133,11 @@
       X-Requested-By: '{{ ansible_default_ipv4.address }}'
       cache-control: 'no-cache'
   environment:
-    no_proxy: '{{ item }}'
-  loop: '{{ consul_public_clients|flatten(levels=1) }}'
-  when: consul_public_register | bool
+    no_proxy: '{{ item.client }}'
+  loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status}') }}"
+  when:
+    - consul_public_register | bool
+    - item.status == 405
   register: register_status
   until: register_status.status == 200
   retries: 2
