@@ -9,6 +9,11 @@
     - os_audit | bool
     - os_audit_type == 'auditd'
 
+- include: '{{ ansible_system }}/Auditbeat.yml'
+  when:
+    - os_audit | bool
+    - os_audit_type == 'auditbeat'
+
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/User.yml'
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Filesystem.yml'

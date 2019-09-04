@@ -1,0 +1,13 @@
+---
+- name: Role dependencies
+  include_role:
+    name: ansible-role-OS-beats
+  vars:
+    beats_type: 'audit'
+    beats_version: '{{ os_auditbeat_version }}'
+    beats_port_arg: '{{ os_auditbeat_port_arg }}'
+    auditbeat_audit_rules: '{{ os_linux_audit_rules }}'
+    beats_output_type: 'logstash'
+    beats_output_port: '{{ os_auditbeat_output.port }}'
+    beats_output_auth: false
+    beats_output_host: '{{ os_auditbeat_output.host }}'
