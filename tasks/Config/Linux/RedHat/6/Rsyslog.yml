@@ -20,29 +20,13 @@
   delay: 5
 
 - name: Remote rsyslog Configuration
-  lineinfile:
+  template:
+    src: 'rsyslog.conf.j2'
     dest: '/etc/rsyslog.conf'
-    state: 'present'
-    line: '{{ item }}'
-  with_items:
-    - '$PreserveFQDN on'
-    - 'template(name="gelf" type="list") {'
-    - '  constant(value="{\"version\":\"1.1\",")'
-    - '  constant(value="\"subscription\":\"{{ subscription | default("default") | upper }}\",")'
-    - '  constant(value="\"region\":\"{{ region | default("default") | upper }}\",")'
-    - '  constant(value="\"enviornment\":\"{{ environments | default("ENV") | upper }}\",")'
-    - '  constant(value="\"group\":\"{{ group_names[0] | default("GROUP") | upper }}\",")'
-    - '  constant(value="\"SourceModuleName\":\"in_rsyslog\",")'
-    - '  constant(value="\"host\":\"") property(name="hostname" caseConversion="upper")'
-    - '  constant(value="\",\"short_message\":\"") property(name="msg" format="json")'
-    - '  constant(value="\",\"timestamp\":") property(name="timereported" dateformat="unixtimestamp")'
-    - '  constant(value=",\"level\":\"") property(name="syslogseverity")'
-    - '  constant(value="\",\"facility\":\"") property(name="syslogfacility")'
-    - '  constant(value="\",\"appname\":\"") property(name="APP-NAME")'
-    - '  constant(value="\",\"procid\":\"") property(name="PROCID")'
-    - '  constant(value="\"}")'
-    - '}'
-    - 'action(type="omfwd" target="{{ syslog_server | list | random(seed=inventory_hostname) }}" port="{{ syslog_port }}" protocol="{{ syslog_protocol | lower }}" template="gelf")'
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
   register: conf_update
 
 - name: Reload rsyslog service

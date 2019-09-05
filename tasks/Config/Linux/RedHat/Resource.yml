@@ -1,13 +1,15 @@
 ---
 - name: Configure runtime kernel parameters
-  sysctl:
-    name: '{{ item.variable }}'
-    value: '{{ item.value }}'
-    state: 'present'
-    reload: 'yes'
-    sysctl_set: 'yes'
-    sysctl_file: '/etc/sysctl.d/10-sysctl.conf'
-  loop: '{{ os_linux_kernel_parameters }}'
+  template:
+    src: '10-sysctl.conf.j2'
+    dest: '/etc/sysctl.d/10-sysctl.conf'
+    backup: 'yes'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+
+- name: Performs runtime kernel parameters
+  command: 'sysctl -p /etc/sysctl.d/10-sysctl.conf'
   changed_when: false
   failed_when: false
 

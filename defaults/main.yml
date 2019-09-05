@@ -299,9 +299,13 @@ node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽�
   - 'sr'
 
 # 公共领事配置参数 #
-subscription: 'default' # 定义系统订阅。
-region: 'default' # 定义系统区域。
 environments: 'SIT' # 定义系统环境。
+#tags: # 对象自定义标签
+#  subscription: 'default'
+#  owner: 'nobody'
+#  department: 'Infrastructure'
+#  organization: 'The Company'
+#  region: 'IDC01'
 exporter_is_install: '{{ os_exporter | bool | to_json }}' # 是否部署普罗米修斯客户端。
 consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
 consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。

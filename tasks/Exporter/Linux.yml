@@ -125,7 +125,7 @@
   uri:
     url: 'http://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_node_exporter","name":"node_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ node_exporter_port }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}","subscription":"{{ subscription | upper }}","region":"{{ region | upper }}"},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ node_exporter_port }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_node_exporter","name":"node_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ node_exporter_port }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ node_exporter_port }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
     body_format: 'json'
     status_code: '200'
     headers:

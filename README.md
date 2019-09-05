@@ -154,8 +154,7 @@ __Table of Contents__
 * `node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
 
 #### - 公共领事配置参数 -
-* `subscription`: 定义系统订阅。
-* `region`: 定义系统区域。
+* `tags`: 对象自定义标签。
 * `environments`: 定义系统环境。
 * `exporter_is_install`: 是否部署普罗米修斯客户端。
 * `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
