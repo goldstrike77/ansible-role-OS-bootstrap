@@ -19,11 +19,10 @@
 
 - name: Install the OSSEC agent dependents packages
   yum:
-    name: '{{ item }}'
+    name: '{{ ossec_agent_dependent_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  loop: '{{ ossec_agent_dependent_packages }}'
   register: yum_status
   until: yum_status is succeeded
   retries: 3
@@ -31,12 +30,11 @@
 
 - name: Install the OSSEC agent packages
   yum:
-    name: '{{ item }}'
+    name: '{{ ossec_agent_packages }}'
     state: 'present'
     enablerepo: '{{ ossec_repo_name }}'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
-  loop: '{{ ossec_agent_packages }}'
   register: yum_status
   until: yum_status is succeeded
   retries: 3
