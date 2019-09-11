@@ -156,7 +156,7 @@ os_win_gpo_audit_policy: # 组审计策略。
   - 'Privilege use'
 
 # 入侵检测系统参数 #
-ossec_version: '3.9.3-1' # WAZUH代理版本。
+ossec_version: '3.9.5-1' # WAZUH代理版本。
 ossec_managers: # WAZUH管理器参数。
   address:
     - '1.1.1.1'
@@ -181,11 +181,6 @@ ossec_agent_config: # WAZUH代理参数。
     ca_store_win: 'wpk_root.pem'
     ca_verification: 'yes'
   log_format: 'plain'
-  openscap:
-    disable: 'no'
-    timeout: '1800'
-    interval: '1d'
-    scan_on_start: 'yes'
 
 # 主机基本软件安装和更新参数 #
 # Linux 参数 #

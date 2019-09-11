@@ -23,59 +23,6 @@
     <ca_verification>{{ ossec_agent_config.active_response.ca_verification }}</ca_verification>
   </active-response>
 
-{% if ansible_system == 'Linux' %}
-  <wodle name="open-scap">
-    <disabled>{{ ossec_agent_config.openscap.disable }}</disabled>
-    <timeout>{{ ossec_agent_config.openscap.timeout }}</timeout>
-    <interval>{{ ossec_agent_config.openscap.interval }}</interval>
-    <scan-on-start>{{ ossec_agent_config.openscap.scan_on_start }}</scan-on-start>
-{% if ansible_distribution == 'Ubuntu' and ansible_distribution_release == 'xenial' %}
-    <content type="xccdf" path="ssg-ubuntu-1604-ds.xml">
-      <profile>xccdf_org.ssgproject.content_profile_common</profile>
-    </content>
-{% elif ansible_distribution == 'Debian' %}
-{% if ansible_distribution_release == 'jessie' %}
-{% if openscap_version_valid.stdout == "0" %}
-    <content type="xccdf" path="ssg-debian-8-ds.xml">
-      <profile>xccdf_org.ssgproject.content_profile_common</profile>
-    </content>
-    <content type="oval" path="cve-debian-8-oval.xml"/>
-{% endif %}
-{% elif ansible_distribution_release == 'stretch' %}
-    <content type="oval" path="cve-debian-9-oval.xml"/>
-{% endif %}
-{% elif ansible_distribution == 'CentOS' %}
-{% if ansible_distribution_major_version == '7' %}
-    <content type="xccdf" path="ssg-centos-7-ds.xml">
-{% elif ansible_distribution_major_version == '6' %}
-    <content type="xccdf" path="ssg-centos-6-ds.xml">
-{% endif %}
-      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-      <profile>xccdf_org.ssgproject.content_profile_common</profile>
-    </content>
-{% elif ansible_distribution == 'RedHat' %}
-{% if ansible_distribution_major_version == '7' %}
-    <content type="xccdf" path="ssg-rhel-7-ds.xml">
-{% elif ansible_distribution_major_version == '6' %}
-    <content type="xccdf" path="ssg-rhel-6-ds.xml">
-{% endif %}
-      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-      <profile>xccdf_org.ssgproject.content_profile_common</profile>
-    </content>
-{% if ansible_distribution_major_version == '7' %}
-    <content type="oval" path="cve-redhat-7-ds.xml"/>
-{% elif ansible_distribution_major_version == '6' %}
-    <content type="oval" path="cve-redhat-6-ds.xml"/>
-{% endif %}
-{% elif ansible_distribution == 'Fedora' %}
-    <content type="xccdf" path="ssg-fedora-ds.xml">
-      <profile>xccdf_org.ssgproject.content_profile_pci-dss</profile>
-      <profile>xccdf_org.ssgproject.content_profile_common</profile>
-    </content>
-{% endif %}
-  </wodle>
-{% endif %}
-
   <labels>
     <label key="group">{{ group_names[0] | upper }}</label>
     <label key="environment">{{ environments | upper }}</label>
