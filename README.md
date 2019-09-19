@@ -186,7 +186,6 @@ __Table of Contents__
 ### 组变量和剧本的组合
 您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
 
-
 ## 许可证
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
 

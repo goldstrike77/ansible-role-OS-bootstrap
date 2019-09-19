@@ -13,7 +13,7 @@
       include: 'Software/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Linux'
-        - not os_linux_soft_result.stat.exists
+        - not os_linux_soft_result.stat.exists | bool
     - name: Check if Windows software update already processed
       win_stat:
         path: 'c:\windows\bootstrap_Software.Succeed'
@@ -23,7 +23,7 @@
       include: 'Software/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Win32NT'
-        - not os_win_soft_result.stat.exists
+        - not os_win_soft_result.stat.exists | bool
   when: os_software | bool
   tags: software
 
@@ -41,7 +41,7 @@
   include: 'OSSec/{{ ansible_system }}.yml'
   when:
     - os_ossec | bool
-    - not ossec_is_install or ossec_is_install is not defined
+    - not ossec_is_install | bool or ossec_is_install is not defined
   tags: ossec
 
 - name: OS Harden operation
@@ -55,7 +55,7 @@
       include: 'Harden/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Linux'
-        - not os_linux_harden_result.stat.exists
+        - not os_linux_harden_result.stat.exists | bool
     - name: Check if Windows Harden already processed
       win_stat:
         path: 'c:\windows\bootstrap_Harden.Succeed'
@@ -65,7 +65,7 @@
       include: 'Harden/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Win32NT'
-        - not os_win_harden_result.stat.exists
+        - not os_win_harden_result.stat.exists | bool
   when: os_harden | bool
   tags: harden
 
@@ -80,7 +80,7 @@
       include: 'Config/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Linux'
-        - not os_linux_config_result.stat.exists
+        - not os_linux_config_result.stat.exists | bool
     - name: Check if Windows initialization configuration already processed
       win_stat:
         path: 'c:\windows\bootstrap_Config.Succeed'
@@ -90,6 +90,6 @@
       include: 'Config/{{ ansible_system }}.yml'
       when:
         - ansible_system == 'Win32NT'
-        - not os_win_config_result.stat.exists
+        - not os_win_config_result.stat.exists | bool
   when: os_config | bool
   tags: config
