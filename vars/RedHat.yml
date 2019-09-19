@@ -94,6 +94,8 @@ base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - 'deltarpm'
   - 'dstat'
   - 'htop'
+  - 'libselinux-utils'
+  - 'lvm2'
   - 'iftop'
   - 'iotop'
   - 'ksh'

@@ -62,7 +62,7 @@ os_win_unicode: 'zh-CN' # 主机字符集编码。
 
 # 主机数据盘操作 #
 # Linux 数据盘参数 #
-os_linux_disc_device: '/dev/sdb' # 数据盘块设备。
+os_linux_disc_device: 'sdb' # 数据盘块设备。
 os_linux_fsopts: 'defaults,noatime,nobarrier' # 数据盘挂载参数。
 os_linux_fstype: 'xfs' # 数据盘文件系统。
 os_linux_lv: 'lv_data' # 逻辑卷名称。
