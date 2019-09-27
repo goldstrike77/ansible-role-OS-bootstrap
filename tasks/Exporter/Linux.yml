@@ -1,23 +1,12 @@
 ---
-- name: Add prometheus YUM repositories
-  yum_repository:
-    name: '{{ exporter_repo_name }}'
-    description: '{{ exporter_repo_name }} YUM repository'
-    file: '{{ exporter_repo_name }}'
-    baseurl: '{{ exporter_repo_url }}'
-    gpgcheck: 'no'
-    timeout: '60'
+- name: Include OS-specific variables
+  include: '{{ ansible_system }}/{{ ansible_os_family }}.yml'
 
-- name: Install the prometheus node exporter
-  yum:
-    name: '{{ exporter_software }}'
-    state: 'present'
-    validate_certs: 'no'
-    disable_gpg_check: 'yes'
-  register: soft_updated
-  until: soft_updated is succeeded
-  retries: 3
-  delay: 5
+- name: Straight to getenforce selinux status
+  include: '{{ ansible_system }}/selinux.yml'
+
+- name: Include firewall tasks
+  include: '{{ ansible_system }}/firewall.yml'
 
 - name: Node exporter configure file transfer
   template:
@@ -27,38 +16,6 @@
     group: 'root'
     mode: '0644'
   register: soft_config
-
-- name: Node exporter firewall operation
-  block:
-    - name: Allow node exporter service port
-      lineinfile:
-        dest: '/etc/sysconfig/iptables'
-        regexp: '^-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT$'
-        line: '-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT'
-        insertafter: '^:OUTPUT ACCEPT \[\d*:\d*\]$'
-    - name: Reload the node exporter service firewalld
-      service:
-        name: 'iptables'
-        state: reloaded
-  when: 
-    - ansible_distribution_major_version|int == 6
-    - soft_config is changed
-
-- name: Gathering service facts
-  service_facts:
-  register: services_state
-
-- name: Node exporter firewall operation
-  firewalld:
-    port: "{{ node_exporter_port }}/tcp"
-    zone: 'public'
-    permanent: 'true'
-    immediate: 'true'
-    state: 'enabled'
-  when: 
-    - ansible_distribution_major_version|int > 6
-    - soft_config is changed
-    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
 
 - name: Reloading the node exporter service
   service:
@@ -109,39 +66,6 @@
   with_items: 
     - '{{ node_exporter_collector_textfile_scritps }}'
 
-- name: Check register client are accessible from current host
-  uri:
-    url: 'http://{{ item }}:{{ consul_public_http_port }}/v1/agent/service/register'
-    method: 'GET'
-    timeout: '5'
-  environment:
-    no_proxy: '{{ item }}'
-  loop: '{{ consul_public_clients }}'
-  changed_when: false
-  failed_when: false
-  register: check_consul_reg
-
-- name: Register exporter service with an http health check
-  uri:
-    url: 'http://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
-    method: 'PUT'
-    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_node_exporter","name":"node_exporter","address":"{{ ansible_default_ipv4.address }}","port":{{ node_exporter_port }},"meta":{"instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[0] | upper }}","environment":"{{ environments | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ ansible_default_ipv4.address }}:{{ node_exporter_port }}/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
-    body_format: 'json'
-    status_code: '200'
-    headers:
-      X-Consul-Token: '{{ consul_public_exporter_token }}'
-      X-Requested-By: '{{ ansible_default_ipv4.address }}'
-      cache-control: 'no-cache'
-  environment:
-    no_proxy: '{{ item.client }}'
-  loop: "{{ check_consul_reg.results | json_query('[*].{client:item,status:status}') }}"
+- include_tasks: '{{ ansible_system }}/register.yml'
   when:
     - consul_public_register | bool
-    - item.status == 405
-  register: register_status
-  until: register_status.status == 200
-  retries: 2
-  delay: 2
-  no_log: true
-  changed_when: false
-  failed_when: false

@@ -1,0 +1,32 @@
+---
+- name: Node exporter firewall operation
+  block:
+    - name: Allow node exporter service port
+      lineinfile:
+        dest: '/etc/sysconfig/iptables'
+        regexp: '^-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT$'
+        line: '-A INPUT -p tcp -m tcp --dport {{ node_exporter_port }} -j ACCEPT'
+        insertafter: '^:OUTPUT ACCEPT \[\d*:\d*\]$'
+    - name: Reload the node exporter service firewalld
+      service:
+        name: 'iptables'
+        state: reloaded
+  when: 
+    - ansible_distribution_major_version|int == 6
+    - soft_config is changed
+
+- name: Gathering service facts
+  service_facts:
+  register: services_state
+
+- name: Node exporter firewall operation
+  firewalld:
+    port: "{{ node_exporter_port }}/tcp"
+    zone: 'public'
+    permanent: 'true'
+    immediate: 'true'
+    state: 'enabled'
+  when: 
+    - ansible_distribution_major_version|int > 6
+    - soft_config is changed
+    - services_state.ansible_facts.services["firewalld.service"].state == 'running'
