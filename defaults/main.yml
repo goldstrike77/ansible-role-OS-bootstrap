@@ -156,7 +156,7 @@ os_win_gpo_audit_policy: # 组审计策略。
   - 'Privilege use'
 
 # 入侵检测系统参数 #
-ossec_version: '3.9.5-1' # WAZUH代理版本。
+ossec_version: '3.10.2-1' # WAZUH代理版本。
 ossec_managers: # WAZUH管理器参数。
   address:
     - '1.1.1.1'

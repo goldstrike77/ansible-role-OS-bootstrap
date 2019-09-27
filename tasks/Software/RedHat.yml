@@ -35,6 +35,7 @@
   yum:
     name: '*'
     state: 'latest'
+    enablerepo: 'base,updates'
   register: yum_status
   until: yum_status is succeeded
   retries: 3
