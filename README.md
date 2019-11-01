@@ -62,6 +62,7 @@ __Table of Contents__
 * `os_linux_grub_add_args`: GRUB新增参数。
 * `os_linux_id_rsa`: 主机SSH密钥。
 * `os_linux_MTA_relayhost`: 邮件中继服务器地址。
+* `os_linux_resolver_single_request`: 启用域名解析单一请求。
 * `os_linux_shell_history`: 历史记录存储在内存中的行数。
 * `os_linux_shell_timeout`: 系统终端空闲等待时间(秒)。
 * `os_linux_syslog_local_keep`:本地日志保留期(周)。

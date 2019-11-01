@@ -125,3 +125,17 @@
         regexp: '(^\s+umask) 002'
         replace: '\1 {{ os_linux_default_umask }}'
   when: os_linux_default_umask != '002'
+
+- name: Ensure network file exists
+  stat:
+    path: '/etc/sysconfig/network'
+  register: network_file
+
+- name: Set the network resolver single-request option
+  lineinfile:
+    dest: '/etc/sysconfig/network'
+    state: 'present'
+    line: 'RES_OPTIONS="single-request single-request-reopen"'
+  when: 
+    - network_file.stat.exists
+    - os_linux_resolver_single_request | bool
