@@ -99,7 +99,7 @@
     line: '{{ item }}'
   with_items:
     - 'TMOUT={{ os_linux_shell_timeout }}'
-    - "IP=$(/sbin/ifconfig eth0|awk '/inet / {print $2}'|cut -d ':' -f 2)"
+    - "IP=$(/sbin/ifconfig {{ ansible_default_ipv4.alias }}|awk '/inet / {print $2}'|cut -d ':' -f 2)"
     - 'export PS1="[\[\033[01;31m\]\u\[\033[00m\]@\[\033[01;32m\]\h\[\033[00m\] \[\033[01;36m\]\$IP \[\033[01;33m\]\W\[\033[00m\]]\[\033[00;34m\]$\[\033[00m\]"'
 
 - name: Network interfaces parameter script transfer
