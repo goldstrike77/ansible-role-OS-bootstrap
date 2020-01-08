@@ -99,7 +99,7 @@ template(name="gelf" type="list") {
 {% endif %}
   constant(value="\"enviornment\":\"{{ environments | default("ENV") | upper }}\",")
   constant(value="\"group\":\"{{ group_names[0] | default("GROUP") | upper }}\",")
-  constant(value="\"SourceModuleName\":\"in_rsyslog\",")
+  constant(value="\"tag\":\"in_rsyslog\",")
   constant(value="\"host\":\"") property(name="hostname" caseConversion="upper")
   constant(value="\",\"short_message\":\"") property(name="msg" format="json")
   constant(value="\",\"timestamp\":") property(name="timereported" dateformat="unixtimestamp")
