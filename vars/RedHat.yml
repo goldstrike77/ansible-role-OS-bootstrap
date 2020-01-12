@@ -6,9 +6,14 @@ rsyslog_repo_name: 'rsyslog'
 rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
 rsyslog_packages: 'rsyslog'
 
-exporter_repo_name: 'prometheus'
-exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
-exporter_software: 'node_exporter'
+node_exporter_repo_name: 'prometheus'
+node_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
+node_exporter_software: 'node_exporter'
+
+netdata_repo_name: 'netdata'
+#netdata_repo_url: "http://packagecloud.io/netdata/netdata/el/{{ ansible_distribution_major_version }}/$basearch"
+netdata_repo_url: "http://packagecloud.io/netdata/netdata/el/{{ ansible_distribution_major_version }}/$basearch"
+netdata_software: 'netdata'
 
 ossec_repo_name: 'wazuh'
 ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'

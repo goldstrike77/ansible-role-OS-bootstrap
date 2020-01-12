@@ -1,0 +1,13 @@
+[global]
+    run as user = netdata
+
+    # the default database size - 1 hour
+    history = 3600
+
+    # by default do not expose the netdata port
+    bind to = {{ ansible_default_ipv4.address }}
+
+[web]
+    default port = {{ netdata_port }}
+    web files owner = root
+    web files group = netdata

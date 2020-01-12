@@ -1,16 +1,17 @@
 ---
-- name: Add prometheus YUM repositories
+- name: 'Add {{ item }} YUM repositories'
   yum_repository:
-    name: '{{ exporter_repo_name }}'
-    description: '{{ exporter_repo_name }} YUM repository'
-    file: '{{ exporter_repo_name }}'
-    baseurl: '{{ exporter_repo_url }}'
+    name: '{{ vars[item + "_repo_name"] }}'
+    description: '{{ vars[item + "_repo_name"] }} YUM repository'
+    file: '{{ vars[item + "_repo_name"] }}'
+    baseurl: '{{ vars[item + "_repo_url"] }}'
     gpgcheck: 'no'
     timeout: '60'
+  loop: '{{ os_linux_exporter_type | lower }}'
 
-- name: Install the prometheus node exporter
+- name: 'Install the {{ item }}'
   yum:
-    name: '{{ exporter_software }}'
+    name: '{{ vars[item + "_software"] }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
@@ -18,3 +19,4 @@
   until: soft_updated is succeeded
   retries: 3
   delay: 5
+  loop: '{{ os_linux_exporter_type | lower }}'

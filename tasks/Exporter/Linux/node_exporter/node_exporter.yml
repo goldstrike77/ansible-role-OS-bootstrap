@@ -1,0 +1,58 @@
+---
+- name: Node exporter configure file transfer
+  template:
+    src: 'node_exporter.j2'
+    dest: '/etc/default/node_exporter'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: soft_config
+
+- name: Reloading the node exporter service
+  service:
+    name: 'node_exporter'
+    enabled: 'yes'
+    state: 'restarted'
+  when:
+    - ansible_distribution_major_version|int == 6
+    - soft_config is changed
+
+- name: Reloading the node exporter service
+  systemd:
+    name: 'node_exporter.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  when:
+    - ansible_distribution_major_version|int > 6
+    - soft_config is changed
+
+- name: Node exporter collector scripts transfer
+  template:
+    src: 'scripts/{{ ansible_system }}/{{ item }}.j2'
+    dest: '/usr/local/bin/{{ item }}.sh'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  with_items:
+    - '{{ node_exporter_collector_textfile_scritps }}'
+
+- name: Creating Node exporter collector textfile folder
+  file:
+    dest: '{{ node_exporter_collector_textfile_directory }}'
+    state: 'directory'
+    mode: '0755'
+
+- name: Node information collection at first time
+  shell: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
+  with_items:
+    - '{{ node_exporter_collector_textfile_scritps }}'
+
+- name: Create a scheduled task to node info collector 
+  cron:
+    user: 'root'
+    name: 'text collector {{ item }}'
+    special_time: 'daily'
+    job: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
+  with_items: 
+    - '{{ node_exporter_collector_textfile_scritps }}'

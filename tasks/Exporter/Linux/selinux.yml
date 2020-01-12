@@ -21,11 +21,12 @@
     node_selinux: '{{ true }}'
   when: 'getenforce_bin.stat.exists and ("Enforcing" in sestatus.stdout or "Permissive" in sestatus.stdout)'
 
-- name: 'Allow Node Exporter to listen on tcp port'
+- name: 'Allow {{ item }} to listen on tcp port'
   seport:
-    ports: '{{ node_exporter_port }}'
+    ports: '{{ vars[item + "_port"] }}'
     proto: 'tcp'
     setype: 'http_port_t'
     state: 'present'
+  loop: '{{ os_linux_exporter_type | lower }}'
   when:
     - node_selinux | bool

@@ -1,0 +1,17 @@
+---
+- name: Netdata configure file transfer
+  template:
+    src: 'netdata.conf.j2'
+    dest: '/etc/netdata/netdata.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: netdata_conf_update
+
+- name: Reloading the netdata service
+  systemd:
+    name: 'netdata.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  when: netdata_conf_update is changed

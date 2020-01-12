@@ -234,7 +234,11 @@ wmi_exporter_collector: # 普罗米修斯客户端收集器。
 #  - 'vmware'
 wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
 # Linux 普罗米修斯客户端参数 #
+os_linux_exporter_type: # Linux 普罗米修斯客户端类型
+  - 'node_exporter'
+  - 'netdata'
 node_exporter_port: '9100' # 普罗米修斯客户端端口。
+netdata_port: '19999' # NETDATA 客户端端口。
 node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'
@@ -301,7 +305,7 @@ node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽�
   - 'sr'
 
 # 公共领事配置参数 #
-environments: 'SIT' # 定义系统环境。
+environments: 'Development' # 定义系统环境。
 #tags: # 对象自定义标签
 #  subscription: 'default'
 #  owner: 'nobody'
