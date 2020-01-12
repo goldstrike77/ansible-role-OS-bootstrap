@@ -1,17 +1,17 @@
 ---
-- name: 'Add {{ item }} YUM repositories'
+- name: 'Add {{ item.name }} YUM repositories'
   yum_repository:
-    name: '{{ vars[item + "_repo_name"] }}'
-    description: '{{ vars[item + "_repo_name"] }} YUM repository'
-    file: '{{ vars[item + "_repo_name"] }}'
-    baseurl: '{{ vars[item + "_repo_url"] }}'
+    name: '{{ vars[item.name + "_repo_name"] }}'
+    description: '{{ vars[item.name + "_repo_name"] }} YUM repository'
+    file: '{{ vars[item.name + "_repo_name"] }}'
+    baseurl: '{{ vars[item.name + "_repo_url"] }}'
     gpgcheck: 'no'
     timeout: '60'
-  loop: '{{ os_linux_exporter_type | lower }}'
+  loop: '{{ os_linux_exporter_type }}'
 
-- name: 'Install the {{ item }}'
+- name: 'Install the {{ item.name }}'
   yum:
-    name: '{{ vars[item + "_software"] }}'
+    name: '{{ vars[item.name + "_software"] }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
@@ -19,4 +19,4 @@
   until: soft_updated is succeeded
   retries: 3
   delay: 5
-  loop: '{{ os_linux_exporter_type | lower }}'
+  loop: '{{ os_linux_exporter_type }}'

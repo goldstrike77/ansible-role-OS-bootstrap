@@ -23,7 +23,7 @@
 
 - name: 'Allow {{ item }} to listen on tcp port'
   seport:
-    ports: '{{ vars[item + "_port"] }}'
+    ports: '{{ item.port }}'
     proto: 'tcp'
     setype: 'http_port_t'
     state: 'present'
