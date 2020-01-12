@@ -149,7 +149,7 @@ __Table of Contents__
 ##### Windows 普罗米修斯客户端参数
 * `wmi_exporter_collector`: 普罗米修斯客户端收集器。
 ##### Linux 普罗米修斯客户端参数
-* `node_exporter_port`: 普罗米修斯客户端端口。
+* `os_linux_exporter_type`: 普罗米修斯客户端类型
 * `node_exporter_collector`: 普罗米修斯客户端系统收集器。
 * `node_exporter_systemd_collector`: 普罗米修斯客户端服务收集器。
 * `node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。
@@ -157,6 +157,9 @@ __Table of Contents__
 
 #### - 公共领事配置参数 -
 * `tags`: 对象自定义标签。
+* `hardware_sn`: 设备序列编号。
+* `hardware_pn`: 设备服务编号。
+* `hardware_cu`: 设备机架编号。
 * `environments`: 定义系统环境。
 * `exporter_is_install`: 是否部署普罗米修斯客户端。
 * `consul_public_register`: 是否向公共领事注册普罗米修斯终端。

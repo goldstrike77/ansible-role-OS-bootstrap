@@ -1,5 +1,5 @@
 ---
-- name: '{{ item.name }} firewall operation'
+- name: 'Allow firewall operation'
   block:
     - name: Allow node exporter service port
       lineinfile:
@@ -7,11 +7,11 @@
         regexp: '^-A INPUT -p tcp -m tcp --dport {{ item.port }} -j ACCEPT$'
         line: '-A INPUT -p tcp -m tcp --dport {{ item.port }} -j ACCEPT'
         insertafter: '^:OUTPUT ACCEPT \[\d*:\d*\]$'
+      loop: '{{ os_linux_exporter_type }}'
     - name: Reload the node exporter service firewalld
       service:
         name: 'iptables'
         state: 'reloaded'
-  loop: '{{ os_linux_exporter_type }}'
   when: 
     - ansible_distribution_major_version|int == 6
 
@@ -19,7 +19,7 @@
   service_facts:
   register: services_state
 
-- name: '{{ item.name }} firewall operation'
+- name: 'Allow firewall operation'
   firewalld:
     port: '{{ item.port }}/tcp'
     zone: 'public'

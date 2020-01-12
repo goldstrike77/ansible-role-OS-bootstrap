@@ -9,8 +9,10 @@
   include: '{{ ansible_system }}/firewall.yml'
 
 - name: Include {{ item }} tasks
-  include: '{{ ansible_system }}/{{ item.name | lower }}.yml'
+  include: '{{ ansible_system }}/{{ os_linux_exporter_type_item.name | lower }}.yml'
   loop: '{{ os_linux_exporter_type }}'
+  loop_control:
+    loop_var: os_linux_exporter_type_item
 
 - name: Registered with HashiCorp Consul
   include: '{{ ansible_system }}/register.yml'

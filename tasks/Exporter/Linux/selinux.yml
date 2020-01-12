@@ -21,7 +21,7 @@
     node_selinux: '{{ true }}'
   when: 'getenforce_bin.stat.exists and ("Enforcing" in sestatus.stdout or "Permissive" in sestatus.stdout)'
 
-- name: 'Allow {{ item }} to listen on tcp port'
+- name: 'Allow to listen on tcp port'
   seport:
     ports: '{{ item.port }}'
     proto: 'tcp'

@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus exporter for Dell Hardware metrics
+Documentation=https://github.com/galexrt/dellhw_exporter
+
+[Service]
+User=nobody
+LimitNOFILE=4096
+LimitNPROC=4096
+EnvironmentFile=/etc/default/dellhw_exporter
+ExecStart=/usr/local/bin/dellhw_exporter $OPTIONS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

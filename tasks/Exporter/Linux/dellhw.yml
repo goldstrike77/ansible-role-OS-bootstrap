@@ -1,0 +1,35 @@
+---
+- name: Dell Hardware exporter program binary transfer
+  unarchive:
+    src: 'dellhw_exporter.tar.xz'
+    dest: '/usr/local/bin'
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  register: dellhw_exporter_update
+
+- name: Dell Hardware exporter configure file transfer
+  template:
+    src: 'dellhw_exporter.default.j2'
+    dest: '/etc/default/dellhw_exporter'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: dellhw_exporter_config
+
+- name: Dell Hardware service file transfer
+  copy:
+    src: 'dellhw_exporter.service'
+    dest: '/lib/systemd/system'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: dellhw_systemd_update
+
+- name: Reloading the Dell Hardware exporter service
+  systemd:
+    name: 'dellhw_exporter.service'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  when: dellhw_exporter_update is changed or dellhw_exporter_config is changed or dellhw_systemd_update is changed

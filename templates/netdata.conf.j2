@@ -8,6 +8,6 @@
     bind to = {{ ansible_default_ipv4.address }}
 
 [web]
-    default port = {{ netdata_port }}
+    default port = {{ os_linux_exporter_type_item.port }}
     web files owner = root
     web files group = netdata

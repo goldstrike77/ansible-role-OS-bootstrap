@@ -7,13 +7,19 @@ rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
 rsyslog_packages: 'rsyslog'
 
 node_exporter_repo_name: 'prometheus'
-node_exporter_repo_url: "http://cache.omygods.com/prometheus-rpm/release/el/{{ansible_distribution_version.split('.')[0]}}/$basearch"
+node_exporter_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch'
 node_exporter_software: 'node_exporter'
 
 netdata_repo_name: 'netdata'
-#netdata_repo_url: "http://packagecloud.io/netdata/netdata/el/{{ ansible_distribution_major_version }}/$basearch"
-netdata_repo_url: "http://packagecloud.io/netdata/netdata/el/{{ ansible_distribution_major_version }}/$basearch"
+#netdata_repo_url: "http://packagecloud.io/netdata/netdata/el/$releasever/$basearch"
+netdata_repo_url: 'http://cache.omygods.com/netdata/el/$releasever/$basearch'
 netdata_software: 'netdata'
+
+dellhw_repo_name: 'dell-system'
+dellhw_repo_url: 'http://linux.dell.com/repo/hardware/dsu/os_dependent/RHEL7_64'
+dellhw_software:
+  - 'srvadmin-storageservices'
+  - 'srvadmin-omacore'
 
 ossec_repo_name: 'wazuh'
 ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'

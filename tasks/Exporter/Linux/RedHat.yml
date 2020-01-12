@@ -1,5 +1,5 @@
 ---
-- name: 'Add {{ item.name }} YUM repositories'
+- name: 'Add exporter YUM repositories'
   yum_repository:
     name: '{{ vars[item.name + "_repo_name"] }}'
     description: '{{ vars[item.name + "_repo_name"] }} YUM repository'
@@ -9,7 +9,7 @@
     timeout: '60'
   loop: '{{ os_linux_exporter_type }}'
 
-- name: 'Install the {{ item.name }}'
+- name: 'Install the exporter'
   yum:
     name: '{{ vars[item.name + "_software"] }}'
     state: 'present'

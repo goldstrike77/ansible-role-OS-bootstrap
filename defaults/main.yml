@@ -237,8 +237,10 @@ wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog'
 os_linux_exporter_type: # Linux 普罗米修斯客户端类型
   - name: 'node_exporter'
     port: '9100'
-  - name: 'netdata'
-    port: '19999'
+#  - name: 'netdata'
+#    port: '19999'
+#  - name: 'dellhw'
+#    port: '9137'
 node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'
@@ -306,6 +308,9 @@ node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽�
 
 # 公共领事配置参数 #
 environments: 'Development' # 定义系统环境。
+#hardware_sn: 'XXXXXXX' # 设备序列编号。
+#hardware_pn: 'XXXXXXXXXXX' # 设备服务编号。
+#hardware_cu: 'A-1' # 设备机架编号。
 #tags: # 对象自定义标签
 #  subscription: 'default'
 #  owner: 'nobody'
