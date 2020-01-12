@@ -235,7 +235,7 @@ wmi_exporter_collector: # 普罗米修斯客户端收集器。
 wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
 # Linux 普罗米修斯客户端参数 #
 os_linux_exporter_type: # Linux 普罗米修斯客户端类型
-  - name: 'node_exporter'
+  - name: 'node'
     port: '9100'
 #  - name: 'netdata'
 #    port: '19999'
