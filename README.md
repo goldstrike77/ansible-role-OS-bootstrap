@@ -149,7 +149,8 @@ __Table of Contents__
 ##### Windows 普罗米修斯客户端参数
 * `wmi_exporter_collector`: 普罗米修斯客户端收集器。
 ##### Linux 普罗米修斯客户端参数
-* `os_linux_exporter_type`: 普罗米修斯客户端类型
+* `os_linux_exporter_type`: 普罗米修斯客户端类型。
+* `netdata_collector`: NETDATA客户端系统收集器。
 * `node_exporter_collector`: 普罗米修斯客户端系统收集器。
 * `node_exporter_systemd_collector`: 普罗米修斯客户端服务收集器。
 * `node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。

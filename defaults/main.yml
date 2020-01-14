@@ -241,6 +241,15 @@ os_linux_exporter_type: # Linux 普罗米修斯客户端类型
 #    port: '19999'
 #  - name: 'dellhw'
 #    port: '9137'
+netdata_collector: # NETDATA客户端系统收集器。
+  tc: 'no'
+  idlejitter: 'no'
+  cgroups: 'no'
+  checks: 'no'
+  apps: 'no'
+  charts.d: 'no'
+  node.d: 'no'
+  python.d: 'no'
 node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'
