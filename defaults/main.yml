@@ -247,9 +247,9 @@ netdata_collector: # NETDATA客户端系统收集器。
   cgroups: 'no'
   checks: 'no'
   apps: 'no'
-  charts.d: 'no'
-  node.d: 'no'
-  python.d: 'no'
+  chartsd: 'no'
+  noded: 'no'
+  pythond: 'no'
 node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'

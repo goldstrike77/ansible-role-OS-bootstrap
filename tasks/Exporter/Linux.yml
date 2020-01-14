@@ -8,7 +8,7 @@
 - name: Include firewall tasks
   include: '{{ ansible_system }}/firewall.yml'
 
-- name: Include {{ item }} tasks
+- name: Include Prometheus exporter tasks
   include: '{{ ansible_system }}/{{ os_linux_exporter_type_item.name | lower }}.yml'
   loop: '{{ os_linux_exporter_type }}'
   loop_control:
