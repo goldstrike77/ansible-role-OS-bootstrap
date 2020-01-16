@@ -31,7 +31,7 @@ os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
 #  - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
 #  - 'transparent_hugepage=never'
 #  - 'numa=off'
-#os_linux_id_rsa: 'MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIUcZI4Qk5H60d0gD5zXhOYqmX67N5Qb8q1SdsQckg4b22rcdrZHftc2YPN166WEWWKyviVPG4yk0VEOWdc9l5cCAwEAAQ==' # 主机SSH密钥。
+#os_linux_id_rsa: 'ssh-rsa xxxxxxxx' # 主机SSH密钥。
 #os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
 os_linux_resolver_single_request: false # 启用域名解析单一请求。
 os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
