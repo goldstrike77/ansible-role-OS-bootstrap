@@ -166,6 +166,7 @@ __Table of Contents__
 * `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
 * `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
 * `consul_public_http_port`: 公共领事公共客户端端口。
+* `consul_public_http_prot`: 公共领事公共客户端协议。
 * `consul_public_clients`: 公共领事公共客户端列表。
 
 ### 其他变量
