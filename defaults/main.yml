@@ -11,6 +11,11 @@ os_software: false # 是否执行主机基本软件安装和更新。
 # 通用参数 #
 os_disable_ipv6: false # 是否关闭IPv6。
 #os_proxy_server: 'http://1.1.1.1:3142' # 主机代理服务器。
+#os_dns_search: 'dc01.local' # 域名系统默认搜索域。
+#os_dns_server: # 域名系统服务器。
+#  - '223.5.5.5'
+#  - '119.29.29.29'
+#  - '8.8.8.8'
 #os_time_server: # 时间服务器。
 #  - 'ntp1.aliyun.com'
 #  - 'ntp2.aliyun.com'

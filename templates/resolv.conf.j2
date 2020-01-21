@@ -1,0 +1,8 @@
+{% if os_dns_search is defined %}
+search {{ os_dns_search }}
+{% endif %}
+{% if os_dns_server is defined %}
+{% for host in os_dns_server %}
+nameserver {{ host }}
+{% endfor %}
+{% endif %}

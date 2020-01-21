@@ -49,6 +49,8 @@ __Table of Contents__
 ##### 通用参数
 * `os_disable_ipv6`: 是否关闭IPv6。
 * `os_proxy_server`: 主机代理服务器。
+* `os_dns_search`: 域名系统默认搜索域。
+* `os_dns_server`: 域名系统服务器。
 * `os_time_server`: 时间服务器。
 ##### 远程日志参数
 * `syslog`: 是否启用远程日志。
