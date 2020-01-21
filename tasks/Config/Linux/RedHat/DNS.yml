@@ -3,6 +3,27 @@
   service_facts:
   register: services_state
 
+- name: Ensure stop Network Manager from adding dns-servers
+  ini_file:
+    path: '/etc/NetworkManager/NetworkManager.conf'
+    state: 'present'
+    no_extra_spaces: 'yes'
+    section: 'main'
+    option: 'dns'
+    value: 'none'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+    backup: 'yes'
+
+- name: Reload Network Manager service
+  systemd:
+    name: 'NetworkManager.service'
+    state: 'restarted'
+  when:
+    - services_state.ansible_facts.services["NetworkManager.service"] is defined 
+    - services_state.ansible_facts.services["NetworkManager.service"].state == 'running'
+
 - name: Resolver configuration file transfer
   template:
     src: 'resolv.conf.j2'
@@ -10,4 +31,3 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  when: services_state.ansible_facts.services["NetworkManager.service"] is not defined or services_state.ansible_facts.services["NetworkManager.service"].state != 'running'
