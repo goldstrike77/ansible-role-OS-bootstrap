@@ -2,5 +2,5 @@
 #
 # Description: Expose RedHat linux release metrics.
 
-/bin/echo "os_info{model=\"`/sbin/dmidecode -s system-product-name`\",build=\"`/bin/cut -f1-4 -d" " /etc/{{ ansible_os_family | lower }}-release`\",release=\"`/bin/uname -r`\",sysname=\"Linux\"} 1"
+/bin/echo "os_info{model=\"`/sbin/dmidecode -s system-product-name`\",build=\"`/bin/cut -f1-4 -d" " /etc/{{ ansible_os_family | lower }}-release`\",release=\"`/bin/uname -r`\",sysname=\"Linux\",interface=\"{{ ansible_default_ipv4.interface }}\"} 1"
 exit 0
