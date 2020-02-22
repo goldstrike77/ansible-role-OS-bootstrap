@@ -260,8 +260,10 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'bcache'
   - 'conntrack'
   - 'cpu'
+  - 'diskstats'
   - 'entropy'
   - 'filefd'
+  - 'filesystem'
   - 'hwmon'
   - 'infiniband'
   - 'ipvs'
@@ -269,7 +271,9 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'meminfo'
   - 'netdev'
   - 'netstat'
+  - 'netclass'
   - 'nfs'
+  - 'nfsd'
   - 'ntp'
   - 'sockstat'
   - 'stat'
@@ -279,22 +283,28 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'timex'
   - 'uname'
   - 'vmstat'
-#  - bonding
-#  - buddyinfo
-#  - drbd
-#  - interrupts
-#  - ksmd
-#  - logind
-#  - mdadm
-#  - meminfo_numa
-#  - mountstats
-#  - qdisc
-#  - runit
-#  - supervisord
-#  - tcpstat
-#  - wifi
-#  - xfs # kernel 4.4+
-#  - zfs
+#  - 'bonding'
+#  - 'cpufreq'
+#  - 'buddyinfo'
+#  - 'drbd'
+#  - 'edac'
+#  - 'pressure'
+#  - 'interrupts'
+#  - 'ksmd'
+#  - 'logind'
+#  - 'mdadm'
+#  - 'meminfo_numa'
+#  - 'mountstats'
+#  - 'qdisc'
+#  - 'runit'
+#  - 'rapl'
+#  - 'supervisord'
+#  - 'schedstat'
+#  - 'tcpstat'
+#  - 'thermal_zone'
+#  - 'wifi'
+#  - 'xfs' # kernel 4.4+
+#  - 'zfs'
 node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
   - 'crond'
   - 'orchestrator'
