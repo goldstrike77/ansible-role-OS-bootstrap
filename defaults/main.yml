@@ -171,7 +171,7 @@ ossec_version: '3.10.2-1' # WAZUH代理版本。
 ossec_managers: # WAZUH管理器参数。
   address:
     - '1.1.1.1'
-  port: '1514'
+  port: '1517'
   protocol: 'tcp'
   api_port: '55000'
   api_proto: 'https'
