@@ -26,6 +26,12 @@
     state: 'present'
   when: os_win_pagefile_size is defined
 
+- name: Set DNS Server addresses on all visible adapters
+  win_dns_client:
+    adapter_names: '*'
+    ipv4_addresses: '{{ os_dns_server }}'
+  when: os_dns_server is defined
+
 #- name: Change Network Location to {{ win_network_location }}
 #  win_command: powershell.exe -
 #  args:
