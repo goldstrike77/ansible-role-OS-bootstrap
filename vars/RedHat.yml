@@ -1,6 +1,6 @@
 ---
 epel_repo_name: 'epel'
-epel_repo_url: 'http://mirrors.aliyun.com/epel/{{ ansible_distribution_major_version }}/$basearch/'
+epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/{{ ansible_distribution_major_version }}/$basearch/'
 
 rsyslog_repo_name: 'rsyslog'
 rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
