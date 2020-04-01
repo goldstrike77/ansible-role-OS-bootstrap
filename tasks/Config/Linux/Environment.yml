@@ -138,7 +138,7 @@
   lineinfile:
     dest: '/etc/sysconfig/network'
     state: 'present'
-    line: 'RES_OPTIONS="single-request single-request-reopen"'
+    line: 'RES_OPTIONS="timeout:2 rotate single-request single-request-reopen"'
   when: 
     - network_file.stat.exists
     - os_linux_resolver_single_request | bool

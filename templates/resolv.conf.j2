@@ -6,3 +6,6 @@ search {{ os_dns_search }}
 nameserver {{ host }}
 {% endfor %}
 {% endif %}
+{% if os_linux_resolver_single_request | bool %}
+options timeout:2 rotate single-request single-request-reopen
+{% endif %}
