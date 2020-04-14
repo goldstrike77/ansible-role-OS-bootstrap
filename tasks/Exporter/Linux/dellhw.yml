@@ -1,4 +1,15 @@
 ---
+- name: Reloading the Dell DSM service
+  systemd:
+    name: '{{ item }}'
+    enabled: 'yes'
+    state: 'restarted'
+    daemon_reload: 'yes'
+  loop:
+    - 'dsm_sa_datamgrd.service'
+    - 'dsm_sa_eventmgrd.service'
+    - 'dsm_sa_snmpd.service'
+
 - name: Dell Hardware exporter program binary transfer
   unarchive:
     src: 'dellhw_exporter.tar.xz'
