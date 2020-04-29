@@ -16,7 +16,7 @@ LogFile %ROOT%\data\nxlog.log
   ReadFromLast FALSE
   SavePos      FALSE
   Exec         $enviornment = '{{ environments | default("ENV") | upper }}';
-  Exec         $group = '{{ group_names[0] | default("GROUP") | upper }}';
+  Exec         $group = '{{ group_names[-1] | default("GROUP") | upper }}';
 {% if tags is defined %}
 {% for key,value in tags.iteritems() %}
   Exec         ${{ key }} = '{{ value }}';
