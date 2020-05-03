@@ -7,6 +7,7 @@
     memory mode = ram
     history = 600
     bind to = {{ ansible_default_ipv4.address }}
+    stock config directory = /etc/netdata/conf.d
 
 [web]
     default port = {{ os_linux_exporter_type_item.port }}
