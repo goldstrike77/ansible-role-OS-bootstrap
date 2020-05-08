@@ -31,7 +31,7 @@ __Table of Contents__
   - 控制分区的执行权限。
   - 控制文件和目录的访问权限。
   - 限制系统访问权限。
-  - 管理用户密码复杂度要求并启用SHA-512算法。
+  - 管理用户密码复杂度并启用SHA-512算法。
   - 对系统重要文件进行保护。
   - 启用审计并配置日志输出至日志服务器。
 - 初始配置的主要内容:
@@ -46,9 +46,10 @@ __Table of Contents__
 - 磁盘操作主要内容:
   - 分区和挂载数据磁盘。
 - 监控主要内容:
-  - Node Exporter 客户端。
-  - NetData 客户端。
-  - Dell PowerEdge 服务器客户端。
+  - Node Exporter 客户端 (Linux)。
+  - NetData 客户端 (Linux)。
+  - Dell PowerEdge 客户端 (Linux)。
+  - WMI 客户端 (Windows)。
 - 入侵检测系统主要内容:
   - 合规性。 
   - 文件监控。
