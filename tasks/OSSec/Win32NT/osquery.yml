@@ -5,6 +5,9 @@
     source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
+    timeout: '120'
+  environment:
+    no_proxy: '*'
   register: chocolatey_status
   until: chocolatey_status is succeeded
   retries: 10
@@ -17,7 +20,9 @@
     name: 'osquery'
     source: '{{ win_chocolatey_source }}'
     state: 'latest'
-    timeout: '60'
+    timeout: '120'
+  environment:
+    no_proxy: '*'
   register: osquery_win_software_status
   until: osquery_win_software_status is succeeded
   retries: 10

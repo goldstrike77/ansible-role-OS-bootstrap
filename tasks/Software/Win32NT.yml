@@ -13,6 +13,9 @@
     source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
+    timeout: '120'
+  environment:
+    no_proxy: '*'
   register: chocolatey_status
   until: chocolatey_status is succeeded
   retries: 10
@@ -25,9 +28,11 @@
     name: '{{ item }}'
     source: '{{ win_chocolatey_source }}'
     state: 'latest'
-    timeout: '60'
+    timeout: '120'
   with_items:
     - '{{ os_win_software }}'
+  environment:
+    no_proxy: '*'
   register: os_win_software_status
   until: os_win_software_status is succeeded
   retries: 10

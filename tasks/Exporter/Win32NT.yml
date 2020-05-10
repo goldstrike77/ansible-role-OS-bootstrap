@@ -5,6 +5,9 @@
     source: '{{ win_chocolatey_source }}'
     state: 'downgrade'
     version: '{{ win_chocolatey_version }}'
+    timeout: '120'
+  environment:
+    no_proxy: '*'
   register: chocolatey_status
   until: chocolatey_status is succeeded
   retries: 10
@@ -18,6 +21,9 @@
     source: '{{ win_chocolatey_source }}'
     state: 'latest'
     params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
+    timeout: '120'
+  environment:
+    no_proxy: '*'
   register: soft_updated
   until: soft_updated is succeeded
   retries: 10
