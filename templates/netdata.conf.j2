@@ -4,8 +4,9 @@
     debug log = none
     error log = none
     access log = none
-    memory mode = ram
-    history = 600
+    memory mode = {{ os_linux_exporter_type_item.database }}
+    cache directory = /var/cache/netdata
+    history = {{ os_linux_exporter_type_item.history }}
     bind to = {{ ansible_default_ipv4.address }}
     stock config directory = /etc/netdata/conf.d
 
