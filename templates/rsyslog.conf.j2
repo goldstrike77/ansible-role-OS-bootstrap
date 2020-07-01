@@ -97,6 +97,8 @@ template(name="gelf" type="list") {
   constant(value="\"{{ key }}\":\"{{ value }}\",")
 {% endfor %}
 {% endif %}
+  constant(value="\"datacenter\":\"{{ datacenter | default("") | lower }}\",")
+  constant(value="\"domain\":\"{{ domain | default("") | lower }}\",")
   constant(value="\"enviornment\":\"{{ environments | default("ENV") | upper }}\",")
   constant(value="\"group\":\"{{ group_names[-1] | default("GROUP") | upper }}\",")
   constant(value="\"tag\":\"in_rsyslog\",")

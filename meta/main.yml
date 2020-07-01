@@ -60,11 +60,14 @@ dependencies:
       beats_type: 'audit'
       beats_version: '{{ os_auditbeat_version }}'
       beats_port_arg: '{{ os_auditbeat_port_arg }}'
-      auditbeat_audit_rules: '{{ os_linux_audit_rules }}'
-      beats_output_type: 'logstash'
+      beats_output_type: '{{ os_auditbeat_output }}'
       beats_output_port: '{{ os_auditbeat_output.port }}'
-      beats_output_auth: false
+      beats_output_auth: '{{ os_auditbeat_output_arg.beats_output_auth | bool }}'
+      beats_output_https: '{{ os_auditbeat_output_arg.beats_output_https | bool }}'
       beats_output_host: '{{ os_auditbeat_output.host }}'
+      beats_output_user: '{{ os_auditbeat_output_arg.beats_output_user }}'
+      beats_output_pass: '{{ os_auditbeat_output_arg.beats_output_pass }}'
+      auditbeat_audit_rules: '{{ os_linux_audit_rules }}'
     when:
       - os_harden | bool
       - os_audit | bool

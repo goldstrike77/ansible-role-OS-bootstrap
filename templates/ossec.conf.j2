@@ -26,6 +26,8 @@
   <labels>
     <label key="group">{{ group_names[-1] | upper }}</label>
     <label key="environment">{{ environments | upper }}</label>
+    <label key="datacenter">{{ datacenter | lower }}</label>
+    <label key="domain">{{ domain | lower }}</label>
 {% if tags is defined %}
 {% for key,value in tags.iteritems() %}
     <label key="{{ key }}">{{ value }}</label>

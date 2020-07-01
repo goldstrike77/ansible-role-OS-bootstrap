@@ -33,12 +33,12 @@ os_linux_enables_needed_service: true # 是否启用需要的服务。
 os_linux_disable_tcp_offloading: true # 是否禁用TCP卸载。
 os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
 #os_linux_grub_add_args: # GRUB新增参数。
-#  - 'ipv6.disable={% if os_disable_ipv6 %}1{% else %}0{% endif %}'
+#  - 'ipv6.disable={% if os_disable_ipv6 | bool %}1{% else %}0{% endif %}'
 #  - 'transparent_hugepage=never'
 #  - 'numa=off'
 #os_linux_id_rsa: 'ssh-rsa xxxxxxxx' # 主机SSH密钥。
 #os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
-os_linux_resolver_single_request: false # 启用域名解析单一请求。
+os_linux_resolver_single_request: true # 启用域名解析单一请求。
 os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
 os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
 os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
@@ -94,12 +94,18 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
 os_auditbeat_version: '7.2.1' # Beats 版本。
-os_auditbeat_port_arg: # Beats 通信端口。
-  http: '5067'
-  exporter: '9480'
+os_auditbeat_output: 'elasticsearch' # 定义后端类型, logstash: logstash 或者 graylog, elasticsearch: 你懂的。
+os_auditbeat_output_arg:
+  beats_output_https: true
+  beats_output_auth: true
+  beats_output_user: 'elastic'
+  beats_output_pass: 'changeme'
 os_auditbeat_output: # Beats 数据收集器参数。
   host: '{{ syslog_server }}'
   port: '5044'
+os_auditbeat_port_arg: # Beats 通信端口。
+  http: '5067'
+  exporter: '9480'
 # Linux 加固参数 #
 os_linux_audit_rules: # Linux 审计规则
   - '-w /sbin/insmod -p x -k modules'
@@ -334,6 +340,8 @@ node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽�
 
 # 公共领事配置参数 #
 environments: 'Development' # 定义系统环境。
+datacenter: 'dc01' # 定义数据中心。
+domain: 'local' # 定义域信息。
 #hardware_sn: 'XXXXXXX' # 设备序列编号。
 #hardware_pn: 'XXXXXXXXXXX' # 设备服务编号。
 #hardware_cu: 'A-1' # 设备机架编号。
@@ -342,7 +350,7 @@ environments: 'Development' # 定义系统环境。
 #  owner: 'nobody'
 #  department: 'Infrastructure'
 #  organization: 'The Company'
-#  region: 'IDC01'
+#  region: 'China'
 exporter_is_install: '{{ os_exporter | bool | to_json }}' # 是否部署普罗米修斯客户端。
 consul_public_register: false # 是否向公共领事注册普罗米修斯终端。
 consul_public_exporter_token: '00000000-0000-0000-0000-000000000000' # 公共领事客户端访问控制令牌。

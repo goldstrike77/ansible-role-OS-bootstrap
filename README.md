@@ -151,6 +151,7 @@ __Table of Contents__
 * `os_audit`: 是否启用主机审计。
 * `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
 * `os_auditbeat_version`: Beats 版本。
+* `os_auditbeat_output`: 定义后端类型。
 * `os_auditbeat_port_arg`: Beats 通信端口。
 * `os_auditbeat_output`: Beats 数据收集器参数。
 ##### Linux 加固参数
@@ -195,11 +196,13 @@ __Table of Contents__
 * `node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
 
 #### - 公共领事配置参数 -
+* `environments`: 定义系统环境。
+* `datacenter`: 定义数据中心。
+* `domain`: 定义域信息。
 * `tags`: 对象自定义标签。
 * `hardware_sn`: 设备序列编号。
 * `hardware_pn`: 设备服务编号。
 * `hardware_cu`: 设备机架编号。
-* `environments`: 定义系统环境。
 * `exporter_is_install`: 是否部署普罗米修斯客户端。
 * `consul_public_register`: 是否向公共领事注册普罗米修斯终端。
 * `consul_public_exporter_token`: 公共领事客户端访问控制令牌。
@@ -230,7 +233,7 @@ __Table of Contents__
          - role: ansible-role-OS-bootstrap
 
 ### 组变量和剧本的组合
-您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`
+您还可以使用组变量或主机变量文件来设置此角色所需的变量。您应该更改的文件: group_vars/all or host_vars/`group_name`.
 
 ## 许可证
 ![](https://img.shields.io/badge/MIT-purple.svg?style=for-the-badge)
