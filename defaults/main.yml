@@ -94,13 +94,13 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
 os_auditbeat_version: '7.2.1' # Beats 版本。
-os_auditbeat_output: 'elasticsearch' # 定义后端类型, logstash: logstash 或者 graylog, elasticsearch: 你懂的。
 os_auditbeat_output_arg:
   beats_output_https: true
   beats_output_auth: true
   beats_output_user: 'elastic'
   beats_output_pass: 'changeme'
 os_auditbeat_output: # Beats 数据收集器参数。
+  type: 'elasticsearch'
   host: '{{ syslog_server }}'
   port: '5044'
 os_auditbeat_port_arg: # Beats 通信端口。

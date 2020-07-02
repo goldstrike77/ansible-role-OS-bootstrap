@@ -151,7 +151,6 @@ __Table of Contents__
 * `os_audit`: 是否启用主机审计。
 * `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
 * `os_auditbeat_version`: Beats 版本。
-* `os_auditbeat_output`: 定义后端类型。
 * `os_auditbeat_port_arg`: Beats 通信端口。
 * `os_auditbeat_output`: Beats 数据收集器参数。
 ##### Linux 加固参数
