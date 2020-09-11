@@ -32,6 +32,7 @@ ossec_agent_dependent_packages:
   - 'openscap-scanner'
   - 'openssl'
   - 'osquery'
+  - 'scap-workbench'
 
 ossec_agent_packages:
   - 'wazuh-agent-{{ ossec_version }}*'
