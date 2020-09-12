@@ -1,4 +1,38 @@
 ---
+- name: Check OSSec api are accessible from current host.
+  uri:
+    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}'
+    method: 'GET'
+    timeout: '5'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ossec_agent_authd.address }}'
+  changed_when: false
+  failed_when: false
+  register: check_wazuh_api
+
+- name: Create OSSec agent group.
+  uri:
+    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    user: '{{ ossec_managers.api_user }}'
+    password: '{{ ossec_managers.api_pass }}'
+    method: 'PUT'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ossec_agent_authd.address }}'
+  when: check_wazuh_api.status == 401
+  register: register_status
+  until: register_status.status == 200
+  retries: 3
+  delay: 2
+  no_log: true
+  changed_when: false
+  failed_when: false
+
 - name: Register OSSEC agent
   shell: >
     /var/ossec/bin/agent-auth
@@ -6,6 +40,7 @@
     -m {{ ossec_agent_authd.address }}
     -p {{ ossec_agent_authd.port }}
     -P {{ ossec_agent_authd.authd_pass }}
+    -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}
     {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   changed_when: false

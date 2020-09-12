@@ -183,7 +183,8 @@ ossec_managers: # WAZUH管理器参数。
   protocol: 'tcp'
   api_port: '55000'
   api_proto: 'https'
-  api_user: null
+  api_user: 'admin'
+  api_pass: 'changeme'
 ossec_agent_authd: # WAZUH代理注册参数。
   address: 'hids-production-ossec-master.service.dc01.local'
   authd_pass: 'Bf6vJRT4WaEAHq'

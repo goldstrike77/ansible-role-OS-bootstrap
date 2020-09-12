@@ -1,4 +1,38 @@
 ---
+- name: Check OSSec api are accessible from current host.
+  win_uri:
+    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}'
+    method: 'GET'
+    timeout: '5'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ossec_agent_authd.address }}'
+  changed_when: false
+  failed_when: false
+  register: check_wazuh_api
+
+- name: Create OSSec agent group.
+  win_uri:
+    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    user: '{{ ossec_managers.api_user }}'
+    password: '{{ ossec_managers.api_pass }}'
+    method: 'PUT'
+    status_code: '200'
+    headers:
+      X-Requested-By: '{{ ossec_agent_authd.address }}'
+      cache-control: 'no-cache'
+    validate_certs: 'no'
+  environment:
+    no_proxy: '{{ ansible_default_ipv4.address }}'
+  when: check_wazuh_api.status_code == 401
+  register: register_status
+  until: register_status.status_code == 200
+  retries: 3
+  delay: 2
+  no_log: true
+  changed_when: false
+  failed_when: false
+
 - name: Get current OSSEC installed version
   win_command: '"C:\Program Files (x86)\ossec-agent\ossec-agent.exe" -h'
   register: ossec_agent_version
@@ -29,7 +63,7 @@
   when: ossec_correct_version is not defined
 
 - name: Register windows OSSEC agent
-  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_agent_authd.authd_pass }}'
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_agent_authd.authd_pass }} -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}'
   register: ossec_agent_auth_output
   changed_when: false
   failed_when: false

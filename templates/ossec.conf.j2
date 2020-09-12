@@ -4,6 +4,8 @@
       <address>{{ ossec_managers.address | list | random(seed=inventory_hostname) }}</address>
       <port>{{ ossec_managers.port }}</port>
       <protocol>{{ ossec_managers.protocol }}</protocol>
+      <max_retries>5</max_retries>
+      <retry_interval>5</retry_interval>
     </server>
 {% if ossec_notify_time is not none and wazuh_time_reconnect is not none %}
     <notify_time>{{ ossec_agent_config.notify_time }}</notify_time>
