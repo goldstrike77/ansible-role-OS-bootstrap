@@ -317,6 +317,7 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
 #  - 'xfs' # kernel 4.4+
 #  - 'zfs'
 node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
+  - 'chronyd'
   - 'crond'
   - 'orchestrator'
   - 'ntpd'

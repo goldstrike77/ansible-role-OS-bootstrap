@@ -1,0 +1,25 @@
+---
+- name: NTP system configuration
+  template:
+    src: 'ntp.conf.j2'
+    dest: '/etc/ntp.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  register: os_ntp_update
+
+- name: Change HW Clock configuration
+  lineinfile:
+    state: 'present'
+    dest: '/etc/sysconfig/ntpdate'
+    regexp: '^SYNC_HWCLOCK'
+    line: 'SYNC_HWCLOCK=yes'
+
+- name: Reload NTP service
+  service :
+    name: 'ntpd'
+    enabled: 'yes'
+    state: 'restarted'
+  async: 1
+  poll: 0
+  when: os_ntp_update is changed

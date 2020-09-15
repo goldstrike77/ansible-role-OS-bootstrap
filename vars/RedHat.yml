@@ -35,7 +35,7 @@ ossec_agent_dependent_packages:
   - 'scap-workbench'
 
 ossec_agent_packages:
-  - 'wazuh-agent-{{ ossec_version }}*'
+  - 'wazuh-agent-{{ ossec_version }}'
 
 disable_service_RedHat_6: # 版本6不需要的服务。
   - 'abrt-ccpp'
@@ -62,11 +62,11 @@ disable_service_RedHat_7: # 版本7不需要的服务。
   - 'abrt-oops.service'
   - 'abrt-vmcore.service'
   - 'abrt-xorg.service'
-  - 'chronyd.service'
   - 'dmraid-activation.service'
   - 'libstoragemgmt.service'
   - 'mdmonitor.service'
   - 'NetworkManager.service'
+  - 'ntpd.service'
   - 'postfix.service'
   - 'rpcbind.service'
   - 'rpcbind.socket'
@@ -78,8 +78,8 @@ disable_service_RedHat_7: # 版本7不需要的服务。
   - 'tuned.service'
   - 'vdo.service'
 enabled_service_RedHat_7: # 版本7需要的服务。
+  - 'chronyd.service'
   - 'firewalld.service'
-  - 'ntpd.service'
   - 'nscd.service'
   - 'rsyslog.service'
 
@@ -102,6 +102,7 @@ base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - 'aide'
   - 'audispd-plugins'
   - 'bind-utils'
+  - 'chrony'
   - 'deltarpm'
   - 'dstat'
   - 'htop'
@@ -116,7 +117,6 @@ base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - 'nmap'
   - 'nmon'
   - 'nscd'
-  - 'ntp'
   - 'numactl'
   - 'policycoreutils-python'
   - 'procmail'

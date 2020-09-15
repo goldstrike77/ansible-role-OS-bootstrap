@@ -43,45 +43,6 @@
     line: 'inet_protocols = ipv4'
   when: os_disable_ipv6 | bool
 
-- name: NTP system configuration
-  template:
-    src: 'ntp.conf.j2'
-    dest: '/etc/ntp.conf'
-    owner: 'root'
-    group: 'root'
-    mode: '0644'
-  register: os_ntp_update
-  when: os_time_server is defined
-
-- name: Change HW Clock configuration
-  lineinfile:
-    state: 'present'
-    dest: '/etc/sysconfig/ntpdate'
-    regexp: '^SYNC_HWCLOCK'
-    line: 'SYNC_HWCLOCK=yes'
-
-- name: Reload NTP service
-  systemd:
-    name: 'ntpd.service'
-    enabled: 'yes'
-    state: 'restarted'
-  async: 1
-  poll: 0
-  when:
-    - os_ntp_update is changed
-    - ansible_distribution_major_version|int > 6
-
-- name: Reload NTP service
-  service :
-    name: 'ntpd'
-    enabled: 'yes'
-    state: 'restarted'
-  async: 1
-  poll: 0
-  when:
-    - os_ntp_update is changed
-    - ansible_distribution_major_version|int == 6
-
 - name: Configure MTA
   lineinfile:
     state: 'present'
