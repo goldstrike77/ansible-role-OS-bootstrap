@@ -6,6 +6,7 @@ os_exporter: false # 是否部署普罗米修斯客户端。
 os_harden: false   # 是否执行主机加固配置。
 os_ossec: false    # 是否部署入侵检测客户端。
 os_software: false # 是否执行主机基本软件安装和更新。
+os_trafficsniff: false # 是否部署网络流量分析客户端。
 
 # 主机初始配置参数 #
 # 通用参数 #
@@ -71,6 +72,38 @@ os_win_pagefile_size: 4096 # 虚拟内存页面文件容量(MB)。
 os_win_tz: 'China Standard Time' # 主机时区。
 os_win_unicode: 'zh-CN' # 主机字符集编码。
 
+# 网络包流量分析参数 #
+os_packetbeat_version: '7.8.1' # Packetbeat 版本。
+os_packetbeat_output: # Packetbeat 数据收集器参数。
+  type: 'elasticsearch'
+  elasti_host: '{{ syslog_server }}'
+  elasti_port: '9200'
+  kibana_host:
+    - 'monitor-production-kibana.service.dc01.local'
+  kibana_port: '5601'
+  https: true
+  auth: true
+  user: 'elastic'
+  pass: 'changeme'
+os_packetbeat_port_arg: # Packetbeat 通信端口。
+  http: '5068'
+  exporter: '9481'
+os_packetbeat_protocols: # 定义监控的通信协议。
+  - 'icmp'
+  - 'http'
+  - 'dns'
+  - 'tls'
+#  - 'amqp'
+#  - 'cassandra'
+#  - 'dhcpv4'
+#  - 'memcache'
+#  - 'mysql'
+#  - 'pgsql'
+#  - 'redis'
+#  - 'thrift'
+#  - 'mongodb'
+#  - 'nfs'
+
 # 主机数据盘操作 #
 # Linux 数据盘参数 #
 os_linux_disc_device: 'sdb' # 数据盘块设备。
@@ -94,7 +127,7 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
 os_auditbeat_version: '7.8.1' # Beats 版本。
-os_auditbeat_output: # Beats 数据收集器参数。
+os_auditbeat_output: # Auditbeat 数据收集器参数。
   type: 'elasticsearch'
   elasti_host: '{{ syslog_server }}'
   elasti_port: '9200'
@@ -105,7 +138,7 @@ os_auditbeat_output: # Beats 数据收集器参数。
   auth: true
   user: 'elastic'
   pass: 'changeme'
-os_auditbeat_port_arg: # Beats 通信端口。
+os_auditbeat_port_arg: # Auditbeat 通信端口。
   http: '5067'
   exporter: '9480'
 # Linux 加固参数 #

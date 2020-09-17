@@ -74,3 +74,18 @@ dependencies:
       - os_harden | bool
       - os_audit | bool
       - os_audit_type == 'auditbeat'
+  - role: 'ansible-role-OS-beats'
+    vars:
+      beats_type: 'packet'
+      beats_version: '{{ os_packetbeat_version }}'
+      beats_port_arg: '{{ os_packetbeat_port_arg }}'
+      beats_output_type: '{{ os_packetbeat_output.type }}'
+      beats_output_auth: '{{ os_packetbeat_output.auth | bool }}'
+      beats_output_https: '{{ os_packetbeat_output.https | bool }}'
+      beats_output_host: '{{ os_packetbeat_output.elasti_host }}'
+      beats_output_port: '{{ os_packetbeat_output.elasti_port }}'
+      beats_kibana_host: '{{ os_packetbeat_output.kibana_host }}'
+      beats_kibana_port: '{{ os_packetbeat_output.kibana_port }}'
+      beats_output_user: '{{ os_packetbeat_output.user }}'
+      beats_output_pass: '{{ os_packetbeat_output.pass }}'
+    when: os_trafficsniff | bool

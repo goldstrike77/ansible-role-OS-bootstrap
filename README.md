@@ -60,6 +60,9 @@ __Table of Contents__
   - 软件源管理。
   - 安装基本的软件。
   - 删除不需要的软件。
+- 网络流量分析主要内容:
+  - 常见协议捕获及解析日志输出至日志服务器。
+
 
 ## 要求
 ### 操作系统
@@ -80,6 +83,7 @@ __Table of Contents__
 * `os_harden`: 是否执行主机加固配置。
 * `os_ossec`: 是否部署入侵检测客户端。
 * `os_software`: 是否执行主机基本软件安装和更新。
+* `os_trafficsniff`: 是否部署网络流量分析客户端。
 
 #### - 主机初始配置参数 -
 ##### 通用参数
@@ -150,8 +154,8 @@ __Table of Contents__
 ##### 审计参数
 * `os_audit`: 是否启用主机审计。
 * `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
-* `os_auditbeat_version`: Beats 版本。
-* `os_auditbeat_port_arg`: Beats 通信端口。
+* `os_auditbeat_version`: Auditbeat 版本。
+* `os_auditbeat_port_arg`: Auditbeat 通信端口。
 * `os_auditbeat_output`: Beats 数据收集器参数。
 ##### Linux 加固参数
 * `os_linux_audit_rules`: Linux 审计规则
@@ -168,6 +172,12 @@ __Table of Contents__
 * `os_win_fs_audit_rule`: 文件系统审计规则。
 * `os_win_fs_audit_user`: 文件系统审计账户名。
 * `os_win_gpo_audit_policy`: 组审计策略。
+
+#### - 网络流量分析参数 -
+* `os_packetbeat_version`: Packetbeat 版本。
+* `os_packetbeat_output`: Packetbeat 数据收集器参数。
+* `os_packetbeat_port_arg`: Packetbeat 通信端口。
+* `os_packetbeat_protocols`: 定义监控的通信协议。
 
 #### - 入侵检测系统参数 -
 * `ossec_version`: WAZUH代理版本。
