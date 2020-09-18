@@ -177,6 +177,8 @@ __Table of Contents__
 * `os_packetbeat_version`: Packetbeat 版本。
 * `os_packetbeat_output`: Packetbeat 数据收集器参数。
 * `os_packetbeat_port_arg`: Packetbeat 通信端口。
+* `os_packetbeat_ignore_outgoing`: 是否忽略从服务器启动的所有事务。
+* `os_packetbeat_flows`: 是否配置流以监控网络流量。
 * `os_packetbeat_protocols`: 定义监控的通信协议。
 
 #### - 入侵检测系统参数 -

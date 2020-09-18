@@ -37,4 +37,7 @@
     beats_kibana_port: '{{ os_packetbeat_output.kibana_port }}'
     beats_output_user: '{{ os_packetbeat_output.user }}'
     beats_output_pass: '{{ os_packetbeat_output.pass }}'
+    packetbeat_flows: '{{ os_packetbeat_flows | bool }}'
+    packetbeat_protocols: '{{ os_packetbeat_protocols }}'
+    packetbeat_ignore_outgoing: '{{ os_packetbeat_ignore_outgoing | bool }}'
   when: os_trafficsniff | bool

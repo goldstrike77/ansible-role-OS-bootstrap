@@ -88,6 +88,8 @@ os_packetbeat_output: # Packetbeat 数据收集器参数。
 os_packetbeat_port_arg: # Packetbeat 通信端口。
   http: '5068'
   exporter: '9481'
+os_packetbeat_flows: false # 是否配置流以监控网络流量。
+os_packetbeat_ignore_outgoing: false # 是否忽略从服务器启动的所有事务。
 os_packetbeat_protocols: # 定义监控的通信协议。
   - 'icmp'
   - 'http'
