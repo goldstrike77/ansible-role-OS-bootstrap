@@ -23,8 +23,8 @@
     update_cache: 'yes'
   register: yum_status
   until: yum_status is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2
 
 - name: 'Remove the useless packages'
   yum:
@@ -38,5 +38,5 @@
     enablerepo: 'base,updates'
   register: yum_status
   until: yum_status is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2

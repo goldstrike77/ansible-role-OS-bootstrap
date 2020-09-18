@@ -37,6 +37,10 @@
   when: os_exporter | bool
   tags: exporter
 
+- name: Include Elastic Beats tasks for specific OS
+  include: 'Beats/{{ ansible_system }}.yml'
+  tags: beats
+
 - name: Include OSSec tasks for specific OS
   include: 'OSSec/{{ ansible_system }}.yml'
   when:
