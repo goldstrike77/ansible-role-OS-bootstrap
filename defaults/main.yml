@@ -230,11 +230,7 @@ ossec_agent_config: # WAZUH代理参数。
   notify_time: '10'
   time_reconnect: '60'
   crypto_method: 'aes'
-  active_response:
-    ar_disabled: 'no'
-    ca_store: '/var/ossec/etc/wpk_root.pem'
-    ca_store_win: 'wpk_root.pem'
-    ca_verification: 'yes'
+  active_response: 'no'
   log_format: 'plain'
 
 # 主机基本软件安装和更新参数 #
