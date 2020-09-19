@@ -5,15 +5,13 @@
     name: '{{ item.name }}'
     data: '{{ item.data }}'
     type: '{{ item.type }}'
-  with_items:
-    - '{{ os_win_misc_role }}'
+  loop: '{{ os_win_misc_role }}'
 
 - name: Disable scheduled task
   win_command: powershell.exe -
   args:
     stdin: 'Get-ScheduledTask -TaskName "{{ item }}" | Disable-ScheduledTask'
-  with_items:
-    - '{{ os_win_disable_task }}'
+  loop: '{{ os_win_disable_task }}'
   when: os_win_disable_task is defined
 
 - name: Disable AutomaticManaged pagefile and set C pagefile

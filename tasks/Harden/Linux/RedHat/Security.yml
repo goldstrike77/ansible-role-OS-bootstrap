@@ -6,7 +6,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  with_items:
+  loop:
     - '/etc/issue'
     - '/etc/issue.net'
 
@@ -16,7 +16,7 @@
     dest: /etc/ssh/sshd_config
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  with_items:
+  loop:
     - { regexp: '^Protocol', line: 'Protocol 2' }
     - { regexp: '^LogLevel', line: 'LogLevel INFO' }
     - { regexp: '^X11Forwarding', line: 'X11Forwarding no' }

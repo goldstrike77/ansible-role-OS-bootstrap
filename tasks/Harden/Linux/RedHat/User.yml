@@ -8,7 +8,7 @@
     dest: '/etc/security/pwquality.conf'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  with_items:
+  loop:
     - { regexp: '^minlen', line: "minlen =  {{ os_linux_user_pw['minlen'] }}" }
     - { regexp: '^dcredit', line: "dcredit = {{ os_linux_user_pw['dcredit'] }}" }
     - { regexp: '^ucredit', line: "ucredit = {{ os_linux_user_pw['ucredit'] }}" }

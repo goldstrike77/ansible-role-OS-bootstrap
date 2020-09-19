@@ -12,8 +12,7 @@
   yum:
     name: '{{ item }}'
     state: 'latest'
-  with_items:
-    - '{{ rsyslog_packages }}'
+  loop: '{{ rsyslog_packages }}'
   register: soft_update
   until: soft_update is succeeded
   retries: 3

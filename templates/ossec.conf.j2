@@ -20,9 +20,9 @@
   </logging>
 
   <active-response>
-    <disabled>{{ ossec_agent_config.active_response.ar|default('no') }}</disabled>
-    <ca_store>{% if ansible_os_family == "Windows" %}{{ ossec_agent_config.active_response.ca_store_win }}{% else %}{{ ossec_agent_config.active_response.ca_store }}{% endif %}</ca_store>
-    <ca_verification>{{ ossec_agent_config.active_response.ca_verification }}</ca_verification>
+    <disabled>{{ ossec_agent_config.active_response | default('no') }}</disabled>
+    <ca_store>{% if ansible_os_family == "Windows" %}wpk_root.pem{% else %}/var/ossec/etc/wpk_root.pem{% endif %}</ca_store>
+    <ca_verification>yes</ca_verification>
   </active-response>
 
   <labels>

@@ -34,8 +34,7 @@
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_items:
-    - '{{ node_exporter_collector_textfile_scritps }}'
+  loop: '{{ node_exporter_collector_textfile_scritps }}'
 
 - name: Creating Node exporter collector textfile folder
   file:
@@ -43,10 +42,16 @@
     state: 'directory'
     mode: '0755'
 
-- name: Node information collection at first time
-  shell: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
-  with_items:
-    - '{{ node_exporter_collector_textfile_scritps }}'
+- name: Check information collection exists
+  stat:
+    path: '/var/lib/prometheus/{{ item }}.prom'
+  loop: '{{ node_exporter_collector_textfile_scritps }}'
+  register: check_prom_files
+
+- name: Execute Node information collection
+  shell: '/usr/local/bin/{{ item.prom }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item.prom }}.prom'
+  loop: "{{ check_prom_files.results | json_query('[*].{prom:item,exists:stat.exists,size:stat.size}') }}"
+  when: not item.exists or item.size == 0
 
 - name: Create a scheduled task to node info collector 
   cron:
@@ -54,5 +59,4 @@
     name: 'text collector {{ item }}'
     special_time: 'daily'
     job: '/usr/local/bin/{{ item }}.sh > {{ node_exporter_collector_textfile_directory }}/{{ item }}.prom'
-  with_items: 
-    - '{{ node_exporter_collector_textfile_scritps }}'
+  loop: '{{ node_exporter_collector_textfile_scritps }}'

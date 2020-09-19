@@ -9,15 +9,13 @@
     name: 'MaxSize'
     data: '{{ os_win_event_log_MaxSize }}'
     type: dword
-  with_items:
-    - '{{ os_win_event_log }}'
+  loop: '{{ os_win_event_log }}'
 
 - name: Configure local security policy
   win_audit_policy_system:
     category: '{{ item }}'
     audit_type: success, failure
-  with_items:
-    - '{{ os_win_gpo_audit_policy }}'
+  loop: '{{ os_win_gpo_audit_policy }}'
 
 - name: Configure filesystem audit rule 
   win_audit_rule:
@@ -26,4 +24,4 @@
     rights: '{{ os_win_fs_audit_rule | list | join(",") }}'
     audit_flags: 'success,failure'
     inheritance_flags: 'ContainerInherit,ObjectInherit'
-  with_items: '{{ fs_audit_path.stdout_lines }}'
+  loop: '{{ fs_audit_path.stdout_lines }}'

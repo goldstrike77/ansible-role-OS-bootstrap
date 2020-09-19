@@ -3,8 +3,7 @@
   win_feature:
     name: '{{ item }}'
     state: 'present'
-  with_items:
-    - '{{ os_win_roles }}'
+  loop: '{{ os_win_roles }}'
   ignore_errors: yes
 
 - name: Install chocolatey
@@ -29,8 +28,7 @@
     source: '{{ win_chocolatey_source }}'
     state: 'latest'
     timeout: '120'
-  with_items:
-    - '{{ os_win_software }}'
+  loop: '{{ os_win_software }}'
   environment:
     no_proxy: '*'
   register: os_win_software_status

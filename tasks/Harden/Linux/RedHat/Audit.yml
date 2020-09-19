@@ -5,7 +5,7 @@
     dest: '{{ item.file }}'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  with_items:
+  loop:
     - { state: '{% if ansible_distribution_major_version|int > 6 %}absent{% else %}present{% endif %}', file: '/etc/audit/auditd.conf', regexp: '^log_format =', line: 'log_format = NOLOG' }
     - { state: '{% if ansible_distribution_major_version|int < 7 %}absent{% else %}present{% endif %}', file: '/etc/audit/auditd.conf', regexp: '^write_logs =', line: 'write_logs = no' }
     - { state: 'present', file: '/etc/audit/auditd.conf', regexp: '^disp_qos =', line: 'disp_qos = lossless' }

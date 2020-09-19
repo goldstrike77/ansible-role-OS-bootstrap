@@ -18,7 +18,7 @@
     dest: /etc/security/limits.conf
     state: 'present'
     line: '{{ item }}'
-  with_items:
+  loop:
     - '* soft nofile {{ os_linux_ulimit_nofile }}'
     - '* hard nofile {{ os_linux_ulimit_nofile }}'
     - '* hard core 0'
@@ -31,6 +31,6 @@
     create: 'yes'
     mode: '0644'
     line: '{{ item }}'
-  with_items:
+  loop:
     - '* soft nproc {{ os_linux_ulimit_nproc }}'
     - '* hard nproc {{ os_linux_ulimit_nproc }}'
