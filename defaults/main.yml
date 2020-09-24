@@ -73,7 +73,7 @@ os_win_tz: 'China Standard Time' # 主机时区。
 os_win_unicode: 'zh-CN' # 主机字符集编码。
 
 # 网络包流量分析参数 #
-os_packetbeat_version: '7.8.1' # Packetbeat 版本。
+os_packetbeat_version: '7.9.1' # Packetbeat 版本。
 os_packetbeat_output: # Packetbeat 数据收集器参数。
   type: 'elasticsearch'
   elasti_host: '{{ syslog_server }}'
@@ -128,7 +128,7 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 # 审计参数 #
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
-os_auditbeat_version: '7.8.1' # Beats 版本。
+os_auditbeat_version: '7.9.1' # Beats 版本。
 os_auditbeat_output: # Auditbeat 数据收集器参数。
   type: 'elasticsearch'
   elasti_host: '{{ syslog_server }}'
@@ -210,7 +210,7 @@ os_win_gpo_audit_policy: # 组审计策略。
   - 'Privilege use'
 
 # 入侵检测系统参数 #
-ossec_version: '3.13.1-1' # WAZUH代理版本。
+ossec_version: '3.13.2-1' # WAZUH代理版本。
 ossec_managers: # WAZUH管理器参数。
   address:
     - 'hids-production-ossec-worker.service.dc01.local'
