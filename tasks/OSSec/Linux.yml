@@ -29,8 +29,6 @@
       when: ossec_agent_auth_output.rc == 0
     - name: Force the handler to run immediately
       meta: flush_handlers
-    - name: Remove OSSec metadata
-      include: '{{ ansible_system }}/cleanup.yml'
   when:
     - check_ossec_reg.state is defined
     - check_ossec_reg.state == 'started'

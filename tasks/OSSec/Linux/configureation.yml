@@ -73,3 +73,11 @@
     mode: '0640'
   loop: '{{ ossec_internal_options }}'
   when: ossec_agent_auth_output.rc == 0
+
+- name: Ensure Wazuh agent client key permission.
+  file:
+    path: '/var/ossec/etc/client.keys'
+    owner: 'root'
+    group: 'ossec'
+    mode: '640'
+  when: ossec_agent_auth_output.rc == 0
