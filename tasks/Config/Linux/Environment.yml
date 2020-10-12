@@ -49,7 +49,8 @@
     dest: '/etc/postfix/main.cf'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
-  loop: { regexp: '^relayhost =', line: 'relayhost = {{ os_linux_MTA_relayhost }}' }
+  loop: 
+    - { regexp: '^relayhost =', line: 'relayhost = {{ os_linux_MTA_relayhost }}' }
   when: os_linux_MTA_relayhost is defined
 
 - name: Configure terminal scheme
