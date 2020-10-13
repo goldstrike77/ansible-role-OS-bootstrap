@@ -19,7 +19,7 @@
 
 - name: Install the OSSEC agent dependents packages
   yum:
-    name: '{{ ossec_agent_dependent_packages }}'
+    name: '{{ os_ossec_agent_dependent_packages }}'
     state: 'present'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
@@ -32,7 +32,7 @@
   yum:
     name: '{{ os_ossec_agent_packages }}'
     state: 'present'
-    enablerepo: '{{ ossec_repo_name }}'
+    enablerepo: '{{ os_ossec_repo_name }}'
     validate_certs: 'no'
     disable_gpg_check: 'yes'
   register: yum_status
