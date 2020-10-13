@@ -93,10 +93,10 @@ __Table of Contents__
 * `os_dns_server`: 域名系统服务器。
 * `os_time_server`: 时间服务器。
 ##### 远程日志参数
-* `syslog`: 是否启用远程日志。
-* `syslog_port`: 远程日志服务器端口。
-* `syslog_protocol`: 远程日志服务器协议。
-* `syslog_server`: 远程日志服务器地址列表。
+* `os_syslog`: 是否启用远程日志。
+* `os_syslog_port`: 远程日志服务器端口。
+* `os_syslog_protocol`: 远程日志服务器协议。
+* `os_syslog_server`: 远程日志服务器地址列表。
 ##### Linux 初始参数
 * `os_linux_disable_unused_service`: 是否禁用不需要的服务。
 * `os_linux_enables_needed_service`: 是否启用需要的服务。
@@ -182,10 +182,10 @@ __Table of Contents__
 * `os_packetbeat_protocols`: 定义监控的通信协议。
 
 #### - 入侵检测系统参数 -
-* `ossec_version`: WAZUH代理版本。
-* `ossec_managers`: WAZUH管理器参数。
-* `ossec_agent_authd`: WAZUH代理注册参数。
-* `ossec_agent_config`: WAZUH代理参数。
+* `os_ossec_version`: WAZUH代理版本。
+* `os_ossec_managers`: WAZUH管理器参数。
+* `os_ossec_agent_authd`: WAZUH代理注册参数。
+* `os_ossec_agent_config`: WAZUH代理参数。
 
 #### - 主机基本软件安装和更新参数 -
 ##### Linux 参数
@@ -197,14 +197,14 @@ __Table of Contents__
 
 #### - 普罗米修斯客户端配置参数 -
 ##### Windows 普罗米修斯客户端参数
-* `wmi_exporter_collector`: 普罗米修斯客户端收集器。
+* `os_wmi_exporter_collector`: 普罗米修斯客户端收集器。
 ##### Linux 普罗米修斯客户端参数
 * `os_linux_exporter_type`: 普罗米修斯客户端类型。
-* `netdata_collector`: NETDATA客户端系统收集器。
-* `node_exporter_collector`: 普罗米修斯客户端系统收集器。
-* `node_exporter_systemd_collector`: 普罗米修斯客户端服务收集器。
-* `node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。
-* `node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
+* `os_netdata_collector`: NETDATA客户端系统收集器。
+* `os_node_exporter_collector`: 普罗米修斯客户端系统收集器。
+* `os_node_exporter_systemd_collector`: 普罗米修斯客户端服务收集器。
+* `os_node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。
+* `os_node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
 
 #### - 公共领事配置参数 -
 * `environments`: 定义系统环境。

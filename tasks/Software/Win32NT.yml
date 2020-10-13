@@ -9,9 +9,9 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
-    source: '{{ win_chocolatey_source }}'
+    source: '{{ os_win_chocolatey_source }}'
     state: 'downgrade'
-    version: '{{ win_chocolatey_version }}'
+    version: '{{ os_win_chocolatey_version }}'
     timeout: '120'
   environment:
     no_proxy: '*'
@@ -25,7 +25,7 @@
 - name: 'Third party software installation'
   win_chocolatey:
     name: '{{ item }}'
-    source: '{{ win_chocolatey_source }}'
+    source: '{{ os_win_chocolatey_source }}'
     state: 'latest'
     timeout: '120'
   loop: '{{ os_win_software }}'

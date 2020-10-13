@@ -1,21 +1,21 @@
 ---
 - name: Check OSSec api are accessible from current host.
   uri:
-    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}'
     method: 'GET'
     timeout: '5'
     validate_certs: 'no'
   environment:
-    no_proxy: '{{ ossec_agent_authd.address }}'
+    no_proxy: '{{ os_ossec_agent_authd.address }}'
   changed_when: false
   failed_when: false
   register: check_wazuh_api
 
 - name: Create OSSec agent group.
   uri:
-    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
-    user: '{{ ossec_managers.api_user }}'
-    password: '{{ ossec_managers.api_pass }}'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    user: '{{ os_ossec_managers.api_user }}'
+    password: '{{ os_ossec_managers.api_pass }}'
     method: 'PUT'
     status_code: '200'
     headers:
@@ -23,7 +23,7 @@
       cache-control: 'no-cache'
     validate_certs: 'no'
   environment:
-    no_proxy: '{{ ossec_agent_authd.address }}'
+    no_proxy: '{{ os_ossec_agent_authd.address }}'
   when: check_wazuh_api.status == 401
   register: register_status
   until: register_status.status == 200
@@ -37,11 +37,11 @@
   shell: >
     /var/ossec/bin/agent-auth
     -A {{ inventory_hostname | upper }}
-    -m {{ ossec_agent_authd.address }}
-    -p {{ ossec_agent_authd.port }}
-    -P {{ ossec_agent_authd.authd_pass }}
+    -m {{ os_ossec_agent_authd.address }}
+    -p {{ os_ossec_agent_authd.port }}
+    -P {{ os_ossec_agent_authd.authd_pass }}
     -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}
-    {% if ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
+    {% if os_ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   changed_when: false
   failed_when: false
@@ -71,7 +71,7 @@
     owner: 'root'
     group: 'ossec'
     mode: '0640'
-  loop: '{{ ossec_internal_options }}'
+  loop: '{{ os_ossec_internal_options }}'
   when: ossec_agent_auth_output.rc == 0
 
 - name: Ensure Wazuh agent client key permission.

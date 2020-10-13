@@ -1,10 +1,10 @@
 ---
 - name: Add rsyslog YUM repositories
   yum_repository:
-    name: '{{ rsyslog_repo_name }}'
-    description: '{{ rsyslog_repo_name }} RPM repository for Enterprise Linux'
-    file: '{{ rsyslog_repo_name }}'
-    baseurl: '{{ rsyslog_repo_url }}'
+    name: '{{ os_rsyslog_repo_name }}'
+    description: '{{ os_rsyslog_repo_name }} RPM repository for Enterprise Linux'
+    file: '{{ os_rsyslog_repo_name }}'
+    baseurl: '{{ os_rsyslog_repo_url }}'
     gpgcheck: 'no'
     timeout: '60'
 
@@ -12,11 +12,11 @@
   yum:
     name: '{{ item }}'
     state: 'latest'
-  loop: '{{ rsyslog_packages }}'
+  loop: '{{ os_rsyslog_packages }}'
   register: soft_update
   until: soft_update is succeeded
-  retries: 3
-  delay: 5
+  retries: 5
+  delay: 2
 
 - name: Remote rsyslog Configuration
   template:

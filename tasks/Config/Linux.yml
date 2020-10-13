@@ -7,7 +7,7 @@
   when: os_time_server is defined
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Rsyslog.yml'
-  when: syslog | bool
+  when: os_syslog | bool
 
 - include: '{{ ansible_system }}/Environment.yml'
 

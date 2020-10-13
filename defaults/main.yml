@@ -23,10 +23,10 @@ os_disable_ipv6: false # 是否关闭IPv6。
 #  - 'ntp3.aliyun.com'
 #  - 'ntp4.aliyun.com'
 # 远程日志参数 #
-syslog: false # 是否启用远程日志。
-syslog_port: '12201' # 远程日志服务器端口。
-syslog_protocol: 'udp' # 远程日志服务器协议。
-syslog_server: # 远程日志服务器地址列表。
+os_syslog: false # 是否启用远程日志。
+os_syslog_port: '12201' # 远程日志服务器端口。
+os_syslog_protocol: 'udp' # 远程日志服务器协议。
+os_syslog_server: # 远程日志服务器地址列表。
   - '127.0.0.1'
 # Linux 初始参数 #
 os_linux_disable_unused_service: true # 是否禁用不需要的服务。
@@ -76,8 +76,8 @@ os_win_unicode: 'zh-CN' # 主机字符集编码。
 os_packetbeat_version: '7.9.1' # Packetbeat 版本。
 os_packetbeat_output: # Packetbeat 数据收集器参数。
   type: 'elasticsearch'
-  elasti_host: '{{ syslog_server }}'
-  elasti_port: '9200'
+  host: '{{ os_syslog_server }}'
+  port: '9200'
   kibana_host:
     - 'monitor-production-kibana.service.dc01.local'
   kibana_port: '5601'
@@ -131,8 +131,8 @@ os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
 os_auditbeat_version: '7.9.1' # Beats 版本。
 os_auditbeat_output: # Auditbeat 数据收集器参数。
   type: 'elasticsearch'
-  elasti_host: '{{ syslog_server }}'
-  elasti_port: '9200'
+  host: '{{ os_syslog_server }}'
+  port: '9200'
   kibana_host:
     - 'monitor-production-kibana.service.dc01.local'
   kibana_port: '5601'
@@ -210,8 +210,8 @@ os_win_gpo_audit_policy: # 组审计策略。
   - 'Privilege use'
 
 # 入侵检测系统参数 #
-ossec_version: '3.13.2-1' # WAZUH代理版本。
-ossec_managers: # WAZUH管理器参数。
+os_ossec_version: '3.13.2-1' # WAZUH代理版本。
+os_ossec_managers: # WAZUH管理器参数。
   address:
     - 'hids-production-ossec-worker.service.dc01.local'
   port: '1517'
@@ -220,12 +220,12 @@ ossec_managers: # WAZUH管理器参数。
   api_proto: 'https'
   api_user: 'admin'
   api_pass: 'changeme'
-ossec_agent_authd: # WAZUH代理注册参数。
+os_ossec_agent_authd: # WAZUH代理注册参数。
   address: 'hids-production-ossec-master.service.dc01.local'
   authd_pass: 'Bf6vJRT4WaEAHq'
   port: '1515'
   ssl_auto_negotiate: 'no'
-ossec_agent_config: # WAZUH代理参数。
+os_ossec_agent_config: # WAZUH代理参数。
   auto_restart: 'yes'
   notify_time: '10'
   time_reconnect: '60'
@@ -248,7 +248,7 @@ os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的
 
 # 普罗米修斯客户端配置参数 #
 # Windows 普罗米修斯客户端参数 #
-wmi_exporter_collector: # 普罗米修斯客户端收集器。
+os_wmi_exporter_collector: # 普罗米修斯客户端收集器。
   - 'cpu'
   - 'cs'
   - 'logical_disk'
@@ -277,7 +277,7 @@ wmi_exporter_collector: # 普罗米修斯客户端收集器。
 #  - 'process'
 #  - 'thermalzone'
 #  - 'vmware'
-wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
+os_wmi_exporter_extra_collector: '--collector.service.services-where="Name=''nxlog''"'
 # Linux 普罗米修斯客户端参数 #
 os_linux_exporter_type: # Linux 普罗米修斯客户端类型
   - name: 'node'
@@ -288,7 +288,7 @@ os_linux_exporter_type: # Linux 普罗米修斯客户端类型
 #    history: '300'
 #  - name: 'dellhw'
 #    port: '9137'
-netdata_collector: # NETDATA客户端系统收集器。
+os_netdata_collector: # NETDATA客户端系统收集器。
   tc: 'no'
   idlejitter: 'no'
   cgroups: 'no'
@@ -297,7 +297,7 @@ netdata_collector: # NETDATA客户端系统收集器。
   chartsd: 'no'
   noded: 'no'
   pythond: 'no'
-node_exporter_collector: # 普罗米修斯客户端系统收集器。
+os_node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'arp'
   - 'bcache'
   - 'bonding'
@@ -347,7 +347,7 @@ node_exporter_collector: # 普罗米修斯客户端系统收集器。
 #  - 'wifi'
 #  - 'xfs' # kernel 4.4+
 #  - 'zfs'
-node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
+os_node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
   - 'chronyd'
   - 'crond'
   - 'orchestrator'
@@ -357,7 +357,7 @@ node_exporter_systemd_collector: # 普罗米修斯客户端服务收集器。
   - 'wazuh-agent'
   - 'wazuh-api'
   - 'wazuh-manager'
-node_exporter_ignored_mount_points_collector: # 普罗米修斯客户端收集器忽略的磁盘挂载点。
+os_node_exporter_ignored_mount_points_collector: # 普罗米修斯客户端收集器忽略的磁盘挂载点。
   - 'data/docker/'
   - 'dev'
   - 'proc'
@@ -367,7 +367,7 @@ node_exporter_ignored_mount_points_collector: # 普罗米修斯客户端收集�
   - 'run/docker/netns/'
   - 'sys'
   - 'var/lib/kubelet/'
-node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽略的块设备。
+os_node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器忽略的块设备。
   - 'ram'
   - 'loop'
   - 'fd'

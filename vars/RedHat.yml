@@ -1,32 +1,32 @@
 ---
-epel_repo_name: 'epel'
-epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
+os_epel_repo_name: 'epel'
+os_epel_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
 
-rsyslog_repo_name: 'rsyslog'
-rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch'
-rsyslog_packages: 'rsyslog'
+os_rsyslog_repo_name: 'rsyslog'
+os_rsyslog_repo_url: 'http://rpms.adiscon.com/v8-stable/epel-$releasever/$basearch/'
+os_rsyslog_packages: 'rsyslog'
 
-node_repo_name: 'prometheus'
-node_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch'
-node_software: 'node_exporter'
+os_node_repo_name: 'prometheus'
+os_node_repo_url: 'http://cache.omygods.com/prometheus-rpm/release/el/$releasever/$basearch/'
+os_node_software: 'node_exporter'
 
-netdata_repo_name: 'netdata'
-netdata_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
-netdata_software: 'netdata'
+os_netdata_repo_name: 'netdata'
+os_netdata_repo_url: 'http://mirrors.tuna.tsinghua.edu.cn/epel/$releasever/$basearch/'
+os_netdata_software: 'netdata'
 
-dellhw_repo_name: 'dell-system'
-dellhw_repo_url: 'http://linux.dell.com/repo/hardware/dsu/os_dependent/RHEL\$releasever\_64'
-dellhw_software:
+os_dellhw_repo_name: 'dell-system'
+os_dellhw_repo_url: 'http://linux.dell.com/repo/hardware/dsu/os_dependent/RHEL\$releasever\_64/'
+os_dellhw_software:
   - 'srvadmin-storageservices'
   - 'srvadmin-omacore'
 
-ossec_repo_name: 'wazuh'
-ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ ossec_version.split(".")[0] }}.x/yum'
+os_ossec_repo_name: 'wazuh'
+os_ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ os_ossec_version.split(".")[0] }}.x/yum/'
 
-osquery_repo_name: 'osquery'
-osquery_repo_url: 'http://cache.omygods.com/osquery'
+os_osquery_repo_name: 'osquery'
+os_osquery_repo_url: 'http://cache.omygods.com/osquery/'
 
-ossec_agent_dependent_packages:
+os_ossec_agent_dependent_packages:
   - 'expect'
   - 'python-docker'
   - 'openscap-scanner'
@@ -34,10 +34,10 @@ ossec_agent_dependent_packages:
   - 'osquery'
   - 'scap-workbench'
 
-ossec_agent_packages:
-  - 'wazuh-agent-{{ ossec_version }}'
+os_ossec_agent_packages:
+  - 'wazuh-agent-{{ os_ossec_version }}'
 
-disable_service_RedHat_6: # 版本6不需要的服务。
+os_disable_service_RedHat_6: # 版本6不需要的服务。
   - 'abrt-ccpp'
   - 'abrtd'
   - 'abrt-oops'
@@ -51,12 +51,12 @@ disable_service_RedHat_6: # 版本6不需要的服务。
   - 'netfs'
   - 'postfix'
   - 'sysstat'
-enabled_service_RedHat_6: # 版本6需要的服务。
+os_enabled_service_RedHat_6: # 版本6需要的服务。
   - 'iptables'
   - 'nscd'
   - 'ntpd'
   - 'rsyslog'
-disable_service_RedHat_7: # 版本7不需要的服务。
+os_disable_service_RedHat_7: # 版本7不需要的服务。
   - 'abrt-ccpp.service'
   - 'abrtd.service'
   - 'abrt-oops.service'
@@ -77,13 +77,13 @@ disable_service_RedHat_7: # 版本7不需要的服务。
   - 'systemd-readahead-replay.service'
   - 'tuned.service'
   - 'vdo.service'
-enabled_service_RedHat_7: # 版本7需要的服务。
+os_enabled_service_RedHat_7: # 版本7需要的服务。
   - 'chronyd.service'
   - 'firewalld.service'
   - 'nscd.service'
   - 'rsyslog.service'
 
-unload_module_RedHat: # 不需要的模块。
+os_unload_module_RedHat: # 不需要的模块。
   - 'cramfs'
   - 'floppy'
   - 'freevxfs'
@@ -97,7 +97,7 @@ unload_module_RedHat: # 不需要的模块。
   - 'squashfs'
   - 'tipc'
 
-base_packages_RedHat_7: # 版本7需要安装的系统组件。
+os_base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - '@Base'
   - 'aide'
   - 'audispd-plugins'
@@ -129,7 +129,7 @@ base_packages_RedHat_7: # 版本7需要安装的系统组件。
   - 'tree'
   - 'xfsprogs'
 
-remove_packages_RedHat_7: # 版本7需要删除的系统组件。
+os_remove_packages_RedHat_7: # 版本7需要删除的系统组件。
   - 'aic94xx-firmware'
   - 'alsa-firmware'
   - 'alsa-tools-firmware'
@@ -153,7 +153,7 @@ remove_packages_RedHat_7: # 版本7需要删除的系统组件。
   - 'iwl7265-firmware'
   - 'microcode_ctl'
 
-base_packages_RedHat_6: # 版本6需要安装的系统组件。
+os_base_packages_RedHat_6: # 版本6需要安装的系统组件。
   - '@Base'
   - 'aide'
   - 'audispd-plugins'
@@ -184,7 +184,7 @@ base_packages_RedHat_6: # 版本6需要安装的系统组件。
   - 'vim-enhanced'
   - 'xfsprogs'
 
-remove_packages_RedHat_6: # 版本6需要删除的系统组件。
+os_remove_packages_RedHat_6: # 版本6需要删除的系统组件。
   - 'microcode_ctl'
 
 os_linux_protected_file: # 需要限制权限的系统文件。

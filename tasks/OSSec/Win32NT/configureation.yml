@@ -1,25 +1,25 @@
 ---
 - name: Check OSSec api are accessible from current host.
   win_uri:
-    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}'
     method: 'GET'
     timeout: '5'
     validate_certs: 'no'
   environment:
-    no_proxy: '{{ ossec_agent_authd.address }}'
+    no_proxy: '{{ os_ossec_agent_authd.address }}'
   changed_when: false
   failed_when: false
   register: check_wazuh_api
 
 - name: Create OSSec agent group.
   win_uri:
-    url: '{{ ossec_managers.api_proto }}://{{ ossec_agent_authd.address }}:{{ ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
-    user: '{{ ossec_managers.api_user }}'
-    password: '{{ ossec_managers.api_pass }}'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    user: '{{ os_ossec_managers.api_user }}'
+    password: '{{ os_ossec_managers.api_pass }}'
     method: 'PUT'
     status_code: '200'
     headers:
-      X-Requested-By: '{{ ossec_agent_authd.address }}'
+      X-Requested-By: '{{ os_ossec_agent_authd.address }}'
       cache-control: 'no-cache'
     validate_certs: 'no'
   environment:
@@ -42,13 +42,13 @@
 - name: Check OSSEC agent version installed
   set_fact: ossec_correct_version=true
   when:
-    - ossec_agent_version.stdout is defined
-    - ossec_version.split('-')[0] in ossec_agent_version.stdout
+    - os_ossec_agent_version.stdout is defined
+    - os_ossec_version.split('-')[0] in ossec_agent_version.stdout
 
 - name: Downloading windows OSSEC agent installer
   win_get_url:
     dest: C:\ossec-agent-installer.msi
-    url: '{{ ossec_winagent_repo }}wazuh-agent-{{ ossec_version }}.msi'
+    url: '{{ os_ossec_winagent_repo }}wazuh-agent-{{ os_ossec_version }}.msi'
   when: ossec_correct_version is not defined
 
 - name: Install windows OSSEC agent
@@ -63,7 +63,7 @@
   when: ossec_correct_version is not defined
 
 - name: Register windows OSSEC agent
-  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ ossec_agent_authd.address }} -p {{ ossec_agent_authd.port }} -P {{ ossec_agent_authd.authd_pass }} -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}'
+  win_command: '"C:\Program Files (x86)\ossec-agent\agent-auth.exe" -A {{ inventory_hostname | upper }} -m {{ os_ossec_agent_authd.address }} -p {{ os_ossec_agent_authd.port }} -P {{ os_ossec_agent_authd.authd_pass }} -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}'
   register: ossec_agent_auth_output
   changed_when: false
   failed_when: false

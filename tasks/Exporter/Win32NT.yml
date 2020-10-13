@@ -2,9 +2,9 @@
 - name: Install chocolatey
   win_chocolatey:
     name: 'chocolatey'
-    source: '{{ win_chocolatey_source }}'
+    source: '{{ os_win_chocolatey_source }}'
     state: 'downgrade'
-    version: '{{ win_chocolatey_version }}'
+    version: '{{ os_win_chocolatey_version }}'
     timeout: '120'
   environment:
     no_proxy: '*'
@@ -18,9 +18,9 @@
 - name: WMI exporter installation
   win_chocolatey:
     name: '{{ wmi_exporter_software }}'
-    source: '{{ win_chocolatey_source }}'
+    source: '{{ os_win_chocolatey_source }}'
     state: 'latest'
-    params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["wmi_exporter_collector"]) }} /ExtraFlags:"{{ wmi_exporter_extra_collector }}"'
+    params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["os_wmi_exporter_collector"]) }} /ExtraFlags:"{{ os_wmi_exporter_extra_collector }}"'
     timeout: '120'
   environment:
     no_proxy: '*'
@@ -49,11 +49,11 @@
   win_template:
     src: 'scripts/{{ ansible_system }}/{{ item }}.j2'
     dest: 'C:\Program Files\wmi_exporter\{{ item }}.ps1'
-  loop: '{{ wmi_exporter_collector_scripts }}'
+  loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - name: Node information collection at first time
   win_shell: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
-  loop: '{{ wmi_exporter_collector_scripts }}'
+  loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - name: Create a scheduled task to node info collector
   win_scheduled_task:
@@ -67,7 +67,7 @@
     triggers:
     - type: daily
       start_boundary: '2017-10-09T0{{ 5|random(start=1) }}:00:00'
-  loop: '{{ wmi_exporter_collector_scripts }}'
+  loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - include_tasks: '{{ ansible_system }}/register.yml'
   when:

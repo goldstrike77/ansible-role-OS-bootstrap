@@ -6,8 +6,8 @@
 
 - name: Check register manager are accessible from current host
   win_wait_for:
-    host: '{{ ossec_agent_authd.address }}'
-    port: '{{ ossec_agent_authd.port }}'
+    host: '{{ os_ossec_agent_authd.address }}'
+    port: '{{ os_ossec_agent_authd.port }}'
     state: 'started'
     delay: 0
     timeout: 5

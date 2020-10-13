@@ -13,11 +13,11 @@ os_win_misc_role: # 杂项策略。
   - { path: 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU', name: 'NoAutoUpdate', data: '1', type: 'dword', create: "{{ os_win_disable_autoupdate }}" }
   - { path: 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', name: 'HideFileExt', data: '0', type: 'dword', create: "{{ os_win_disable_hidefileext }}" }
 
-wmi_exporter_software: 'prometheus-wmi-exporter.install'
-wmi_exporter_collector_scripts:
+os_wmi_exporter_software: 'prometheus-wmi-exporter.install'
+os_wmi_exporter_collector_scripts:
   - 'os_info'
 
-win_chocolatey_version: '0.10.11'
-win_chocolatey_source: 'https://chocolatey.org/api/v2/'
+os_win_chocolatey_version: '0.10.11'
+os_win_chocolatey_source: 'https://chocolatey.org/api/v2/'
 
-ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'
+os_ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'

@@ -31,10 +31,10 @@ os_linux_kernel_parameters: # 内核参数。
   net.ipv4.tcp_window_scaling: '0'
   net.ipv6.conf.all.disable_ipv6: '{% if os_disable_ipv6 %}1{% else %}0{% endif %}'
 
-node_exporter_collector_textfile_directory: '/var/lib/prometheus'
-node_exporter_collector_textfile_scritps:
+os_node_exporter_collector_textfile_directory: '/var/lib/prometheus'
+os_node_exporter_collector_textfile_scritps:
   - 'os_info'
 
-ossec_internal_options:
+os_ossec_internal_options:
   - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
   - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }

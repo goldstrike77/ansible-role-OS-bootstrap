@@ -111,4 +111,4 @@ template(name="gelf" type="list") {
   constant(value="\",\"procid\":\"") property(name="PROCID")
   constant(value="\"}")
 }
-action(type="omfwd" target="{{ syslog_server | list | random(seed=inventory_hostname) }}" port="{{ syslog_port }}" protocol="{{ syslog_protocol | lower }}" template="gelf")
+action(type="omfwd" target="{{ os_syslog_server | list | random(seed=inventory_hostname) }}" port="{{ os_syslog_port }}" protocol="{{ os_syslog_protocol | lower }}" template="gelf")

@@ -6,7 +6,7 @@
     state: 'stopped'
   async: 1
   poll: 0
-  loop: "{{ vars['disable_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
+  loop: "{{ vars['os_disable_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
   when: os_linux_disable_unused_service | bool
   ignore_errors: yes
 
@@ -17,6 +17,6 @@
     state: 'started'
   async: 1
   poll: 0
-  loop: "{{ vars['enabled_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
+  loop: "{{ vars['os_enabled_service_' + ansible_os_family + '_' + ansible_distribution_major_version] }}"
   when: os_linux_enables_needed_service | bool
   ignore_errors: yes

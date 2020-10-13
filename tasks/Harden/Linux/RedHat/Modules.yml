@@ -7,7 +7,7 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  loop: "{{ vars['unload_module_' + ansible_os_family] }}"
+  loop: "{{ vars['os_unload_module_' + ansible_os_family] }}"
 
 - name: Black unused module
   lineinfile:
@@ -17,10 +17,10 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-  loop: "{{ vars['unload_module_' + ansible_os_family] }}"
+  loop: "{{ vars['os_unload_module_' + ansible_os_family] }}"
 
 - name: Unload unused file systems and network protocol modules
   modprobe:
     name: '{{ item }}'
     state: absent
-  loop: "{{ vars['unload_module_' + ansible_os_family] }}"
+  loop: "{{ vars['os_unload_module_' + ansible_os_family] }}"
