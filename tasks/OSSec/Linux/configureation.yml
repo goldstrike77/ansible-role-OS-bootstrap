@@ -13,7 +13,7 @@
 
 - name: Create OSSec agent group.
   uri:
-    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[0] | title | regex_replace("_", "-") }}?pretty'
     user: '{{ os_ossec_managers.api_user }}'
     password: '{{ os_ossec_managers.api_pass }}'
     method: 'PUT'
@@ -40,7 +40,7 @@
     -m {{ os_ossec_agent_authd.address }}
     -p {{ os_ossec_agent_authd.port }}
     -P {{ os_ossec_agent_authd.authd_pass }}
-    -G default,{{ group_names[-1] | upper | regex_replace("_", "-") }}
+    -G default,{{ group_names[0] | title | regex_replace("_", "-") }}
     {% if os_ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   changed_when: false

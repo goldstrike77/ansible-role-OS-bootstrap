@@ -26,7 +26,8 @@
   </active-response>
 
   <labels>
-    <label key="group">{{ group_names[-1] | upper }}</label>
+    <label key="project">{{ group_names[0] | title | regex_replace("_", "-") }}</label>
+    <label key="group">{{ group_names[-1] | title | regex_replace("_", "-") }}</label>
     <label key="environment">{{ environments | upper }}</label>
     <label key="datacenter">{{ datacenter | lower }}</label>
     <label key="domain">{{ domain | lower }}</label>

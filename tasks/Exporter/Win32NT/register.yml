@@ -16,7 +16,7 @@
   win_uri:
     url: '{{ consul_public_http_prot }}://{{ item.client }}:{{ consul_public_http_port }}/v1/agent/service/register'
     method: 'PUT'
-    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_wmi_exporter","name":"wmi_exporter","address":"{{ ansible_ip_addresses[0] }}","port":9182,"meta":{"application":"Windows","metrics_path":"/metrics","instance":"{{ inventory_hostname | upper }}","group":"{{ group_names[-1] | upper }}","datacenter": "{{ datacenter | lower }}","domain":"{{ domain | lower }}","environment":"{{ environments | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ ansible_ip_addresses[0] }}:9182/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
+    body: '{"tags":["prometheus","exporter"],"ID":"{{ inventory_hostname | upper }}_wmi_exporter","name":"wmi_exporter","address":"{{ ansible_ip_addresses[0] }}","port":9182,"meta":{"application":"Windows","metrics_path":"/metrics","instance":"{{ inventory_hostname | upper }}","project":"{{ group_names[0] | title | regex_replace("_", "-") }}","group":"{{ group_names[-1] | title | regex_replace("_", "-") }}","datacenter": "{{ datacenter | lower }}","domain":"{{ domain | lower }}","environment":"{{ environments | upper }}"{% if tags is defined %},{{ tags | to_json | regex_replace("{") | regex_replace("}") }}{% endif %}},"checks":[{"http":"http://{{ ansible_ip_addresses[0] }}:9182/metrics","interval":"60s","tls_skip_verify":true,"method":"HEAD","timeout":"10s"}]}'
     status_code: '200'
     headers:
       X-Consul-Token: '{{ consul_public_exporter_token }}'

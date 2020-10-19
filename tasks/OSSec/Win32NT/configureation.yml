@@ -13,7 +13,7 @@
 
 - name: Create OSSec agent group.
   win_uri:
-    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[-1] | upper | regex_replace("_", "-") }}?pretty'
+    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[0] | title | regex_replace("_", "-") }}?pretty'
     user: '{{ os_ossec_managers.api_user }}'
     password: '{{ os_ossec_managers.api_pass }}'
     method: 'PUT'
