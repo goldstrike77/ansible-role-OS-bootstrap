@@ -38,3 +38,8 @@ os_node_exporter_collector_textfile_scritps:
 os_ossec_internal_options:
   - { src: 'local_internal_options.conf.j2', dest: '/var/ossec/etc/local_internal_options.conf' }
   - { src: 'internal_options.conf.j2', dest: '/var/ossec/etc/internal_options.conf' }
+
+os_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
+
+os_python_dependent_packages:
+  - 'vaultlocker'

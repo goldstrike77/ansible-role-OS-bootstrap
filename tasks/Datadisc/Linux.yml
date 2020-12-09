@@ -1,26 +1,86 @@
 ---
-- name: Logical Volume operation
+- name: Logical Volume operation.
   block:
-    - name: 'Create a volume group on /dev/{{ os_linux_disc_device }}'
+    - name: Create a volume group.
       lvg:
         vg: '{{ os_linux_vg }}'
         pvs: '/dev/{{ os_linux_disc_device }}'
-    - name: 'Create a logical volume the size of {{ os_linux_lv_size }} space in the volume group'
+    - name: Create a logical volume in the volume group.
       lvol:
         vg: '{{ os_linux_vg }}'
         lv: '{{ os_linux_lv }}'
         size: '{{ os_linux_lv_size }}'
-    - name: 'Create a {{ os_linux_fstype | upper }} filesystem on logical volume'
+    - name: Create filesystem on logical volume.
       filesystem:
         fstype: '{{ os_linux_fstype }}'
         dev: '/dev/{{ os_linux_vg }}/{{ os_linux_lv }}'
-    - name: Mount up device
+      when: not os_linux_disc_crypt | bool
+    - name: Mount up device.
       mount:
         name: '{{ os_linux_mount_point }}'
         src: '/dev/{{ os_linux_vg }}/{{ os_linux_lv }}'
         fstype: '{{ os_linux_fstype }}'
         opts: '{{ os_linux_fsopts }}'
         state: 'mounted'
+      when: not os_linux_disc_crypt | bool
+    - name: Crypt Disk operation.
+      block:
+        - name: Creating Vaultlocker folder.
+          file:
+            dest: '/etc/vaultlocker'
+            state: 'directory'
+            owner: 'root'
+            group: 'root'
+            mode: '750'
+        - name: Vaultlocker Configure file transfer.
+          template:
+            src: '{{ item.src }}'
+            dest: '{{ item.dest }}'
+            owner: 'root'
+            group: 'root'
+            mode: '0640'
+          loop:
+            - { src: 'vaultlocker.conf.j2', dest: '/etc/vaultlocker/vaultlocker.conf' }
+            - { src: 'vaultlocker-decrypt@.service', dest: '/usr/local/lib/systemd/system/vaultlocker-decrypt@.service' }
+            - { src: 'luks_emergency.sh.j2', dest: '/tmp/luks_emergency.sh' }
+        - name: Selfsigned CA file transfer.
+          copy:
+            src: 'ssl/ca-cert.pem'
+            dest: '/etc/vaultlocker/ca-cert.pem'
+            owner: 'root'
+            group: 'root'
+            mode: '640'
+        - name: Encrypt disk and sends the LUKS key to Vault.
+          command: '/usr/local/bin/vaultlocker encrypt --uuid {{ ansible_hostname | to_uuid }} /dev/{{ os_linux_vg }}/{{ os_linux_lv }}'
+          environment:
+            no_proxy: '*'
+            REQUESTS_CA_BUNDLE: '/etc/vaultlocker/ca-cert.pem'
+        - name: Add emergency key slot.
+          command: '/bin/bash /tmp/luks_emergency.sh' 
+        - name: Create filesystem on encrypt logical volume.
+          filesystem:
+            fstype: '{{ os_linux_fstype }}'
+            dev: '/dev/mapper/crypt-{{ ansible_hostname | to_uuid }}'
+        - name: Create Mount point.
+          file:
+            dest: '{{ os_linux_mount_point }}'
+            state: 'directory'
+            owner: 'root'
+            group: 'root'
+            mode: '755'
+        - name: Mount up encrypt device.
+          shell: 'mount -o {{ os_linux_fsopts }} -t {{ os_linux_fstype }} /dev/mapper/crypt-{{ ansible_hostname | to_uuid }} {{ os_linux_mount_point }}'
+        - name: Enable Vaultlocker service.
+          systemd:
+            name: 'vaultlocker-decrypt@{{ ansible_hostname | to_uuid }}.service'
+            enabled: 'yes'
+            state: 'stopped'
+            daemon_reload: 'yes'
+        - name: Remove emergency key slot script.
+          file:
+            path: '/tmp/luks_emergency.sh'
+            state: 'absent'
+      when: os_linux_disc_crypt | bool
   when:
     - ansible_devices[os_linux_disc_device].partitions | length == 0
     - ansible_devices[os_linux_disc_device].links.ids | length == 0

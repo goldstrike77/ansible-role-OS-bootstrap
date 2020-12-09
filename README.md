@@ -32,6 +32,7 @@ __Table of Contents__
   - 控制文件和目录的访问权限。
   - 限制系统访问权限。
   - 管理用户密码复杂度并启用SHA-512算法。
+  - 数据磁盘加密。
   - 对系统重要文件进行保护。
   - 启用审计并配置日志输出至日志服务器。
 - 初始配置的主要内容:
@@ -141,6 +142,7 @@ __Table of Contents__
 * `os_linux_lv_size`: 逻辑卷容量。
 * `os_linux_mount_point`: 逻辑卷挂载点。
 * `os_linux_vg`: 逻辑卷卷组名称。
+* `os_linux_disc_crypt`: 是否加密数据磁盘。
 ##### Windows 数据盘参数
 * `os_win_disk_number`: 数据盘编号。
 * `os_win_disk_fsystem`: 分区文件系统。

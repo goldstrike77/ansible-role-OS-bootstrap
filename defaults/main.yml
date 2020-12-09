@@ -115,6 +115,12 @@ os_linux_lv: 'lv_data' # 逻辑卷名称。
 os_linux_lv_size: '100%FREE' # 逻辑卷容量。
 os_linux_mount_point: '/data' # 逻辑卷挂载点。
 os_linux_vg: 'VolGroup01' # 逻辑卷卷组名称。
+os_linux_disc_crypt: false # 是否加密数据磁盘。
+os_linux_disc_crypt_arg:
+  vault: 'https://monitor-production-vault.service.dc01.local:8200' # 定义保险库地址。
+  approle: 'ef7aeb84-01cc-1a72-ea1a-950a5945d8d6' # 定义保险库身份验证编号。
+  secret: 'f0d6bc98-5954-a2d1-cee1-bfafde2dbeda' # 定义保险库身份验证密钥。
+  emergency: 'sC8EpW@CNXFP7uhT' # 定义紧急密钥。
 # Windows 数据盘参数 #
 os_win_disk_number: 1 # 数据盘编号。
 os_win_disk_fsystem: 'NTFS' # 分区文件系统。

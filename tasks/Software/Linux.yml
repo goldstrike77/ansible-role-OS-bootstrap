@@ -2,6 +2,18 @@
 - name: Include tasks for specific OS
   include: '{{ ansible_os_family }}.yml'
 
+- name: Install OS dependence python package.
+  pip:
+    name: '{{ os_python_dependent_packages }}'
+    state: 'present'
+    executable: '/usr/bin/pip3'
+    extra_args: '--default-timeout=120 -i https://{{ os_pypi_url }}/simple --trusted-host {{ os_pypi_url }}'
+  register: alerta_python_dependent_packages_update
+  until: alerta_python_dependent_packages_update is succeeded
+  retries: 5
+  delay: 2
+  when: not ansible_distribution_major_version | int == 6
+
 - name: Ensure update status file
   copy:
     src: 'bootstrap_Software.Succeed'

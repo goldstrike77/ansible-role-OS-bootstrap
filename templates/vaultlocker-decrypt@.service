@@ -1,0 +1,16 @@
+[Unit]
+Description=vaultlocker retrieve: %i
+DefaultDependencies=no
+After=networking.service
+After=nss-lookup.target
+
+[Service]
+Environment=REQUESTS_CA_BUNDLE=/etc/vaultlocker/ca-cert.pem
+Type=oneshot
+KillMode=none
+Environment=VAULTLOCKER_TIMEOUT=10000
+ExecStart=/bin/sh -c 'vaultlocker --retry $VAULTLOCKER_TIMEOUT decrypt %i && /bin/mount -o {{ os_linux_fsopts }} -t {{ os_linux_fstype }} /dev/mapper/crypt-%i {{ os_linux_mount_point }}'
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

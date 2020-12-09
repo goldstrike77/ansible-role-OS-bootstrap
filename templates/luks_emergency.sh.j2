@@ -1,0 +1,3 @@
+#!/bin/bash
+
+echo '{{ os_linux_disc_crypt_arg.emergency }}' | cryptsetup luksAddKey /dev/{{ os_linux_vg }}/{{ os_linux_lv }} --master-key-file <(dmsetup table /dev/mapper/crypt-{{ ansible_hostname | to_uuid }} --showkeys | awk '{print $5}' | xxd -r -p)
