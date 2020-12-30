@@ -27,7 +27,7 @@ os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12201' # 远程日志服务器端口。
 os_syslog_protocol: 'udp' # 远程日志服务器协议。
 os_syslog_server: # 远程日志服务器地址列表。
-  - '127.0.0.1'
+  - 'demo-prd-infra-monitor-logstash.service.dc01.local'
 # Linux 初始参数 #
 os_linux_disable_unused_service: true # 是否禁用不需要的服务。
 os_linux_enables_needed_service: true # 是否启用需要的服务。
@@ -73,13 +73,13 @@ os_win_tz: 'China Standard Time' # 主机时区。
 os_win_unicode: 'zh-CN' # 主机字符集编码。
 
 # 网络包流量分析参数 #
-os_packetbeat_version: '7.9.2' # Packetbeat 版本。
+os_packetbeat_version: '7.9.3' # Packetbeat 版本。
 os_packetbeat_output: # Packetbeat 数据收集器参数。
   type: 'elasticsearch'
   host: '{{ os_syslog_server }}'
   port: '9200'
   kibana_host:
-    - 'monitor-production-kibana.service.dc01.local'
+    - 'demo-prd-infra-monitor-kibana.service.dc01.local'
   kibana_port: '5601'
   https: true
   auth: true
@@ -117,7 +117,7 @@ os_linux_mount_point: '/data' # 逻辑卷挂载点。
 os_linux_vg: 'VolGroup01' # 逻辑卷卷组名称。
 os_linux_disc_crypt: false # 是否加密数据磁盘。
 os_linux_disc_crypt_arg:
-  vault: 'https://monitor-production-vault.service.dc01.local:8200' # 定义保险库地址。
+  vault: 'https://demo-prd-infra-monitor-vault.service.dc01.local:8200' # 定义保险库地址。
   approle: 'ef7aeb84-01cc-1a72-ea1a-950a5945d8d6' # 定义保险库身份验证编号。
   secret: 'f0d6bc98-5954-a2d1-cee1-bfafde2dbeda' # 定义保险库身份验证密钥。
   emergency: 'sC8EpW@CNXFP7uhT' # 定义紧急密钥。
@@ -134,13 +134,13 @@ os_pass_maxAge: '60' # Windows主机账户密码有效期。
 # 审计参数 #
 os_audit: false # 是否启用主机审计。
 os_audit_type: 'auditbeat' # 审计进程服务类型，auditbeat 或 auditd。
-os_auditbeat_version: '7.9.2' # Beats 版本。
+os_auditbeat_version: '7.9.3' # Beats 版本。
 os_auditbeat_output: # Auditbeat 数据收集器参数。
   type: 'elasticsearch'
   host: '{{ os_syslog_server }}'
   port: '9200'
   kibana_host:
-    - 'monitor-production-kibana.service.dc01.local'
+    - 'demo-prd-infra-monitor-kibana.service.dc01.local'
   kibana_port: '5601'
   https: true
   auth: true
@@ -219,7 +219,7 @@ os_win_gpo_audit_policy: # 组审计策略。
 os_ossec_version: '3.13.2-1' # WAZUH代理版本。
 os_ossec_managers: # WAZUH管理器参数。
   address:
-    - 'hids-production-ossec-worker.service.dc01.local'
+    - 'demo-prd-infra-hids-ossec-worker.service.dc01.local'
   port: '1517'
   protocol: 'tcp'
   api_port: '55000'
@@ -227,7 +227,7 @@ os_ossec_managers: # WAZUH管理器参数。
   api_user: 'admin'
   api_pass: 'changeme'
 os_ossec_agent_authd: # WAZUH代理注册参数。
-  address: 'hids-production-ossec-master.service.dc01.local'
+  address: 'demo-prd-infra-hids-ossec-master.service.dc01.local'
   authd_pass: 'Bf6vJRT4WaEAHq'
   port: '1515'
   ssl_auto_negotiate: 'no'
@@ -380,9 +380,10 @@ os_node_exporter_ignored_devices_collector: # 普罗米修斯客户端收集器�
   - 'sr'
 
 # 公共领事配置参数 #
-environments: 'Development' # 定义系统环境。
+environments: 'prd' # 定义系统环境。
 datacenter: 'dc01' # 定义数据中心。
 domain: 'local' # 定义域信息。
+customer: 'demo' # 定义客户名称。
 #hardware_sn: 'XXXXXXX' # 设备序列编号。
 #hardware_pn: 'XXXXXXXXXXX' # 设备服务编号。
 #hardware_cu: 'A-1' # 设备机架编号。

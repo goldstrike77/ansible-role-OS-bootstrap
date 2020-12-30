@@ -212,6 +212,7 @@ __Table of Contents__
 * `environments`: 定义系统环境。
 * `datacenter`: 定义数据中心。
 * `domain`: 定义域信息。
+* `customer`: 定义客户名称。
 * `tags`: 对象自定义标签。
 * `hardware_sn`: 设备序列编号。
 * `hardware_pn`: 设备服务编号。
