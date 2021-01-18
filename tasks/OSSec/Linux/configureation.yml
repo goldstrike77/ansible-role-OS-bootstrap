@@ -1,9 +1,10 @@
 ---
 - name: Check OSSec api are accessible from current host.
   uri:
-    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}'
+    url: 'https://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}'
     method: 'GET'
-    timeout: '5'
+    status_code: '-1,401'
+    timeout: '10'
     validate_certs: 'no'
   environment:
     no_proxy: '{{ os_ossec_agent_authd.address }}'
@@ -13,8 +14,8 @@
 
 - name: Create OSSec agent group.
   uri:
-    url: '{{ os_ossec_managers.api_proto }}://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ group_names[0] | title | regex_replace("_", "-") }}?pretty'
-    user: '{{ os_ossec_managers.api_user }}'
+    url: 'https://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/agents/groups/{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}?pretty'
+    user: 'wazuh'
     password: '{{ os_ossec_managers.api_pass }}'
     method: 'PUT'
     status_code: '200'
@@ -24,11 +25,57 @@
     validate_certs: 'no'
   environment:
     no_proxy: '{{ os_ossec_agent_authd.address }}'
-  when: check_wazuh_api.status == 401
+  when:
+    - check_wazuh_api.status == 401
+    - os_ossec_version.split(".")[0] == "3"
   register: register_status
   until: register_status.status == 200
   retries: 3
   delay: 2
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Get a JWT token from Wazuh API.
+  uri:
+    url: 'https://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/security/user/authenticate'
+    method: 'GET'
+    timeout: '10'
+    user: 'wazuh'
+    password: '{{ os_ossec_managers.api_pass }}'
+    force_basic_auth: 'yes'
+    status_code: '-1,200,401'
+    validate_certs: 'no'
+    headers:
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ os_ossec_agent_authd.address }}'
+  when:
+    - check_wazuh_api.status == 401
+    - os_ossec_version.split(".")[0] != "3"
+  register: ossec_api_token
+  no_log: true
+  changed_when: false
+  failed_when: false
+
+- name: Create OSSec agent group.
+  uri:
+    url: 'https://{{ os_ossec_agent_authd.address }}:{{ os_ossec_managers.api_port }}/groups?pretty=true&group_id={{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}'
+    method: 'POST'
+    timeout: '10'
+    status_code: '-1,200,400'
+    validate_certs: 'no'
+    headers:
+      Authorization: 'Bearer {{ ossec_api_token.json.data.token }}'
+      X-Requested-By: '{{ ansible_default_ipv4.address }}'
+      cache-control: 'no-cache'
+  environment:
+    no_proxy: '{{ os_ossec_agent_authd.address }}'
+  when:
+    - check_wazuh_api.status == 401
+    - os_ossec_version.split(".")[0] != "3"
+    - ossec_api_token.status == 200
   no_log: true
   changed_when: false
   failed_when: false
@@ -40,20 +87,12 @@
     -m {{ os_ossec_agent_authd.address }}
     -p {{ os_ossec_agent_authd.port }}
     -P {{ os_ossec_agent_authd.authd_pass }}
-    -G default,{{ group_names[0] | title | regex_replace("_", "-") }}
+    -G default,{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}
     {% if os_ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   changed_when: false
   failed_when: false
   no_log: true
-
-- debug:
-    msg: '{{ ossec_agent_auth_output.stderr_lines[-1] }}'
-  when: ossec_agent_auth_output.rc != 0
-
-- name: Verify OSSEC agent registration
-  shell: 'echo {{ ossec_agent_auth_output }} | grep "Valid key created"'
-  when: ossec_agent_auth_output.rc == 0
 
 - name: OSSEC agent configuration file transfer
   template:
