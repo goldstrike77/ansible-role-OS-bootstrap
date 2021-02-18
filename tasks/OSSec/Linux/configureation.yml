@@ -83,11 +83,11 @@
 - name: Register OSSEC agent
   shell: >
     /var/ossec/bin/agent-auth
-    -A {{ inventory_hostname | upper }}
+    -A {{ ansible_hostname | lower }}
     -m {{ os_ossec_agent_authd.address }}
     -p {{ os_ossec_agent_authd.port }}
     -P {{ os_ossec_agent_authd.authd_pass }}
-    -G default,{{ customer | lower | regex_replace("_", "-") }}-{{ environments | lower | regex_replace("_", "-") }}-{{ group_names[-1] | lower | regex_replace("_", "-") }}-{{ group_names[0] | lower | regex_replace("_", "-") }}
+    -G default,{{ customer | lower | regex_replace("_", "-") }}
     {% if os_ossec_agent_authd.ssl_auto_negotiate == 'yes' %}-a{% endif %}
   register: ossec_agent_auth_output
   changed_when: false

@@ -68,7 +68,7 @@ LogFile %ROOT%\data\nxlog.log
 
 <Output out_eventlog>
   Module     om_{{ os_syslog_protocol | lower }}
-  Host       {{ os_syslog_server | list | random(seed=inventory_hostname) }}
+  Host       {{ os_syslog_server | list | random(seed=ansible_hostname) }}
   Port       {{ os_syslog_port }}
   OutputType GELF
 </Output>
