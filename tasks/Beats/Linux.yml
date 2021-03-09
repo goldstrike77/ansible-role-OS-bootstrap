@@ -5,6 +5,7 @@
   vars:
     beats_type: 'audit'
     beats_version: '{{ os_auditbeat_version }}'
+    beats_dist: '{{ os_auditbeat_dist | default("basic") }}'
     beats_port_arg: '{{ os_auditbeat_port_arg }}'
     beats_output_type: '{{ os_auditbeat_output.type }}'
     beats_output_auth: '{{ os_auditbeat_output.auth | default(false) | bool }}'
@@ -27,6 +28,7 @@
   vars:
     beats_type: 'packet'
     beats_version: '{{ os_packetbeat_version }}'
+    beats_dist: '{{ os_packetbeat_dist | default("basic") }}'
     beats_port_arg: '{{ os_packetbeat_port_arg }}'
     beats_output_type: '{{ os_packetbeat_output.type }}'
     beats_output_auth: '{{ os_packetbeat_output.auth | default(false) | bool }}'

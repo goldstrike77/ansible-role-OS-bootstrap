@@ -157,6 +157,7 @@ __Table of Contents__
 * `os_audit`: 是否启用主机审计。
 * `os_audit_type`: 审计进程服务类型，auditbeat 或 auditd。
 * `os_auditbeat_version`: Auditbeat 版本。
+* `os_auditbeat_dist`: 定义Beats发行版本，oss或者basic。
 * `os_auditbeat_port_arg`: Auditbeat 通信端口。
 * `os_auditbeat_output`: Beats 数据收集器参数。
 ##### Linux 加固参数
@@ -177,6 +178,7 @@ __Table of Contents__
 
 #### - 网络流量分析参数 -
 * `os_packetbeat_version`: Packetbeat 版本。
+* `os_packetbeat_dist`: 定义Beats发行版本，oss或者basic。
 * `os_packetbeat_output`: Packetbeat 数据收集器参数。
 * `os_packetbeat_port_arg`: Packetbeat 通信端口。
 * `os_packetbeat_ignore_outgoing`: 是否忽略从服务器启动的所有事务。
