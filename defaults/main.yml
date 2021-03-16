@@ -29,17 +29,17 @@ os_syslog_protocol: 'udp' # 远程日志服务器协议。
 os_syslog_server: # 远程日志服务器地址列表。
   - 'demo-prd-infra-monitor-logstash.service.dc01.local'
 # Linux 初始参数 #
-os_linux_disable_unused_service: true # 是否禁用不需要的服务。
-os_linux_enables_needed_service: true # 是否启用需要的服务。
-os_linux_disable_tcp_offloading: true # 是否禁用TCP卸载。
-os_linux_disable_sysstat_collect: true # 是否禁用sysstat监测。
+os_linux_disable_unused_service: false # 是否禁用不需要的服务。
+os_linux_enables_needed_service: false # 是否启用需要的服务。
+os_linux_disable_tcp_offloading: false # 是否禁用TCP卸载。
+os_linux_disable_sysstat_collect: false # 是否禁用sysstat监测。
 #os_linux_grub_add_args: # GRUB新增参数。
 #  - 'ipv6.disable={% if os_disable_ipv6 | bool %}1{% else %}0{% endif %}'
 #  - 'transparent_hugepage=never'
 #  - 'numa=off'
 #os_linux_id_rsa: 'ssh-rsa xxxxxxxx' # 主机SSH密钥。
 #os_linux_MTA_relayhost: '1.1.1.1' # 邮件中继服务器地址。
-os_linux_resolver_single_request: true # 启用域名解析单一请求。
+os_linux_resolver_single_request: false # 启用域名解析单一请求。
 os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
 os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
 os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
@@ -188,12 +188,12 @@ os_linux_audit_rules: # Linux 审计规则
   - '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -k delete'
 os_linux_disable_fs_exec_flags: 'rw,nosuid,nodev,noexec,relatime' # 磁盘分区安全挂载参数。
 os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全挂载参数。
-os_linux_disable_fs_shm_exec: true # /dev/shm 挂载点分区是否启用安全挂载参数。
+os_linux_disable_fs_shm_exec: false # /dev/shm 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
 os_linux_disable_RootLogin: true # 是否禁用root登录。
-os_linux_disable_selinux: true # 是否禁用selinux。
-os_linux_disable_unused_module: true # 是否禁用不需要的模块。
+os_linux_disable_selinux: false # 是否禁用selinux。
+os_linux_disable_unused_module: false # 是否禁用不需要的模块。
 os_linux_user_pw: # 密码复杂度策略。
   minlen: '{{ os_pass_length | default(12) }}'
   dcredit: '-1'
@@ -241,16 +241,17 @@ os_ossec_agent_config: # WAZUH代理参数。
 
 # 主机基本软件安装和更新参数 #
 # Linux 参数 #
+#os_linux_update_category: 'base,updates' # 需要更新的类别列表。
 # /var/[specific OS].yml
 # Windows 参数 #
 os_win_roles: # 需要安装的系统组件。
   - 'Telnet-Client'
 os_win_software: # 需要安装的第三方软件。
-  - 'googlechrome'
-  - 'notepadplusplus.install'
+#  - 'googlechrome'
+#  - 'notepadplusplus.install'
   - 'nxlog'
-  - 'peazip.install'
-os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的类别列表。
+#  - 'peazip.install'
+#os_win_update_category: ['CriticalUpdates', 'SecurityUpdates'] # 需要更新的类别列表。
 
 # 普罗米修斯客户端配置参数 #
 # Windows 普罗米修斯客户端参数 #

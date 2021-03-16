@@ -1,5 +1,5 @@
 ---
-- name: Add EPEL YUM repositories
+- name: Add EPEL YUM repositories.
   yum_repository:
     name: '{{ os_epel_repo_name }}'
     description: '{{ os_epel_repo_name }} YUM repo'
@@ -8,13 +8,13 @@
     gpgcheck: 'no'
     timeout: '60'
 
-- name: Configure YUM proxy
+- name: Configure YUM proxy.
   lineinfile:
     dest: '/etc/yum.conf'
     line: 'proxy={{ os_proxy_server }}'
   when: os_proxy_server is defined
 
-- name: Install the base packages
+- name: Install the base packages.
   yum:
     name: '{{ ",".join(vars["os_base_packages_" + ansible_os_family + "_" + ansible_distribution_major_version]) }}'
     state: 'present'
@@ -26,17 +26,18 @@
   retries: 5
   delay: 2
 
-- name: Remove the useless packages
+- name: Remove the useless packages.
   yum:
     name: '{{ ",".join(vars["os_remove_packages_" + ansible_os_family + "_" + ansible_distribution_major_version]) }}'
     state: 'absent'
 
-- name: Update all packages
+- name: Update all packages.
   yum:
     name: '*'
     state: 'latest'
-    enablerepo: 'base,updates'
-  register: yum_status
-  until: yum_status is succeeded
+    enablerepo: '{{ os_linux_update_category }}'
+  when: os_linux_update_category is defined
+  register: linux_update_status
+  until: linux_update_status is succeeded
   retries: 5
   delay: 2

@@ -34,7 +34,7 @@
   register: os_win_software_status
   until: os_win_software_status is succeeded
   retries: 10
-  delay: 6
+  delay: 2
   changed_when: false
   failed_when: false
 
@@ -42,6 +42,11 @@
   win_updates:
     category_names: '{{ os_win_update_category }}'
   ignore_errors: yes
+  when: os_win_update_category is defined
+  register: win_update_status
+  until: win_update_status is succeeded
+  retries: 5
+  delay: 2
 
 - name: Ensure update status file
   win_copy:

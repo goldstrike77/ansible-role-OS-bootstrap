@@ -193,6 +193,7 @@ __Table of Contents__
 
 #### - 主机基本软件安装和更新参数 -
 ##### Linux 参数
+* `os_linux_update_category`: 需要更新的类别列表。
 * `/var/[specific OS].yml`
 ##### Windows 参数
 * `os_win_roles`: 需要安装的系统组件。
