@@ -83,4 +83,4 @@
       when: os_linux_disc_crypt | bool
   when:
     - ansible_devices[os_linux_disc_device].partitions | length == 0
-    - ansible_devices[os_linux_disc_device].links.ids | regex_search('(dm-name)')
+    - ansible_devices[os_linux_disc_device].links.ids | select('search', 'lvm-pv') | list | length == 0
