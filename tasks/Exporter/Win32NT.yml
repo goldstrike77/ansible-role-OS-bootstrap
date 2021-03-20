@@ -17,7 +17,7 @@
 
 - name: WMI exporter installation
   win_chocolatey:
-    name: '{{ wmi_exporter_software }}'
+    name: '{{ os_wmi_exporter_software }}'
     source: '{{ os_win_chocolatey_source }}'
     state: 'latest'
     params: '/TextFileDir:C:\ProgramData\wmi_textfile_inputs /EnabledCollectors:{{ ",".join(vars["os_wmi_exporter_collector"]) }} /ExtraFlags:"{{ os_wmi_exporter_extra_collector }}"'
