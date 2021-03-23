@@ -79,8 +79,6 @@ os_packetbeat_output: # Packetbeat 数据收集器参数。
   type: 'elasticsearch'
   host: '{{ os_syslog_server }}'
   port: '9200'
-  kibana_host:
-    - 'demo-prd-infra-monitor-kibana.service.dc01.local'
   kibana_port: '5601'
   https: true
   auth: true
