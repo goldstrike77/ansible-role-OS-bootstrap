@@ -1,8 +1,8 @@
 ---
-- name: Include OS-specific variables
+- name: Include OS-specific variables.
   include_vars: '{{ ansible_os_family }}.yml'
 
-- name: OS software operation
+- name: OS software operation.
   block:
     - name: Check if Linux software update already processed
       stat:
@@ -27,12 +27,12 @@
   when: os_software | bool
   tags: software
 
-- name: Include data disc tasks for specific OS
+- name: Include data disc tasks for specific OS.
   include: 'Datadisc/{{ ansible_system }}.yml'
   when: os_datadisc | bool
   tags: datadisc
 
-- name: Include Prometheus Exporter tasks for specific OS
+- name: Include Prometheus Exporter tasks for specific OS.
   include: 'Exporter/{{ ansible_system }}.yml'
   when: os_exporter | bool
   tags: exporter
@@ -41,14 +41,14 @@
   include: 'Beats/{{ ansible_system }}.yml'
   tags: beats
 
-- name: Include OSSec tasks for specific OS
+- name: Include OSSec tasks for specific OS.
   include: 'OSSec/{{ ansible_system }}.yml'
   when:
     - os_ossec | bool
     - not ossec_is_install | bool or ossec_is_install is not defined
   tags: ossec
 
-- name: OS Harden operation
+- name: OS Harden operation.
   block:
     - name: Check if Linux Harden already processed
       stat:
@@ -73,7 +73,12 @@
   when: os_harden | bool
   tags: harden
 
-- name: OS initialization configuration operation
+- name: Include Directory Integrator tasks for specific OS.
+  include: 'Directory/{{ ansible_system }}.yml'
+  when: os_directory | bool
+  tags: directory
+
+- name: OS initialization configuration operation.
   block:
     - name: Check if Linux initialization configuration already processed
       stat:
@@ -97,3 +102,6 @@
         - not os_win_config_result.stat.exists | bool
   when: os_config | bool
   tags: config
+
+- name: Force the handler to run immediately.
+  meta: flush_handlers

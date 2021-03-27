@@ -17,6 +17,7 @@
   when: os_dns_server is defined
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Grub.yml'
+  notify: Restart the linux host.
 
 - name: Ensure configuraion status file
   copy:
@@ -25,10 +26,3 @@
     owner: 'root'
     group: 'root'
     mode: '0644'
-
-- name: Restart the host
-  shell: sleep 2 && /sbin/shutdown -r now "Ansible system required"
-  async: 1
-  poll: 0
-  ignore_errors: true
-  when: grub is changed

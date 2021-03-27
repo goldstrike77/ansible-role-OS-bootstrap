@@ -21,6 +21,7 @@ __Table of Contents__
 - [许可证](#许可证)
 - [作者信息](#作者信息)
 - [贡献者](#贡献者)
+- [捐赠](#捐赠)
 
 ## 概述
 此角色负责公有/私有云主机部署完毕后的一些操作系统基础配置。
@@ -85,6 +86,7 @@ __Table of Contents__
 * `os_ossec`: 是否部署入侵检测客户端。
 * `os_software`: 是否执行主机基本软件安装和更新。
 * `os_trafficsniff`: 是否部署网络流量分析客户端。
+* `os_directory`: 是否集成活动目录。
 
 #### - 主机初始配置参数 -
 ##### 通用参数
@@ -211,6 +213,14 @@ __Table of Contents__
 * `os_node_exporter_ignored_mount_points_collector`: 普罗米修斯客户端收集器忽略的磁盘挂载点。
 * `os_node_exporter_ignored_devices_collector`: 普罗米修斯客户端收集器忽略的块设备。
 
+#### - 主机加域配置参数 -
+* `os_ds_domain`: 定义域名称。
+* `os_ds_admin_name`: 定义域管理员账户。
+* `os_ds_admin_pass`: 定义域管理员密码。
+* `os_ds_ou`: 定义组织单位。
+* `os_ds_user_group`: 定义可以登录的一般账户组。
+* `os_ds_sudo_group`: 定义可以登录的管理员组。
+
 #### - 公共领事配置参数 -
 * `environments`: 定义系统环境。
 * `datacenter`: 定义数据中心。
@@ -260,3 +270,8 @@ __Table of Contents__
 
 ## 贡献者
 特别感谢[上海联蔚信息科技有限公司](http://www.connext.com.cn)对这个角色的贡献。
+
+## 捐赠
+请捐赠给以下门罗币钱包。
+
+    46CHVMbb6wQV2PJYEbahb353SYGqXhcdFQVEWdCnHb6JaR5125h3kNQ6bcqLye5G7UF7qz6xL9qHLDSAY3baagfmLZABz75

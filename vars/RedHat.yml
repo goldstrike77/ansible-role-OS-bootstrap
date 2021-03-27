@@ -26,6 +26,10 @@ os_ossec_repo_url: 'http://cache.omygods.com/wazuh/{{ os_ossec_version.split("."
 os_osquery_repo_name: 'osquery'
 os_osquery_repo_url: 'http://cache.omygods.com/osquery/'
 
+os_pbis_repo_name: 'pbiso'
+os_pbis_repo_url: 'http://repo.pbis.beyondtrust.com/yum/pbiso/$basearch'
+os_pbis_packages: 'pbis-open'
+
 os_ossec_agent_dependent_packages:
   - 'expect'
   - 'python-docker'

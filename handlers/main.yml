@@ -1,3 +1,9 @@
 ---
 - include: 'RedHat.yml'
   when: ansible_os_family == 'RedHat'
+
+- name: Restart the linux host.
+  shell: sleep 2 && /sbin/shutdown -r now "Ansible system required"
+  async: 1
+  poll: 0
+  ignore_errors: true

@@ -1,0 +1,74 @@
+---
+- name: Add PowerBroker YUM repositories.
+  yum_repository:
+    name: '{{ os_pbis_repo_name }}'
+    description: '{{ os_pbis_repo_name }}'
+    file: '{{ os_pbis_repo_name }}'
+    baseurl: '{{ os_pbis_repo_url }}'
+    gpgcheck: 'no'
+    timeout: '60'
+
+- name: Install the PowerBroker packages.
+  package: 
+    name: '{{ os_pbis_packages }}'
+    state: 'present'
+    validate_certs: 'no'
+    disable_gpg_check: 'yes'
+  register: yum_status
+  until: yum_status is succeeded
+  retries: 5
+  delay: 2
+
+- name: Chceck the Domain status if exists.
+  shell: "/opt/pbis/bin/lsa get-status | grep Status | tail -n 1 | awk '{print $2}'"
+  register: pbis_domain_result
+
+- name: Directory Integrator operation.  
+  block:
+    - name: Search the OU objects if exists.
+      run_once: true
+      command: '/opt/pbis/bin/adtool -d {{ os_ds_domain }} -n {{ os_ds_admin_name }} -x {{ os_ds_admin_pass }} -a search-ou --name="OU=Groups,OU={{ group_names[-1] }},OU={{ os_ds_ou }}"'
+      changed_when: false
+      failed_when: false
+      when: os_ds_ou is defined
+      register: pbis_domain_ou_result
+    - name: Create Organizational Unit.
+      command: '/opt/pbis/bin/adtool -d {{ os_ds_domain }} -n {{ os_ds_admin_name }} -x {{ os_ds_admin_pass }} -a new-ou --dn OU={{ group_names[-1] }},OU={{ os_ds_ou }}'
+      run_once: true
+      when:
+        - os_ds_ou is defined
+        - pbis_domain_ou_result.rc !=0
+    - name: Waiting for OU Success
+      pause: seconds=5
+    - name: Create Sub Organizational Unit.
+      run_once: true
+      command: '/opt/pbis/bin/adtool -d {{ os_ds_domain }} -n {{ os_ds_admin_name }} -x {{ os_ds_admin_pass }} -a new-ou --dn OU={{ item }},OU={{ group_names[-1] }},OU={{ os_ds_ou }}'
+      loop:
+        - 'Groups'
+        - 'Computers'
+      when:
+        - os_ds_ou is defined
+        - pbis_domain_ou_result.rc !=0
+    - name: PowerBroker customization.
+      command: '{{ item }}'
+      loop:
+        - '/opt/pbis/bin/config RequireMembershipOf {{ os_ds_domain }}\\{{ os_ds_user_group | list | join(" " + os_ds_domain + "\\") }} {{ os_ds_domain }}\\{{ os_ds_sudo_group | list | join(" " + os_ds_domain + "\\") }}'
+        - '/opt/pbis/bin/config UserDomainPrefix {{ os_ds_domain }}'
+        - '/opt/pbis/bin/config AssumeDefaultDomain true'
+        - '/opt/pbis/bin/config LoginShellTemplate /bin/bash'
+        - '/opt/pbis/bin/config HomeDirTemplate %H/%D/%U'
+        - '/opt/pbis/bin/config Local_HomeDirTemplate %H/%D/%U' 
+    - name: Join the computer to the domain.
+      command: '/opt/pbis/bin/domainjoin-cli join --trustEnumerationWaitSeconds 500 {% if os_ds_ou is defined %}--ou {{ os_ds_ou}}/{{ group_names[-1] }}/Computers {% endif %}{{ os_ds_domain }} {{ os_ds_admin_name }} {{ os_ds_admin_pass }}'
+      notify: Restart the linux host.
+    - name: Registers IP addresses and corresponding PTR records in DNS.
+      command: '/opt/pbis/bin/update-dns --ipaddress {{ ansible_default_ipv4.address }}'
+    - name: Create sudoers.
+      template:
+        src: 'sudoers.j2'
+        dest: '/etc/sudoers.d/sudoers'
+        mode: '0440'
+        owner: 'root'
+        group: 'root'
+        validate: '/usr/sbin/visudo -cf %s'
+  when: pbis_domain_result.stdout == "Unknown"

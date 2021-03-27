@@ -1,0 +1,4 @@
+# {{ ansible_managed }}
+{% for sudoer in os_ds_sudo_group %}
+%{{ os_ds_domain }}\\{{ sudoer }} ALL=(ALL) NOPASSWD: ALL
+{% endfor %}
