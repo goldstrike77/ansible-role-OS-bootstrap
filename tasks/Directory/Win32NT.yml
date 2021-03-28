@@ -1,1 +1,10 @@
 ---
+- name: Directory Integrator operation.
+  win_domain_membership:
+    dns_domain_name: '{{ os_ds_domain }}'
+    hostname: '{{ ansible_hostname }}'
+    domain_admin_user: '{{ os_ds_admin_name }}'
+    domain_admin_password: '{{ os_ds_admin_pass }}'
+    domain_ou_path: '{% if os_ds_ou is defined %}OU={{ os_ds_ou }},OU={{ group_names[-1] }},OU=Computers{% endif %}'
+    state: 'domain'
+  register: os_domain_state

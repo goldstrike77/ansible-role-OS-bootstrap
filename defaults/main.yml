@@ -1,13 +1,13 @@
 ---
 # 主任务参数 #
-os_config: false   # 是否执行主机初始配置。
-os_datadisc: false # 是否挂载数据盘。
-os_exporter: false # 是否部署普罗米修斯客户端。
-os_harden: false   # 是否执行主机加固配置。
-os_ossec: false    # 是否部署入侵检测客户端。
-os_software: false # 是否执行主机基本软件安装和更新。
-os_trafficsniff: false # 是否部署网络流量分析客户端。
-os_directory: false # 是否集成活动目录。
+os_config: false      # 是否执行主机初始配置。
+os_datadisc: false    # 是否挂载数据盘。
+os_directory: false   # 是否集成活动目录。
+os_exporter: false    # 是否部署普罗米修斯客户端。
+os_harden: false      # 是否执行主机加固配置。
+os_ossec: false       # 是否部署入侵检测客户端。
+os_software: false    # 是否执行主机基本软件安装和更新。
+os_packetsniff: false # 是否部署网络流量分析客户端。
 
 # 主机初始配置参数 #
 # 通用参数 #
@@ -18,22 +18,22 @@ os_disable_ipv6: false # 是否关闭IPv6。
 #  - '223.5.5.5'
 #  - '119.29.29.29'
 #  - '8.8.8.8'
-#os_time_server: # 时间服务器。
-#  - 'ntp1.aliyun.com'
-#  - 'ntp2.aliyun.com'
-#  - 'ntp3.aliyun.com'
-#  - 'ntp4.aliyun.com'
+os_time_server: # 时间服务器。
+  - 'ntp1.aliyun.com'
+  - 'ntp2.aliyun.com'
+  - 'ntp3.aliyun.com'
+  - 'ntp4.aliyun.com'
 # 远程日志参数 #
 os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12201' # 远程日志服务器端口。
 os_syslog_protocol: 'udp' # 远程日志服务器协议。
-os_syslog_server: # 远程日志服务器地址列表。
+os_syslog_server: # 远程日志服务器地址。
   - 'demo-prd-infra-monitor-logstash.service.dc01.local'
 # Linux 初始参数 #
 os_linux_disable_unused_service: false # 是否禁用不需要的服务。
 os_linux_enables_needed_service: false # 是否启用需要的服务。
 os_linux_disable_tcp_offloading: false # 是否禁用TCP卸载。
-os_linux_disable_sysstat_collect: false # 是否禁用sysstat监测。
+os_linux_disable_sysstat_collect: false # 是否禁用系统状态监测。
 #os_linux_grub_add_args: # GRUB新增参数。
 #  - 'ipv6.disable={% if os_disable_ipv6 | bool %}1{% else %}0{% endif %}'
 #  - 'transparent_hugepage=never'

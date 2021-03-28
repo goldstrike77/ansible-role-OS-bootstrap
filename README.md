@@ -33,7 +33,7 @@ __Table of Contents__
   - 控制文件和目录的访问权限。
   - 限制系统访问权限。
   - 管理用户密码复杂度并启用SHA-512算法。
-  - 数据磁盘加密。
+  - 数据磁盘加密 (Linux)。
   - 对系统重要文件进行保护。
   - 启用审计并配置日志输出至日志服务器。
 - 初始配置的主要内容:
@@ -46,32 +46,35 @@ __Table of Contents__
   - DNS。
   - GRUB。
 - 磁盘操作主要内容:
-  - 分区和挂载数据磁盘。
+  - 数据磁盘分区和挂载。
 - 监控主要内容:
   - Node Exporter 客户端 (Linux)。
   - NetData 客户端 (Linux)。
   - Dell PowerEdge 客户端 (Linux)。
   - WMI 客户端 (Windows)。
 - 入侵检测系统主要内容:
-  - 合规性。 
-  - 文件监控。
-  - 恶意软件检查。
-  - 漏洞检测。
-  - 敏感日志数据收集。
+  - 互联网安全中心基准测试。
+  - 安全合规。
+  - 安全检测。
+  - 开放漏洞评估。
+  - 恶意软件检查。
+  - 敏感日志数据收集。
+  - 文件监控。
 - 软件管理主要内容:
   - 软件源管理。
   - 安装基本的软件。
   - 删除不需要的软件。
 - 网络流量分析主要内容:
   - 常见协议捕获及解析日志输出至日志服务器。
-
+- 集成活动目录:
+  - 将计算机加入域。
 
 ## 要求
 ### 操作系统
 此角色将在以下操作系统上工作：
 
   * CentOS 6, 7
-  * Windows 2012, 2016
+  * Windows 2012, 2016, 2019
 
 ## 变量
 
@@ -79,14 +82,14 @@ __Table of Contents__
 需要（或需要）修改的变量
 
 ### = 主任务参数 =
-* `os_config`: 是否执行主机初始配置。
-* `os_datadisc`: 是否挂载数据盘。
-* `os_exporter`: 是否部署普罗米修斯客户端。
-* `os_harden`: 是否执行主机加固配置。
-* `os_ossec`: 是否部署入侵检测客户端。
-* `os_software`: 是否执行主机基本软件安装和更新。
-* `os_trafficsniff`: 是否部署网络流量分析客户端。
-* `os_directory`: 是否集成活动目录。
+* `os_config`: 是否执行主机初始配置。
+* `os_datadisc`: 是否挂载数据盘。
+* `os_directory`: 是否集成活动目录。
+* `os_exporter`: 是否部署普罗米修斯客户端。
+* `os_harden`: 是否执行主机加固配置。
+* `os_ossec`: 是否部署入侵检测客户端。
+* `os_packetsniff`: 是否部署网络流量分析客户端。
+* `os_software`: 是否执行主机基本软件安装和更新。
 
 #### - 主机初始配置参数 -
 ##### 通用参数
@@ -104,7 +107,7 @@ __Table of Contents__
 * `os_linux_disable_unused_service`: 是否禁用不需要的服务。
 * `os_linux_enables_needed_service`: 是否启用需要的服务。
 * `os_linux_disable_tcp_offloading`: 是否禁用TCP卸载。
-* `os_linux_disable_sysstat_collect`: 是否禁用sysstat监测。
+* `os_linux_disable_sysstat_collect`: 是否禁用系统状态监测。
 * `os_linux_grub_add_args`: GRUB新增参数。
 * `os_linux_id_rsa`: 主机SSH密钥。
 * `os_linux_MTA_relayhost`: 邮件中继服务器地址。

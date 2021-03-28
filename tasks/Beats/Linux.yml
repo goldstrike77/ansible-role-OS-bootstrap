@@ -42,4 +42,4 @@
     packetbeat_flows: '{{ os_packetbeat_flows | bool }}'
     packetbeat_protocols: '{{ os_packetbeat_protocols }}'
     packetbeat_ignore_outgoing: '{{ os_packetbeat_ignore_outgoing | bool }}'
-  when: os_trafficsniff | bool
+  when: os_packetsniff | bool
