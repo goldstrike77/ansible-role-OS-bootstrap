@@ -82,14 +82,14 @@ __Table of Contents__
 需要（或需要）修改的变量
 
 ### = 主任务参数 =
-* `os_config`: 是否执行主机初始配置。
-* `os_datadisc`: 是否挂载数据盘。
-* `os_directory`: 是否集成活动目录。
-* `os_exporter`: 是否部署普罗米修斯客户端。
-* `os_harden`: 是否执行主机加固配置。
-* `os_ossec`: 是否部署入侵检测客户端。
-* `os_packetsniff`: 是否部署网络流量分析客户端。
-* `os_software`: 是否执行主机基本软件安装和更新。
+* `os_config`: 是否执行主机初始配置。
+* `os_datadisc`: 是否挂载数据盘。
+* `os_directory`: 是否集成活动目录。
+* `os_exporter`: 是否部署普罗米修斯客户端。
+* `os_harden`: 是否执行主机加固配置。
+* `os_ossec`: 是否部署入侵检测客户端。
+* `os_packetsniff`: 是否部署网络流量分析客户端。
+* `os_software`: 是否执行主机基本软件安装和更新。
 
 #### - 主机初始配置参数 -
 ##### 通用参数
