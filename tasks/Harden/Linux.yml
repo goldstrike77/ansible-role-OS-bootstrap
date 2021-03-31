@@ -14,6 +14,7 @@
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/Filesystem.yml'
 
 - include: '{{ ansible_system }}/Permissions.yml'
+  when: os_linux_restrictive_file | bool
 
 - include: '{{ ansible_system }}/Selinux.yml'
   when: os_linux_disable_selinux | bool

@@ -175,6 +175,7 @@ __Table of Contents__
 * `os_linux_disable_RootLogin`: 是否禁用root登录。
 * `os_linux_disable_selinux`: 是否禁用selinux。
 * `os_linux_disable_unused_module`: 是否禁用不需要的模块。
+* `os_linux_restrictive_file`: 是否确保关键系统文件权限限制。
 * `os_linux_user_pw`: 密码复杂度策略。
 ##### Windows 加固参数
 * `os_win_fs_audit_rule`: 文件系统审计规则。
