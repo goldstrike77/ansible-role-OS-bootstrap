@@ -17,7 +17,6 @@
   when: os_dns_server is defined
 
 - include: '{{ ansible_system }}/{{ ansible_os_family }}/{{ ansible_distribution_major_version }}/Grub.yml'
-  notify: Restart the linux host.
 
 - name: Ensure configuraion status file
   copy:
