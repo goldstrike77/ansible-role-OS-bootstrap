@@ -1,5 +1,5 @@
 ---
-- name: Generate RHEL7 new grub config
+- name: Generate RHEL7 new grub config.
   shell: grub2-mkconfig -o /etc/grub2.cfg
 
 - name: Enable OSSEC agent service

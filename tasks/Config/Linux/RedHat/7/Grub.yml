@@ -4,5 +4,7 @@
     dest: '/etc/default/grub'
     regexp: "net.ifnames=0"
     replace: "net.ifnames=0 {{ os_linux_grub_add_args | join(' ') }}"
-  notify: Generate RHEL7 new grub config
+  notify:
+    - Generate RHEL7 new grub config.
+    - Restart the linux host.
   when: os_linux_grub_add_args is defined
