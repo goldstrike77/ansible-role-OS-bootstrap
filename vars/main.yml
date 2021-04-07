@@ -43,4 +43,5 @@ os_ossec_internal_options:
 os_pypi_url: 'pypi.tuna.tsinghua.edu.cn'
 
 os_python_dependent_packages:
+  - 'hvac==0.10.9'
   - 'vaultlocker'
