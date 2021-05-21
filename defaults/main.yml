@@ -81,6 +81,7 @@ os_packetbeat_output: # Packetbeat 数据收集器参数。
   host: '{{ os_syslog_server }}'
   port: '9200'
   kibana_port: '5601'
+  kibana_dashboard: false
   https: true
   auth: true
   user: 'elastic'
@@ -141,6 +142,7 @@ os_auditbeat_output: # Auditbeat 数据收集器参数。
   host: '{{ os_syslog_server }}'
   port: '9200'
   kibana_port: '5601'
+  kibana_dashboard: false
   https: true
   auth: true
   user: 'elastic'
