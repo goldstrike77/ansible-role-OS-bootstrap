@@ -34,7 +34,7 @@
 
 - name: Reloading the WMI exporter service
   win_service:
-    name: 'wmi_exporter'
+    name: 'windows_exporter'
     state: 'restarted'
     start_mode: 'delayed'
   when: soft_updated is changed
@@ -48,11 +48,11 @@
 - name: WMI exporter collector scripts transfer
   win_template:
     src: 'scripts/{{ ansible_system }}/{{ item }}.j2'
-    dest: 'C:\Program Files\wmi_exporter\{{ item }}.ps1'
+    dest: 'C:\Program Files\windows_exporter\{{ item }}.ps1'
   loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - name: Node information collection at first time
-  win_shell: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
+  win_shell: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy ByPass -File "C:\Program Files\windows_exporter\{{ item }}.ps1"'
   loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - name: Create a scheduled task to node info collector
@@ -60,7 +60,7 @@
     name: '{{ item }}'
     actions:
     - path: 'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-      arguments: '-ExecutionPolicy ByPass -File "C:\Program Files\wmi_exporter\{{ item }}.ps1"'
+      arguments: '-ExecutionPolicy ByPass -File "C:\Program Files\windows_exporter\{{ item }}.ps1"'
     state: present
     enabled: yes
     user: SYSTEM
@@ -70,5 +70,4 @@
   loop: '{{ os_wmi_exporter_collector_scripts }}'
 
 - include_tasks: '{{ ansible_system }}/register.yml'
-  when:
-    - consul_public_register | bool
+  when: consul_public_register | bool

@@ -19,5 +19,4 @@
   loop: '{{ os_linux_exporter_type }}'
   loop_control:
     loop_var: os_linux_exporter_type_item
-  when:
-    - consul_public_register | bool
+  when: consul_public_register | bool

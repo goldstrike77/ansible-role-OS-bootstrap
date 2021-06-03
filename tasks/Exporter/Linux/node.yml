@@ -51,7 +51,6 @@
 - name: Execute Node information collection
   shell: '/usr/local/bin/{{ item.prom }}.sh > {{ os_node_exporter_collector_textfile_directory }}/{{ item.prom }}.prom'
   loop: "{{ check_prom_files.results | json_query('[*].{prom:item,exists:stat.exists,size:stat.size}') }}"
-  when: not item.exists or item.size == 0
 
 - name: Create a scheduled task to node info collector 
   cron:
