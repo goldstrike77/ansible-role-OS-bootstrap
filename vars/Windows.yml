@@ -20,4 +20,4 @@ os_wmi_exporter_collector_scripts:
 os_win_chocolatey_version: '0.10.11'
 os_win_chocolatey_source: 'https://chocolatey.org/api/v2/'
 
-os_ossec_winagent_repo: 'http://cache.omygods.com/wazuh/3.x/windows/'
+os_ossec_winagent_repo: 'http://cache.omygods.com/wazuh/{{ os_ossec_version.split(".")[0] }}.x/windows/'

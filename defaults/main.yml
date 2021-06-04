@@ -266,6 +266,7 @@ os_win_software: # 需要安装的第三方软件。
 # Windows 普罗米修斯客户端参数 #
 os_wmi_exporter_collector: # 普罗米修斯客户端收集器。
   - 'cpu'
+  - 'cpu_info'
   - 'cs'
   - 'logical_disk'
   - 'memory'
@@ -279,7 +280,6 @@ os_wmi_exporter_collector: # 普罗米修斯客户端收集器。
 #  - 'ad'
 #  - 'adfs'
 #  - 'cache'
-#  - 'cpu_info'
 #  - 'container'
 #  - 'dfsr'
 #  - 'dhcp'
@@ -331,6 +331,7 @@ os_node_exporter_collector: # 普罗米修斯客户端系统收集器。
   - 'bonding'
   - 'conntrack'
   - 'cpu'
+  - 'cpu.info'
   - 'diskstats'
   - 'entropy'
   - 'filefd'
