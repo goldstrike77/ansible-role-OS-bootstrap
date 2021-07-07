@@ -18,11 +18,11 @@ os_disable_ipv6: false # 是否关闭IPv6。
 #  - '223.5.5.5'
 #  - '119.29.29.29'
 #  - '8.8.8.8'
-os_time_server: # 时间服务器。
-  - 'ntp1.aliyun.com'
-  - 'ntp2.aliyun.com'
-  - 'ntp3.aliyun.com'
-  - 'ntp4.aliyun.com'
+#os_time_server: # 时间服务器。
+#  - 'ntp1.aliyun.com'
+#  - 'ntp2.aliyun.com'
+#  - 'ntp3.aliyun.com'
+#  - 'ntp4.aliyun.com'
 # 远程日志参数 #
 os_syslog: false # 是否启用远程日志。
 os_syslog_port: '12201' # 远程日志服务器端口。
@@ -44,7 +44,7 @@ os_linux_resolver_single_request: false # 启用域名解析单一请求。
 os_linux_shell_history: '50' # 历史记录存储在内存中的行数。
 os_linux_shell_timeout: '900' # 系统终端空闲等待时间(秒)。
 os_linux_syslog_local_keep: '2' # 本地日志保留期(周)。
-os_linux_tz: 'Asia/Shanghai' # 主机时区。
+#os_linux_tz: 'Asia/Shanghai' # 主机时区。
 os_linux_ulimit_nofile: '20480' # 会话打开的文件/文件描述符的最大数目。
 os_linux_ulimit_nproc: '20480' # 会话打开的系统进程的最大数目。
 os_linux_default_umask: '002' # 一般用户默认文件创建模式掩码。
@@ -78,13 +78,16 @@ os_packetbeat_version: '7.10.2' # Packetbeat 版本。
 os_packetbeat_dist: 'basic' # 定义Beats发行版本，oss或者basic。
 os_packetbeat_output: # Packetbeat 数据收集器参数。
   type: 'elasticsearch'
-  host: '{{ os_syslog_server }}'
+  host:
+    - '172.16.0.1'
+    - '172.16.0.2'
+    - '172.16.0.3'
   port: '9200'
   kibana_port: '5601'
   kibana_dashboard: false
   https: true
   auth: true
-  user: 'elastic'
+  user: 'packetbeat'
   pass: 'changeme'
 os_packetbeat_port_arg: # Packetbeat 通信端口。
   http: '5068'
@@ -121,7 +124,7 @@ os_linux_disc_crypt_arg:
   vault: 'https://demo-prd-infra-monitor-vault.service.dc01.local:8200' # 定义保险库地址。
   approle: 'ef7aeb84-01cc-1a72-ea1a-950a5945d8d6' # 定义保险库身份验证编号。
   secret: 'f0d6bc98-5954-a2d1-cee1-bfafde2dbeda' # 定义保险库身份验证密钥。
-  emergency: 'sC8EpW@CNXFP7uhT' # 定义紧急密钥。
+  emergency: 'changeme@Changit' # 定义紧急密钥。
 # Windows 数据盘参数 #
 os_win_disk_number: 1 # 数据盘编号。
 os_win_disk_fsystem: 'NTFS' # 分区文件系统。
@@ -139,13 +142,16 @@ os_auditbeat_version: '7.10.2' # Beats 版本。
 os_auditbeat_dist: 'basic' # 定义Beats发行版本，oss或者basic。
 os_auditbeat_output: # Auditbeat 数据收集器参数。
   type: 'elasticsearch'
-  host: '{{ os_syslog_server }}'
+  host:
+    - '172.16.0.1'
+    - '172.16.0.2'
+    - '172.16.0.3'
   port: '9200'
   kibana_port: '5601'
   kibana_dashboard: false
   https: true
   auth: true
-  user: 'elastic'
+  user: 'auditbeat'
   pass: 'changeme'
 os_auditbeat_port_arg: # Auditbeat 通信端口。
   http: '5067'
@@ -199,7 +205,7 @@ os_linux_disable_fs_home_exec: false # /home 挂载点分区是否启用安全�
 os_linux_disable_fs_shm_exec: false # /dev/shm 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_tmp_exec: false # /tmp 挂载点分区是否启用安全挂载参数。
 os_linux_disable_fs_vartmp_exec: false # /var/tmp 挂载点分区是否启用安全挂载参数。
-os_linux_disable_RootLogin: true # 是否禁用root登录。
+os_linux_disable_rootlogin: false # 是否禁用root登录。
 os_linux_disable_selinux: false # 是否禁用selinux。
 os_linux_disable_unused_module: false # 是否禁用不需要的模块。
 os_linux_restrictive_file: false # 是否确保关键系统文件权限限制。
@@ -234,10 +240,10 @@ os_ossec_managers: # WAZUH管理器参数。
   port: '1517'
   protocol: 'tcp'
   api_port: '55000'
-  api_pass: 'FNYJc9D%WenMeb'
+  api_pass: 'changeme%Changeit'
 os_ossec_agent_authd: # WAZUH代理注册参数。
   address: 'demo-prd-infra-hids-ossec-master.service.dc01.local'
-  authd_pass: 'Bf6vJRT4WaEAHq'
+  authd_pass: 'changeme'
   port: '1515'
   ssl_auto_negotiate: 'no'
 os_ossec_agent_config: # WAZUH代理参数。
@@ -407,7 +413,7 @@ os_ds_admin_pass: 'changeme' # 定义域管理员密码。
 os_ds_user_group: # 定义可以登录的一般账户组。
   - 'Users'
 os_ds_sudo_group: # 定义可以登录的管理员组。
-  - 'sysadmin'
+  - 'SysAdmin'
 
 # 公共领事配置参数 #
 environments: 'prd' # 定义系统环境。

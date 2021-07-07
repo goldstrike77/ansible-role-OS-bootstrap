@@ -171,7 +171,7 @@ __Table of Contents__
 * `os_linux_disable_fs_shm_exec`: /dev/shm 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_tmp_exec`: /tmp 挂载点分区是否启用安全挂载参数。
 * `os_linux_disable_fs_vartmp_exec`: /var/tmp 挂载点分区是否启用安全挂载参数。
-* `os_linux_disable_RootLogin`: 是否禁用root登录。
+* `os_linux_disable_rootlogin`: 是否禁用root登录。
 * `os_linux_disable_selinux`: 是否禁用selinux。
 * `os_linux_disable_unused_module`: 是否禁用不需要的模块。
 * `os_linux_restrictive_file`: 是否确保关键系统文件权限限制。
